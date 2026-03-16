@@ -1,0 +1,141 @@
+---
+title: "Dataset"
+---
+
+El flujo de procesamiento genera un dataset limpio con tasas de
+crecimiento individuales de *Perumytilus purpuratus*.
+
+Las estadísticas mostradas a continuación se generan automáticamente a partir del archivo:
+
+`Tasas_Crecimiento_Ppurpuratus_CLEAN.rds`
+
+```{r}
+#| label: setup
+#| include: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+library(DT)
+
+
+datos_total <- readRDS("data/Tasas_Crecimiento_Ppurpuratus_CLEAN.rds")
+```
+
+## Estructura del dataset
+
+
+```{r}
+# tibble(
+#   Variable = names(datos_total),
+#   Tipo = sapply(datos_total, class)
+# ) %>%
+#   kable(
+#     caption = "Estructura del dataset",
+#     col.names = c("Variable", "Tipo de dato")
+#   ) %>%
+#   kable_styling(
+#     full_width = FALSE,
+#     bootstrap_options = c("striped", "hover", "condensed")
+#   )
+
+
+
+DT::datatable(
+  datos_total,
+  options = list(pageLength = 10, scrollX = TRUE)
+)
+```
+
+## Resumen global
+
+```{r}
+tibble(
+  Sitios = n_distinct(datos_total$site),
+  Temporadas = n_distinct(datos_total$season),
+  Tratamientos = n_distinct(datos_total$treatment),
+  Clases_tamano = n_distinct(datos_total$size_class),
+  Tasas_totales = nrow(datos_total)
+) %>%
+  kable(caption = "Resumen global del dataset")
+```
+
+## Tasas por estación
+
+```{r}
+count(datos_total, season, sort = TRUE) %>%
+  kable(
+    caption = "Número de tasas por estación",
+    col.names = c("Season", "n")
+  )
+```
+## Tasas por sitio
+```{r}
+count(datos_total, site, sort = TRUE) %>%
+  kable(
+    caption = "Número de tasas por sitio",
+    col.names = c("Site", "n")
+  )
+```
+## Tasas por sitio y estación
+```{r}
+datos_total %>%
+  count(site, season) %>%
+  pivot_wider(names_from = season, values_from = n) %>%
+  kable(caption = "Número de tasas por sitio y estación") %>%
+  kableExtra::kable_styling(full_width = FALSE)
+```
+## Periodos de exposición en días
+
+
+```{r}
+datos_total %>%
+  group_by(site, season) %>%
+  summarise(
+    date_inicial = min(date_inicial),
+    date_final   = max(date_final),
+    dias         = first(dias),
+    n            = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(site, season) %>%
+  kable(
+    caption = "Resumen de tasas de crecimiento por sitio, temporada y clase de tamaño",
+    col.names = c(
+      "Site",
+      "Season",
+      # "Size class",
+      "Fecha inicial",
+      "Fecha final",
+      "Días",
+      "N tasas"
+    ),
+    align = c("l","l","l","c","c","r","r")
+  )
+```
+## Distribución por sitio
+
+![](figs/Tasas_crecimiento_combinado_sin_primavera.png)
+
+## Distribución de tasas de crecimiento
+
+
+```{r}
+#| label: fig-outliers-growth
+#| echo: false
+#| fig-cap: "Distribución de tasas de crecimiento de *Perumytilus purpuratus*."
+#| fig-align: center
+
+
+knitr::include_graphics("figs/Outliers_combinado_sin_primavera.png")
+```
+
+## Archivos generados
+| Archivo | Descripción |
+|-------|------|
+| `Tasas_Crecimiento_Ppurpuratus_CLEAN.rds` | Dataset final |
+| `Tasas_Crecimiento_Ppurpuratus_RAW.rds` | Tasas sin filtrar |
+| `Mediciones_Crecimiento_Ppurpuratus_RAW.rds` | Mediciones originales |

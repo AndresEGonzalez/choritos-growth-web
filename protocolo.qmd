@@ -1,0 +1,133 @@
+---
+title: "Protocolo"
+---
+
+# Diseño
+
+
+
+Para cuantificar las tasas de crecimiento del mitílido *P. purpuratus*, se realizaron trasplantes de individuos de dos tamaños iniciales diferentes (**factor fijo *size class*, dos niveles: chicos y grandes**), y se dejaron expuestos durante dos temporalidades diferentes (anual y estacional). 
+
+Para ello, se recolectaron individuos de dos clases basados en su longitud total: los individuos considerados **“Chicos”** registraron una longitud total entre los **5-10 mm**  y los considerados **“Grandes”** entre **10.1-15 mm**. Las dos clases de longitud total inicial fueron escogidos para permitir comparaciones con datos obtenidos en los experimentos ancestrales realizados entre 1997 y 2003 (ver @tbl-resumen).
+
+
+
+
+## Diseño estadístico
+
+Se implementó un diseño factorial con:
+
+- **Clases de tamaño (factor fijo, 2 niveles):**
+  - Chicos: 5–10 mm
+  - Grandes: 10.1–15 mm
+
+- **Temporalidad (factor fijo, 2 niveles):**
+  - Anual (~400 días)
+  - Estacional (~100 días por periodo)
+
+- **Sitio (factor aleatorio)**
+
+Cada combinación fue replicada en 5 plots por sitio.
+
+## Sitios de estudio
+
+**Zona Norte (<32°S) **:
+- Temblador
+- Guanaqueros
+- Punta de Talca
+
+**Zona Centro (>32°S) **:
+- Los Molles
+- Montemar
+- Curaumilla
+- Quintay
+- El Quisco
+- Las Cruces
+- Matanzas
+- Pichilemu
+
+## Procedimiento de marcaje
+
+Los individuos para realizar los trasplantes fueron extraídos de dos sitios diferentes, uno para cada región de estudio: 
+Para la zona norte se usaron individuos de Los Molles y para la región Centro se recolectaron individuos desde Las Cruces. 
+
+Los primeros fueron trasplantados a plataformas semi expuestas al oleaje en 3 sitios al norte de los 32° de latitud S (Temblador, Guanaqueros y Pta de Talca), mientras que aquellos extraídos desde Las Cruces fueron trasplantados a 8 sitios al sur (Los Molles, Montemar, Curaumilla, Quintay, El Quisco, Las Cruces, Matanzas y Pichilemu). 
+
+Una vez recolectados, todos los individuos fueron limpiados de epibiontes, secados con toalla de papel, medidos (Precisión caliper 0.05 mm), pesados (Precisión balanza de 0.01 gr), y etiquetados individualmente con marcas de abeja (bee tags) para ellos se utilizó un adhesivo instantáneo en gel La gotita® (Etilcianoacrilato) para fijar la etiqueta sobre sus valvas previamente lijadas para asegurar el pegado, posteriormente al secado se impermeabilizó la etiqueta con esmalte para uñas para prevenir adhesión de algas y maximizar la adhesión de los bee-tag's. 
+
+Las medidas iniciales registradas corresponden a la longitud máxima (longitud Antero-posterior mm), el ancho máximo (longitud Dorso-ventral mm) de cada individuo y el peso en gramos (@fig-medidas).
+
+![Medidas morfológicas registradas en cada individuo.](figs/Medidas_choritos.png){#fig-medidas width=30%}
+
+Posteriormente y antes de la instalación de los trasplantes los individuos fueron dispuestos en contenedores plásticos con agua de mar, alga húmeda y aireadores, donde fueron mantenidos hasta el momento del trasplante.
+
+
+Caliper (0.05 mm) foto
+
+Balanza (0.01 gr) foto
+
+Bee-tags foto
+
+Adhesivo La Gotita® (Etilcianoacrilato) foto
+
+Sellado con esmalte foto
+
+## Instalación
+
+En cada sitio, 80 individuos fueron asignados para ser trasplantados en cada uno de 5 plots previamente limpios de algas y epibiontes, raspados mediante espátulas y cepillos de acero. 
+Al interior de cada plot, 4 aros de PVC (diámetro 80 mm y altura de 6 mm) unidos entre sí mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos, fueron dispuestos para subdividir el plot (Figura 1a). 
+
+A cada subdivisión, se le asignó de forma aleatoria uno de 4 tratamientos, con las combinaciones de tamaño inicial y temporalidad: T1= tamaño chico-anual; T2= tamaño chico-estacional; T3=tamaño grande-anual; T4= tamaño grande-estacional @fig-esquema (a) muestra la asignación de tratamientos. 
+Una vez asignados los tratamientos y los individuos correspondientes instalados, el plot se cubrió con una malla plástica maleable con luz de malla pequeño de 1x1 mm, la cuál permitirá la re-adhesión de los individuos al sustrato, ver @fig-esquema (b) el sistema de fijación. Esta malla, a su vez, fue cubierta con un domo construido de malla vexar, con luz de malla de 10x10 mm, el cuál evitó que los individuos fueran depredados durante todo el periodo de exposición. 
+
+Pasados 15 a 30 días de exposición, la malla plástica pequeña de sujeción fue extraída (verificando que los individuos hayan quedado adheridos al sustrato) dejando solamente el domo de luz de 10 mm, que fue preservado durante todo el tiempo de exposición para evitar depredación.
+
+![Esquema del experimento de trasplante de *P. purpuratus*. 
+(a) Asignación aleatoria de tratamientos. 
+(b) Fijación al sustrato con malla y domo.](figs/esquema_trasplantes.png){#fig-esquema width=70%}
+
+
+## Instalación de experimentos
+
+Set-Up de los experimentos en el sitio de Los Molles
+```{r}
+#| echo: false
+#| label: fig-experiment-setup
+#| fig-cap: "Instalación del experimento de crecimiento en el intermareal rocoso de Los Molles."
+#| fig-align: center
+#| out-width: "50%"
+
+knitr::include_graphics("photos/exp_install_MOLL.JPG")
+```
+
+Vista de los trasplantes instalados en el sitio Los Molles
+```{r}
+#| echo: false
+#| label: fig-trasplant-field
+#| fig-cap: "Trasplante instalado en el intermareal rocoso de Los Molles."
+#| fig-align: center
+#| out-width: "80%"
+
+knitr::include_graphics("photos/trasplante_en_terreno.JPG")
+```
+
+```{r}
+#| echo: false
+#| label: fig-trasplant-platform
+#| fig-cap: "Trasplante instalado en el intermareal rocoso de Los Molles."
+#| fig-align: center
+#| out-width: "80%"
+
+knitr::include_graphics("photos/trasplante_plot.JPG")
+```
+
+Set-Up de los experimentos en el sitio de Los Molles.
+```{r}
+#| echo: false
+#| label: fig-trasplant-detail
+#| fig-cap: "Detalle al interior del trasplante en Los Molles."
+#| fig-align: center
+#| out-width: "80%"
+
+knitr::include_graphics("photos/trasplante_detalle_aros.JPG")
+```

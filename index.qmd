@@ -1,0 +1,38 @@
+---
+title: "Inicio"
+---
+
+# Tasas de crecimiento de *Perumytilus purpuratus*
+
+Este sitio  tiene como objetivo documentar el diseño experimental, procesamiento de datos y
+estructura de los datos generados en el experimento de trasplantes para evaluar tasas de crecimiento de
+*Perumytilus purpuratus*.
+
+Este experimento se realizó en el marco del proyecto **Fondecyt Regular N°1240581 (2024–2027)** y tiene como objetivo cuantificar la tasa de crecimiento del mitílido intermareal *Perumytilus purpuratus*, su variabilidad espacial y temporal a lo largo de ~900 km de costa en Chile. 
+Los resultados permitirán comparar las tasas actuales con aquellas estimadas en experimentos realizados entre 1997 y 2003, con aproximadamente ~25 años de diferencia (ver @tbl-resumen).
+
+| Periodo | Temporalidad | Sitios Norte | Sitios Centro | Tamaño inicial (mm) |
+|--------|-------------|-------------|--------------|--------------------|
+| 1997–1998 | anual | – | CUR, QUIS, ECIM, MAT, PICH | 10–22 |
+| 1998–1999 | anual | ARR, GUA | CUR, QUIN, QUIS, ECIM, MAT, PICH | 10–22 |
+| 2002–2003 | anual y estacional | TEM, GUA, PTAL | MOLL, MMAR, CUR, QUIS, ECIM, MAT, PICH | 5–10 |
+
+
+: Resumen de datos del primer experimento de crecimiento de *Perumytilus purpuratus* realizado entre 1997 - 2003. {#tbl-resumen}
+
+## Contenido
+
+Esta documentación se organiza en tres secciones principales:
+
+### Protocolo experimental
+Describe el diseño del experimento, sitios de estudio, procedimientos de
+marcaje y la instalación de los trasplantes de *P. purpuratus*.
+
+### Pre-procesamiento de datos
+Describe el flujo de procesamiento implementado en R para estandarizar
+los datos de las mediciones, filtrado biológico, calculo de tasas de crecimiento, realizar control de
+calidad de los datos y resumenes.
+
+### Dataset final
+Presenta un resumen del dataset final generado, incluyendo
+estadísticas descriptivas, resumenes del número de tasas individuales y distribución por sitio.

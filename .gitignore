@@ -1,0 +1,21 @@
+# datos sensibles
+data/
+R/
+
+# symlinks a carpetas externas
+figs/
+photos/
+
+# cache de Quarto
+_freeze/
+.quarto/
+
+# historial de R
+.Rhistory
+
+# archivos grandes
+*.rds
+*.RData
+
+# sistema
+.DS_Store

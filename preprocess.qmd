@@ -1,0 +1,235 @@
+---
+title: "Pre-procesamiento"
+---
+
+# Objetivo
+
+Las mediciones de crecimiento de *Perumytilus purpuratus* fueron registradas en archivos Excel independientes para cada periodo experimental.  
+Antes de realizar los análisis, los datos fueron sometidos a un proceso de **pre-procesamiento y control de calidad** con el objetivo de:
+
+- Estandarizar la estructura de los datos
+- Generar identificadores únicos por individuo
+- Calcular tasas de crecimiento individuales
+- Detectar posibles errores de registro
+- Identificar y eliminar valores atípicos
+
+Todo el proceso se implementó en **R** mediante un flujo de procesamiento reproducible.
+
+# Estructura de los datos de entrada
+
+Cada archivo Excel contiene una hoja llamada `datos`, donde cada fila corresponde a una medición individual.
+
+Los metadatos para todos set de datos son:
+
+| Columna | Descripción | Ejemplo |
+|--------|-------------|--------|
+| dy | Día de la medición | 1 al 31 |
+| mo | Mes de la medición | 1 al 12 |
+| yr | Año de la medición | 2024 al 2026 |
+| site | Nombre completo del sitio | Quintay etc |
+| plot | Número del plot (1 al 5 por sitio). El plot 1 corresponde al más al norte de la plataforma | 1 |
+| ring | Número del anillo que contiene cada set de choritos dentro de cada plot | 1–4 |
+| n_site | Número correlativo para cada combinación de estacionalidad y talla. Generalmente 100 individuos en las mediciones iniciales | 1–100 |
+| tag_n | Número del bee-tag adherido a la concha de *P. purpuratus* | 1 |
+| tag_color | Color del bee tag adherido | azul |
+| treatment | Categoría de exposición: `anual` (exposición durante un año) o `estacional` (exposición durante una estación del año) | anual |
+| size_class | Clase de tamaño inicial: `chico` (4–9 mm) o `grande` (12–15 mm) | chico |
+| season | Estación de exposición: `verano`, `otoño`, `invierno`, `primavera` o `anual` | verano |
+| exposure_type | Tipo de medición: `inicial` o `final` | inicial |
+| reemplazo_perdida | Indicador de individuos reemplazados por pérdidas en los plots (`R`). En algunos casos `D` cuando existe diferencia | R |
+| largo_max_mm | Longitud máxima total de la valva (mm). Precisión del caliper: 0.05 mm | Numérico |
+| ancho_max_mm | Ancho máximo total de la valva (mm). Precisión del caliper: 0.05 mm | Numérico |
+| peso_gr | Peso húmedo total del individuo (g). Precisión de la balanza: 0.01 g | Numérico |
+| Obs_Mediciones | Observaciones en las mediciones iniciales que no están en la distribución de tratamientos | Texto |
+| Obs_Trat | Observaciones en la distribución de tratamientos que no aparecen en las mediciones iniciales | Texto |
+| obs | Observaciones generales | Texto |
+
+# Flujo de procesamiento
+
+El flujo de procesamiento de datos se resume en la @fig-pipeline.
+
+```{mermaid}
+%%| label: fig-pipeline
+%%| fig-cap: "Flujo de procesamiento de datos de crecimiento de *Perumytilus purpuratus*."
+
+flowchart LR
+
+subgraph Campo
+A[Archivos Excel<br>registro mediciones]
+end
+
+subgraph Preprocesamiento
+B[Lectura de datos en R]
+C[Estandarización<br>de nombres de columnas]
+D[Creación de fecha<br>yr + mo + dy]
+E[Creación ID único<br>chorito_id]
+end
+
+subgraph Cálculo
+F[Separar mediciones<br>Inicial / Final]
+G[Calcular crecimiento<br>y días de exposición]
+H[Calcular tasas<br>mm/día y g/día]
+end
+
+subgraph Control_calidad
+I[Detección de duplicados]
+J[Eliminación crecimiento<br>negativo]
+K[Detección de outliers<br>criterio 1.5 × IQR]
+end
+
+subgraph Outputs
+L[Mediciones consolidadas<br>RAW]
+M[Tasas de crecimiento<br>RAW]
+N[Dataset limpio<br>CLEAN]
+O[Logs QA/QC<br>negativos y outliers]
+end
+
+A --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> G
+G --> H
+H --> I
+I --> J
+J --> K
+K --> L
+K --> M
+K --> N
+K --> O
+```
+
+
+
+# Creación de identificador único
+
+Cada individuo fue identificado mediante un código único **(chorito_id)** construido a partir de las variables:
+
+- sitio
+- color de etiqueta
+- número de etiqueta
+- clase de tamaño
+- tratamiento
+- temporalidad
+- plot
+- reemplazo de pérdida
+
+Esto permite seguir cada individuo a lo largo del experimento.
+
+# Cálculo de tasas de crecimiento
+
+Para cada individuo se calcularon:
+
+- crecimiento absoluto en longitud (mm)
+- crecimiento absoluto en ancho (mm)
+- crecimiento absoluto en peso (gr)
+
+El crecimiento individual se estimó como:
+
+$$
+Growth = L_{final} - L_{inicial}
+$$
+
+La tasa de crecimiento se calculó como:
+
+$$
+Rate = \frac{Growth}{Días\ de\ exposición}
+$$
+
+expresado en mm/día.
+
+
+# Control de calidad de datos
+El pipeline incluye tres controles principales.
+
+1. Detección de duplicados
+
+Se detectan duplicados en dos niveles:
+
+mediciones repetidas para un mismo individuo y fecha
+
+individuos registrados más de una vez en un mismo periodo
+
+2. Crecimiento negativo
+
+Registros con crecimiento negativo fueron eliminados, ya que generalmente corresponden a:
+
+- errores de medición
+
+- errores de digitación
+
+- daño en la concha
+
+Estos registros se almacenan en un archivo de log para su revisión.
+
+3. Detección de outliers
+
+Los valores atípicos se identificaron utilizando el criterio de 1.5 × IQR (rango intercuartílico).
+
+Para cada variable:
+
+- tasa de crecimiento en longitud
+
+- tasa de crecimiento en ancho
+
+- tasa de crecimiento en peso
+
+se calcularon los límites:
+$$
+Lower = Q1−1.5×IQR
+$$
+$$
+Upper=Q3+1.5×IQR
+$$
+
+Los registros fuera de estos límites fueron removidos del dataset final.
+
+# Orden geográfico de los sitios
+
+Para facilitar la generación de figuras, la variable **site** se transformó en un factor ordenado según su posición geográfica:
+
+- Pichilemu
+- Matanzas
+- Las Cruces
+- El Quisco
+- Quintay
+- Curaumilla
+- Montemar
+- Los Molles
+- Punta de Talca
+- Guanaqueros
+- Temblador
+
+Esto permite que los gráficos generados en R mantengan automáticamente el orden espacial de los sitios.
+
+# Datos generados por el pipeline
+
+El script genera tres datasets principales:
+
+| Archivo                                      | Contenido                          |
+| -------------------------------------------- | ---------------------------------- |
+| `Mediciones_Crecimiento_Ppurpuratus_RAW.rds` | Mediciones originales consolidadas |
+| `Tasas_Crecimiento_Ppurpuratus_RAW.rds`      | Tasas calculadas sin filtrado      |
+| `Tasas_Crecimiento_Ppurpuratus_CLEAN.rds`    | Dataset final limpio               |
+
+Además, se genera un archivo Excel con información de control de calidad que contiene:
+
+- registros con crecimiento negativo
+
+- valores atípicos eliminados
+
+- diagnóstico por sitio y temporada
+
+## Reproducibilidad
+
+::: {.callout-note}
+Todo el flujo de pre-procesamiento fue implementado en **R**.  
+El siguiente script reproduce completamente la limpieza, filtrado y cálculo de tasas de crecimiento.
+:::
+
+`Script_01_preprocess_growth_data_Ppurp.R`
+
+```r
+{{< include R/Script_01_preprocess_growth_data_Ppurp.R >}}
+```

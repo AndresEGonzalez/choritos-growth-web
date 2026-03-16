@@ -1,0 +1,31 @@
+project:
+  type: website
+
+website:
+  title: "Crecimiento <i>P. purpuratus</i>"
+  navbar:
+    left:
+      - index.qmd
+      - protocolo.qmd
+      - preprocess.qmd
+      - dataset.qmd
+      
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    code-summary: "Mostrar código"
+
+lang: es
+
+execute:
+  freeze: auto
+  
+crossref:
+  fig-title: "Figura"
+  tbl-title: "Tabla"
+
+
+
