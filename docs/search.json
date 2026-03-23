@@ -4,139 +4,244 @@
     "href": "index.html",
     "title": "Inicio",
     "section": "",
-    "text": "Este sitio tiene como objetivo documentar el diseño experimental, procesamiento de datos y estructura de los datos generados en el experimento de trasplantes para evaluar tasas de crecimiento de Perumytilus purpuratus.\nEste experimento se realizó en el marco del proyecto Fondecyt Regular N°1240581 (2024–2027) y tiene como objetivo cuantificar la tasa de crecimiento del mitílido intermareal Perumytilus purpuratus, su variabilidad espacial y temporal a lo largo de ~900 km de costa en Chile. Los resultados permitirán comparar las tasas actuales con aquellas estimadas en experimentos realizados entre 1997 y 2003, con aproximadamente ~25 años de diferencia (ver Tabla 1).\n\n\n\nTabla 1: Resumen de datos del primer experimento de crecimiento de Perumytilus purpuratus realizado entre 1997 - 2003.\n\n\n\n\n\n\n\n\n\n\n\n\nPeriodo\nTemporalidad\nSitios Norte\nSitios Centro\nTamaño inicial (mm)\n\n\n\n\n1997–1998\nanual\n–\nCUR, QUIS, ECIM, MAT, PICH\n10–22\n\n\n1998–1999\nanual\nARR, GUA\nCUR, QUIN, QUIS, ECIM, MAT, PICH\n10–22\n\n\n2002–2003\nanual y estacional\nTEM, GUA, PTAL\nMOLL, MMAR, CUR, QUIS, ECIM, MAT, PICH\n5–10\n\n\n\n\n\n\n\n\nEsta documentación se organiza en tres secciones principales:\n\n\nDescribe el diseño del experimento, sitios de estudio, procedimientos de marcaje y la instalación de los trasplantes de P. purpuratus.\n\n\n\nDescribe el flujo de procesamiento implementado en R para estandarizar los datos de las mediciones, filtrado biológico, calculo de tasas de crecimiento, realizar control de calidad de los datos y resumenes.\n\n\n\nPresenta un resumen del dataset final generado, incluyendo estadísticas descriptivas, resumenes del número de tasas individuales y distribución por sitio."
+    "text": "Este sitio tiene como objetivo documentar el diseño experimental, el flujo de pre-procesamiento y control de calidad (QC), y la estructura de los datos generados durante un experimento de trasplantes para evaluar las tasas de crecimiento del mitílido intermareal Perumytilus purpuratus.\nEl estudio se desarrolla en el marco del proyecto Fondecyt Regular N°1240581 (2024–2027) y busca cuantificar la variación espacial y temporal en las tasas de crecimiento de P. purpuratus a lo largo de aproximadamente 900 km de costa en Chile. Además, este experimento permite establecer comparaciones con estudios previos realizados entre 1997 y 2003, generando una perspectiva de largo plazo sobre la dinámica de crecimiento de esta especie.\n\n\nLa tabla siguiente resume los principales experimentos previos de crecimiento de P. purpuratus realizados entre 1997 y 2003.\n\n\n\nTabla 1: Resumen de experimentos previos de crecimiento de Perumytilus purpuratus realizados entre 1997 y 2003.\n\n\n\n\n\n\n\n\n\n\n\n\nPeriodo\nTemporalidad\nSitios Norte\nSitios Centro\nTamaño inicial (mm)\n\n\n\n\n1997–1998\nanual\n–\nCUR, QUIS, ECIM, MAT, PICH\n10–22\n\n\n1998–1999\nanual\nARR, GUA\nCUR, QUIN, QUIS, ECIM, MAT, PICH\n10–22\n\n\n2002–2003\nanual y estacional\nTEM, GUA, PTAL\nMOLL, MMAR, CUR, QUIS, ECIM, MAT, PICH\n5–10\n\n\n\n\n\n\n\n\n\nEsta documentación se organiza en tres secciones principales.\n\n\nDescribe el diseño del experimento, los sitios de estudio, el procedimiento de marcaje individual y la instalación de los trasplantes en el intermareal rocoso.\n\n\n\nDescribe el flujo de procesamiento implementado en R para consolidar mediciones, calcular tasas de crecimiento, aplicar banderas de control de calidad biológicamente informadas y generar distintos productos analíticos con trazabilidad completa.\n\n\n\nPresenta un resumen del dataset analítico principal derivado del sistema QC, incluyendo su estructura, número de observaciones por sitio y temporalidad, periodos de exposición y visualizaciones descriptivas de las tasas de crecimiento.\n\n\n\n\nEl flujo de trabajo genera varias salidas complementarias. En esta web, la sección Dataset resume principalmente el archivo:\nTasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds\nque corresponde al dataset analítico recomendado para los análisis principales. Las versiones RAW, QC y ANALISIS_SENSIBILIDAD se describen en detalle en la sección de pre-procesamiento."
   },
   {
-    "objectID": "index.html#contenido",
-    "href": "index.html#contenido",
+    "objectID": "index.html#contexto-histórico",
+    "href": "index.html#contexto-histórico",
     "title": "Inicio",
     "section": "",
-    "text": "Esta documentación se organiza en tres secciones principales:\n\n\nDescribe el diseño del experimento, sitios de estudio, procedimientos de marcaje y la instalación de los trasplantes de P. purpuratus.\n\n\n\nDescribe el flujo de procesamiento implementado en R para estandarizar los datos de las mediciones, filtrado biológico, calculo de tasas de crecimiento, realizar control de calidad de los datos y resumenes.\n\n\n\nPresenta un resumen del dataset final generado, incluyendo estadísticas descriptivas, resumenes del número de tasas individuales y distribución por sitio."
+    "text": "La tabla siguiente resume los principales experimentos previos de crecimiento de P. purpuratus realizados entre 1997 y 2003.\n\n\n\nTabla 1: Resumen de experimentos previos de crecimiento de Perumytilus purpuratus realizados entre 1997 y 2003.\n\n\n\n\n\n\n\n\n\n\n\n\nPeriodo\nTemporalidad\nSitios Norte\nSitios Centro\nTamaño inicial (mm)\n\n\n\n\n1997–1998\nanual\n–\nCUR, QUIS, ECIM, MAT, PICH\n10–22\n\n\n1998–1999\nanual\nARR, GUA\nCUR, QUIN, QUIS, ECIM, MAT, PICH\n10–22\n\n\n2002–2003\nanual y estacional\nTEM, GUA, PTAL\nMOLL, MMAR, CUR, QUIS, ECIM, MAT, PICH\n5–10"
+  },
+  {
+    "objectID": "index.html#contenido-del-sitio",
+    "href": "index.html#contenido-del-sitio",
+    "title": "Inicio",
+    "section": "",
+    "text": "Esta documentación se organiza en tres secciones principales.\n\n\nDescribe el diseño del experimento, los sitios de estudio, el procedimiento de marcaje individual y la instalación de los trasplantes en el intermareal rocoso.\n\n\n\nDescribe el flujo de procesamiento implementado en R para consolidar mediciones, calcular tasas de crecimiento, aplicar banderas de control de calidad biológicamente informadas y generar distintos productos analíticos con trazabilidad completa.\n\n\n\nPresenta un resumen del dataset analítico principal derivado del sistema QC, incluyendo su estructura, número de observaciones por sitio y temporalidad, periodos de exposición y visualizaciones descriptivas de las tasas de crecimiento."
+  },
+  {
+    "objectID": "index.html#nota-sobre-la-estructura-de-datos",
+    "href": "index.html#nota-sobre-la-estructura-de-datos",
+    "title": "Inicio",
+    "section": "",
+    "text": "El flujo de trabajo genera varias salidas complementarias. En esta web, la sección Dataset resume principalmente el archivo:\nTasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds\nque corresponde al dataset analítico recomendado para los análisis principales. Las versiones RAW, QC y ANALISIS_SENSIBILIDAD se describen en detalle en la sección de pre-procesamiento."
   },
   {
     "objectID": "protocolo.html",
     "href": "protocolo.html",
     "title": "Protocolo",
     "section": "",
-    "text": "Para cuantificar las tasas de crecimiento del mitílido P. purpuratus, se realizaron trasplantes de individuos de dos tamaños iniciales diferentes (factor fijo size class, dos niveles: chicos y grandes), y se dejaron expuestos durante dos temporalidades diferentes (anual y estacional).\nPara ello, se recolectaron individuos de dos clases basados en su longitud total: los individuos considerados “Chicos” registraron una longitud total entre los 5-10 mm y los considerados “Grandes” entre 10.1-15 mm. Las dos clases de longitud total inicial fueron escogidos para permitir comparaciones con datos obtenidos en los experimentos ancestrales realizados entre 1997 y 2003 (ver ?@tbl-resumen).\n\n\nSe implementó un diseño factorial con:\n\nClases de tamaño (factor fijo, 2 niveles):\n\nChicos: 5–10 mm\nGrandes: 10.1–15 mm\n\nTemporalidad (factor fijo, 2 niveles):\n\nAnual (~400 días)\nEstacional (~100 días por periodo)\n\nSitio (factor aleatorio)\n\nCada combinación fue replicada en 5 plots por sitio.\n\n\n\nZona Norte (&lt;32°S) : - Temblador - Guanaqueros - Punta de Talca\nZona Centro (&gt;32°S) : - Los Molles - Montemar - Curaumilla - Quintay - El Quisco - Las Cruces - Matanzas - Pichilemu\n\n\n\nLos individuos para realizar los trasplantes fueron extraídos de dos sitios diferentes, uno para cada región de estudio: Para la zona norte se usaron individuos de Los Molles y para la región Centro se recolectaron individuos desde Las Cruces.\nLos primeros fueron trasplantados a plataformas semi expuestas al oleaje en 3 sitios al norte de los 32° de latitud S (Temblador, Guanaqueros y Pta de Talca), mientras que aquellos extraídos desde Las Cruces fueron trasplantados a 8 sitios al sur (Los Molles, Montemar, Curaumilla, Quintay, El Quisco, Las Cruces, Matanzas y Pichilemu).\nUna vez recolectados, todos los individuos fueron limpiados de epibiontes, secados con toalla de papel, medidos (Precisión caliper 0.05 mm), pesados (Precisión balanza de 0.01 gr), y etiquetados individualmente con marcas de abeja (bee tags) para ellos se utilizó un adhesivo instantáneo en gel La gotita® (Etilcianoacrilato) para fijar la etiqueta sobre sus valvas previamente lijadas para asegurar el pegado, posteriormente al secado se impermeabilizó la etiqueta con esmalte para uñas para prevenir adhesión de algas y maximizar la adhesión de los bee-tag’s.\nLas medidas iniciales registradas corresponden a la longitud máxima (longitud Antero-posterior mm), el ancho máximo (longitud Dorso-ventral mm) de cada individuo y el peso en gramos (Figura 1).\n\n\n\n\n\n\nFigura 1: Medidas morfológicas registradas en cada individuo.\n\n\n\nPosteriormente y antes de la instalación de los trasplantes los individuos fueron dispuestos en contenedores plásticos con agua de mar, alga húmeda y aireadores, donde fueron mantenidos hasta el momento del trasplante.\nCaliper (0.05 mm) foto\nBalanza (0.01 gr) foto\nBee-tags foto\nAdhesivo La Gotita® (Etilcianoacrilato) foto\nSellado con esmalte foto\n\n\n\nEn cada sitio, 80 individuos fueron asignados para ser trasplantados en cada uno de 5 plots previamente limpios de algas y epibiontes, raspados mediante espátulas y cepillos de acero. Al interior de cada plot, 4 aros de PVC (diámetro 80 mm y altura de 6 mm) unidos entre sí mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos, fueron dispuestos para subdividir el plot (Figura 1a).\nA cada subdivisión, se le asignó de forma aleatoria uno de 4 tratamientos, con las combinaciones de tamaño inicial y temporalidad: T1= tamaño chico-anual; T2= tamaño chico-estacional; T3=tamaño grande-anual; T4= tamaño grande-estacional Figura 2 (a) muestra la asignación de tratamientos. Una vez asignados los tratamientos y los individuos correspondientes instalados, el plot se cubrió con una malla plástica maleable con luz de malla pequeño de 1x1 mm, la cuál permitirá la re-adhesión de los individuos al sustrato, ver Figura 2 (b) el sistema de fijación. Esta malla, a su vez, fue cubierta con un domo construido de malla vexar, con luz de malla de 10x10 mm, el cuál evitó que los individuos fueran depredados durante todo el periodo de exposición.\nPasados 15 a 30 días de exposición, la malla plástica pequeña de sujeción fue extraída (verificando que los individuos hayan quedado adheridos al sustrato) dejando solamente el domo de luz de 10 mm, que fue preservado durante todo el tiempo de exposición para evitar depredación.\n\n\n\n\n\n\nFigura 2: Esquema del experimento de trasplante de P. purpuratus. (a) Asignación aleatoria de tratamientos. (b) Fijación al sustrato con malla y domo.\n\n\n\n\n\n\nSet-Up de los experimentos en el sitio de Los Molles\n\n\n\n\n\n\n\n\nFigura 3: Instalación del experimento de crecimiento en el intermareal rocoso de Los Molles.\n\n\n\n\n\nVista de los trasplantes instalados en el sitio Los Molles\n\n\n\n\n\n\n\n\nFigura 4: Trasplante instalado en el intermareal rocoso de Los Molles.\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigura 5: Trasplante instalado en el intermareal rocoso de Los Molles.\n\n\n\n\n\nSet-Up de los experimentos en el sitio de Los Molles.\n\n\n\n\n\n\n\n\nFigura 6: Detalle al interior del trasplante en Los Molles."
+    "text": "Esta sección describe el diseño experimental utilizado para cuantificar las tasas de crecimiento de Perumytilus purpuratus en distintos sitios de la costa de Chile, considerando variación espacial, temporal y entre clases de tamaño inicial."
   },
   {
     "objectID": "protocolo.html#diseño-estadístico",
     "href": "protocolo.html#diseño-estadístico",
     "title": "Protocolo",
-    "section": "",
-    "text": "Se implementó un diseño factorial con:\n\nClases de tamaño (factor fijo, 2 niveles):\n\nChicos: 5–10 mm\nGrandes: 10.1–15 mm\n\nTemporalidad (factor fijo, 2 niveles):\n\nAnual (~400 días)\nEstacional (~100 días por periodo)\n\nSitio (factor aleatorio)\n\nCada combinación fue replicada en 5 plots por sitio."
+    "section": "Diseño estadístico",
+    "text": "Diseño estadístico\nSe implementó un diseño factorial con:\n\nClase de tamaño (factor fijo, 2 niveles)\n\nChicos\nGrandes\n\nTemporalidad (factor fijo, 2 niveles)\n\nAnual (~400 días)\nEstacional (~100 días por periodo)\n\nSitio (factor aleatorio)\n\nCada combinación fue replicada en 5 plots por sitio."
   },
   {
-    "objectID": "protocolo.html#sitios-de-estudio",
-    "href": "protocolo.html#sitios-de-estudio",
+    "objectID": "protocolo.html#zona-norte-32s",
+    "href": "protocolo.html#zona-norte-32s",
     "title": "Protocolo",
-    "section": "",
-    "text": "Zona Norte (&lt;32°S) : - Temblador - Guanaqueros - Punta de Talca\nZona Centro (&gt;32°S) : - Los Molles - Montemar - Curaumilla - Quintay - El Quisco - Las Cruces - Matanzas - Pichilemu"
+    "section": "Zona norte (<32°S)",
+    "text": "Zona norte (&lt;32°S)\n\nTemblador\nGuanaqueros\nPunta de Talca"
   },
   {
-    "objectID": "protocolo.html#procedimiento-de-marcaje",
-    "href": "protocolo.html#procedimiento-de-marcaje",
+    "objectID": "protocolo.html#zona-centro-32s",
+    "href": "protocolo.html#zona-centro-32s",
     "title": "Protocolo",
-    "section": "",
-    "text": "Los individuos para realizar los trasplantes fueron extraídos de dos sitios diferentes, uno para cada región de estudio: Para la zona norte se usaron individuos de Los Molles y para la región Centro se recolectaron individuos desde Las Cruces.\nLos primeros fueron trasplantados a plataformas semi expuestas al oleaje en 3 sitios al norte de los 32° de latitud S (Temblador, Guanaqueros y Pta de Talca), mientras que aquellos extraídos desde Las Cruces fueron trasplantados a 8 sitios al sur (Los Molles, Montemar, Curaumilla, Quintay, El Quisco, Las Cruces, Matanzas y Pichilemu).\nUna vez recolectados, todos los individuos fueron limpiados de epibiontes, secados con toalla de papel, medidos (Precisión caliper 0.05 mm), pesados (Precisión balanza de 0.01 gr), y etiquetados individualmente con marcas de abeja (bee tags) para ellos se utilizó un adhesivo instantáneo en gel La gotita® (Etilcianoacrilato) para fijar la etiqueta sobre sus valvas previamente lijadas para asegurar el pegado, posteriormente al secado se impermeabilizó la etiqueta con esmalte para uñas para prevenir adhesión de algas y maximizar la adhesión de los bee-tag’s.\nLas medidas iniciales registradas corresponden a la longitud máxima (longitud Antero-posterior mm), el ancho máximo (longitud Dorso-ventral mm) de cada individuo y el peso en gramos (Figura 1).\n\n\n\n\n\n\nFigura 1: Medidas morfológicas registradas en cada individuo.\n\n\n\nPosteriormente y antes de la instalación de los trasplantes los individuos fueron dispuestos en contenedores plásticos con agua de mar, alga húmeda y aireadores, donde fueron mantenidos hasta el momento del trasplante.\nCaliper (0.05 mm) foto\nBalanza (0.01 gr) foto\nBee-tags foto\nAdhesivo La Gotita® (Etilcianoacrilato) foto\nSellado con esmalte foto"
+    "section": "Zona centro (>32°S)",
+    "text": "Zona centro (&gt;32°S)\n\nLos Molles\nMontemar\nCuraumilla\nQuintay\nEl Quisco\nLas Cruces\nMatanzas\nPichilemu"
   },
   {
-    "objectID": "protocolo.html#instalación",
-    "href": "protocolo.html#instalación",
+    "objectID": "protocolo.html#instalación-general",
+    "href": "protocolo.html#instalación-general",
     "title": "Protocolo",
-    "section": "",
-    "text": "En cada sitio, 80 individuos fueron asignados para ser trasplantados en cada uno de 5 plots previamente limpios de algas y epibiontes, raspados mediante espátulas y cepillos de acero. Al interior de cada plot, 4 aros de PVC (diámetro 80 mm y altura de 6 mm) unidos entre sí mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos, fueron dispuestos para subdividir el plot (Figura 1a).\nA cada subdivisión, se le asignó de forma aleatoria uno de 4 tratamientos, con las combinaciones de tamaño inicial y temporalidad: T1= tamaño chico-anual; T2= tamaño chico-estacional; T3=tamaño grande-anual; T4= tamaño grande-estacional Figura 2 (a) muestra la asignación de tratamientos. Una vez asignados los tratamientos y los individuos correspondientes instalados, el plot se cubrió con una malla plástica maleable con luz de malla pequeño de 1x1 mm, la cuál permitirá la re-adhesión de los individuos al sustrato, ver Figura 2 (b) el sistema de fijación. Esta malla, a su vez, fue cubierta con un domo construido de malla vexar, con luz de malla de 10x10 mm, el cuál evitó que los individuos fueran depredados durante todo el periodo de exposición.\nPasados 15 a 30 días de exposición, la malla plástica pequeña de sujeción fue extraída (verificando que los individuos hayan quedado adheridos al sustrato) dejando solamente el domo de luz de 10 mm, que fue preservado durante todo el tiempo de exposición para evitar depredación.\n\n\n\n\n\n\nFigura 2: Esquema del experimento de trasplante de P. purpuratus. (a) Asignación aleatoria de tratamientos. (b) Fijación al sustrato con malla y domo."
+    "section": "Instalación general",
+    "text": "Instalación general\n\n\n\n\n\n\n\n\nFigura 3: Instalación del experimento de crecimiento en el intermareal rocoso de Los Molles.\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigura 4: Vista general del trasplante instalado en el intermareal rocoso de Los Molles.\n\n\n\n\n\n\nVista del plot instalado\n\n\n\n\n\n\n\n\nFigura 5: Detalle del plot de trasplante instalado en el intermareal rocoso de Los Molles.\n\n\n\n\n\n\n\nDetalle interno de los experimentos (sitio Los Molles).\n\n\n\n\n\n\n\n\nFigura 6: Detalle interno del sistema de trasplante en Los Molles."
   },
   {
-    "objectID": "protocolo.html#instalación-de-experimentos",
-    "href": "protocolo.html#instalación-de-experimentos",
+    "objectID": "protocolo.html#resumen",
+    "href": "protocolo.html#resumen",
     "title": "Protocolo",
-    "section": "",
-    "text": "Set-Up de los experimentos en el sitio de Los Molles\n\n\n\n\n\n\n\n\nFigura 3: Instalación del experimento de crecimiento en el intermareal rocoso de Los Molles.\n\n\n\n\n\nVista de los trasplantes instalados en el sitio Los Molles\n\n\n\n\n\n\n\n\nFigura 4: Trasplante instalado en el intermareal rocoso de Los Molles.\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigura 5: Trasplante instalado en el intermareal rocoso de Los Molles.\n\n\n\n\n\nSet-Up de los experimentos en el sitio de Los Molles.\n\n\n\n\n\n\n\n\nFigura 6: Detalle al interior del trasplante en Los Molles."
+    "section": "Resumen",
+    "text": "Resumen\nEl experimento fue diseñado para evaluar la variación en el crecimiento individual de P. purpuratus en función de la clase de tamaño inicial, la temporalidad de exposición y el sitio. La combinación de un diseño replicado en múltiples localidades y un sistema de marcaje individual permite reconstruir el crecimiento de cada individuo y analizarlo posteriormente con trazabilidad completa."
   },
   {
     "objectID": "dataset.html",
     "href": "dataset.html",
     "title": "Dataset",
     "section": "",
-    "text": "El flujo de procesamiento genera un dataset limpio con tasas de crecimiento individuales de Perumytilus purpuratus.\nLas estadísticas mostradas a continuación se generan automáticamente a partir del archivo:\nTasas_Crecimiento_Ppurpuratus_CLEAN.rds"
+    "text": "Esta sección resume la estructura y el contenido del dataset analítico principal generado a partir del flujo de pre-procesamiento y control de calidad descrito en la sección anterior.\nEl archivo resumido aquí corresponde a:\nTasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds\nEsta versión representa el dataset analítico base recomendado para los análisis principales. Conserva la estructura central del experimento y excluye únicamente problemas estructurales evidentes, manteniendo coherencia con la filosofía general del sistema QC."
   },
   {
-    "objectID": "dataset.html#estructura-del-dataset",
-    "href": "dataset.html#estructura-del-dataset",
+    "objectID": "dataset.html#variables-y-tipos-de-dato",
+    "href": "dataset.html#variables-y-tipos-de-dato",
     "title": "Dataset",
-    "section": "Estructura del dataset",
-    "text": "Estructura del dataset\n\n\nMostrar código\n# tibble(\n#   Variable = names(datos_total),\n#   Tipo = sapply(datos_total, class)\n# ) %&gt;%\n#   kable(\n#     caption = \"Estructura del dataset\",\n#     col.names = c(\"Variable\", \"Tipo de dato\")\n#   ) %&gt;%\n#   kable_styling(\n#     full_width = FALSE,\n#     bootstrap_options = c(\"striped\", \"hover\", \"condensed\")\n#   )\n\n\n\nDT::datatable(\n  datos_total,\n  options = list(pageLength = 10, scrollX = TRUE)\n)"
+    "section": "Variables y tipos de dato",
+    "text": "Variables y tipos de dato\n\n\nMostrar código\ntibble(\n  Variable = names(datos_total),\n  Tipo = sapply(datos_total, function(x) paste(class(x), collapse = \", \"))\n) %&gt;%\n  kable(\n    caption = \"Estructura general del dataset analítico base\",\n    col.names = c(\"Variable\", \"Tipo de dato\")\n  ) %&gt;%\n  kable_styling(\n    full_width = FALSE,\n    bootstrap_options = c(\"striped\", \"hover\", \"condensed\")\n  )\n\n\n\nEstructura general del dataset analítico base\n\n\nVariable\nTipo de dato\n\n\n\n\nchorito_id\ncharacter\n\n\nsite\nfactor\n\n\nseason\ncharacter\n\n\nsize_class\ncharacter\n\n\ntreatment\ncharacter\n\n\ndate_inicial\nDate\n\n\ndate_final\nDate\n\n\nlargo_max_mm_inicial\nnumeric\n\n\nlargo_max_mm_final\nnumeric\n\n\nancho_max_mm_inicial\nnumeric\n\n\nancho_max_mm_final\nnumeric\n\n\npeso_gr_inicial\nnumeric\n\n\npeso_gr_final\nnumeric\n\n\ndias\nnumeric\n\n\ncrecimiento_largo_mm\nnumeric\n\n\ncrecimiento_ancho_mm\nnumeric\n\n\ncrecimiento_peso_gr\nnumeric\n\n\ntasa_diaria_largo\nnumeric\n\n\ntasa_diaria_ancho\nnumeric\n\n\ntasa_diaria_peso\nnumeric\n\n\nqc_group_local\ncharacter\n\n\nqc_group_fallback\ncharacter\n\n\nflag_dias_invalidos\nlogical\n\n\nflag_dudoso_terreno\nlogical\n\n\nflag_dup_medicion\nlogical\n\n\nflag_dup_individuo\nlogical\n\n\nflag_negativo_largo\nlogical\n\n\nflag_negativo_leve_largo\nlogical\n\n\nflag_negativo_fuerte_largo\nlogical\n\n\ncrecimiento_largo_mm_corr\nnumeric\n\n\nflag_negativo_ancho\nlogical\n\n\nflag_negativo_leve_ancho\nlogical\n\n\nflag_negativo_fuerte_ancho\nlogical\n\n\ncrecimiento_ancho_mm_corr\nnumeric\n\n\nflag_negativo_peso\nlogical\n\n\nflag_negativo_leve_peso\nlogical\n\n\nflag_negativo_fuerte_peso\nlogical\n\n\ncrecimiento_peso_gr_corr\nnumeric\n\n\ntasa_diaria_largo_corr\nnumeric\n\n\ntasa_diaria_ancho_corr\nnumeric\n\n\ntasa_diaria_peso_corr\nnumeric\n\n\nflag_negativo\nlogical\n\n\nflag_negativo_fuerte\nlogical\n\n\nenv_pred_largo\nnumeric\n\n\nenv_thr_largo\nnumeric\n\n\nresid_env_largo\nnumeric\n\n\nflag_outlier_univar_largo\nlogical\n\n\nenv_level_largo\ncharacter\n\n\nenv_model_largo\ncharacter\n\n\nenv_pred_ancho\nnumeric\n\n\nenv_thr_ancho\nnumeric\n\n\nresid_env_ancho\nnumeric\n\n\nflag_outlier_univar_ancho\nlogical\n\n\nenv_level_ancho\ncharacter\n\n\nenv_model_ancho\ncharacter\n\n\nenv_pred_peso\nnumeric\n\n\nenv_thr_peso\nnumeric\n\n\nresid_env_peso\nnumeric\n\n\nflag_outlier_univar_peso\nlogical\n\n\nenv_level_peso\ncharacter\n\n\nenv_model_peso\ncharacter\n\n\nflag_outlier_univar\nlogical\n\n\nallo_pred_la\nnumeric\n\n\nresid_allo_la\nnumeric\n\n\nallo_thr_la\nnumeric\n\n\nflag_allometry_la\nlogical\n\n\nallo_level_la\ncharacter\n\n\nallo_pred_lp\nnumeric\n\n\nresid_allo_lp\nnumeric\n\n\nallo_thr_lp\nnumeric\n\n\nflag_allometry_lp\nlogical\n\n\nallo_level_lp\ncharacter\n\n\nflag_outlier_shape\nlogical\n\n\ndist_multi_growth\nnumeric\n\n\nthr_multi_growth\nnumeric\n\n\nflag_outlier_multi_growth\nlogical\n\n\nmulti_level_growth\ncharacter\n\n\ndist_multi_shape\nnumeric\n\n\nthr_multi_shape\nnumeric\n\n\nflag_outlier_multi_shape\nlogical\n\n\nmulti_level_shape\ncharacter\n\n\nflag_outlier_multi\nlogical\n\n\nqc_score\ninteger\n\n\nqc_categoria\ncharacter"
   },
   {
-    "objectID": "dataset.html#resumen-global",
-    "href": "dataset.html#resumen-global",
+    "objectID": "dataset.html#vista-previa-del-dataset",
+    "href": "dataset.html#vista-previa-del-dataset",
     "title": "Dataset",
-    "section": "Resumen global",
-    "text": "Resumen global\n\n\nMostrar código\ntibble(\n  Sitios = n_distinct(datos_total$site),\n  Temporadas = n_distinct(datos_total$season),\n  Tratamientos = n_distinct(datos_total$treatment),\n  Clases_tamano = n_distinct(datos_total$size_class),\n  Tasas_totales = nrow(datos_total)\n) %&gt;%\n  kable(caption = \"Resumen global del dataset\")\n\n\n\nResumen global del dataset\n\n\nSitios\nTemporadas\nTratamientos\nClases_tamano\nTasas_totales\n\n\n\n\n11\n4\n2\n2\n3994"
+    "section": "Vista previa del dataset",
+    "text": "Vista previa del dataset\n\n\nMostrar código\nDT::datatable(\n  datos_total,\n  options = list(pageLength = 10, scrollX = TRUE)\n)\n\n\nWarning in instance$preRenderHook(instance): It seems your data is too big for\nclient-side DataTables. You may consider server-side processing:\nhttps://rstudio.github.io/DT/server.html"
   },
   {
-    "objectID": "dataset.html#tasas-por-estación",
-    "href": "dataset.html#tasas-por-estación",
+    "objectID": "dataset.html#tasas-por-estación-o-periodo",
+    "href": "dataset.html#tasas-por-estación-o-periodo",
     "title": "Dataset",
-    "section": "Tasas por estación",
-    "text": "Tasas por estación\n\n\nMostrar código\ncount(datos_total, season, sort = TRUE) %&gt;%\n  kable(\n    caption = \"Número de tasas por estación\",\n    col.names = c(\"Season\", \"n\")\n  )\n\n\n\nNúmero de tasas por estación\n\n\nSeason\nn\n\n\n\n\notoño\n1280\n\n\ninvierno\n1225\n\n\nverano\n1113\n\n\nanual\n376"
+    "section": "Tasas por estación o periodo",
+    "text": "Tasas por estación o periodo\n\n\nMostrar código\ncount(datos_total, season, sort = TRUE) %&gt;%\n  kable(\n    caption = \"Número de tasas por estación o periodo de exposición\",\n    col.names = c(\"Season\", \"n\")\n  ) %&gt;%\n  kable_styling(full_width = FALSE)\n\n\n\nNúmero de tasas por estación o periodo de exposición\n\n\nSeason\nn\n\n\n\n\ninvierno\n1490\n\n\notoño\n1360\n\n\nverano\n1274\n\n\nanual\n383"
   },
   {
     "objectID": "dataset.html#tasas-por-sitio",
     "href": "dataset.html#tasas-por-sitio",
     "title": "Dataset",
     "section": "Tasas por sitio",
-    "text": "Tasas por sitio\n\n\nMostrar código\ncount(datos_total, site, sort = TRUE) %&gt;%\n  kable(\n    caption = \"Número de tasas por sitio\",\n    col.names = c(\"Site\", \"n\")\n  )\n\n\n\nNúmero de tasas por sitio\n\n\nSite\nn\n\n\n\n\nEl Quisco\n505\n\n\nPichilemu\n464\n\n\nLos Molles\n426\n\n\nQuintay\n372\n\n\nMatanzas\n360\n\n\nLas Cruces\n356\n\n\nMontemar\n345\n\n\nTemblador\n321\n\n\nPunta de Talca\n311\n\n\nGuanaqueros\n305\n\n\nCuraumilla\n229"
+    "text": "Tasas por sitio\n\n\nMostrar código\ncount(datos_total, site, sort = TRUE) %&gt;%\n  kable(\n    caption = \"Número de tasas por sitio\",\n    col.names = c(\"Site\", \"n\")\n  ) %&gt;%\n  kable_styling(full_width = FALSE)\n\n\n\nNúmero de tasas por sitio\n\n\nSite\nn\n\n\n\n\nEl Quisco\n531\n\n\nPichilemu\n483\n\n\nLas Cruces\n453\n\n\nLos Molles\n451\n\n\nQuintay\n417\n\n\nPunta de Talca\n403\n\n\nMontemar\n401\n\n\nMatanzas\n382\n\n\nTemblador\n377\n\n\nGuanaqueros\n322\n\n\nCuraumilla\n287"
   },
   {
-    "objectID": "dataset.html#tasas-por-sitio-y-estación",
-    "href": "dataset.html#tasas-por-sitio-y-estación",
+    "objectID": "dataset.html#tasas-por-sitio-y-estación-o-periodo",
+    "href": "dataset.html#tasas-por-sitio-y-estación-o-periodo",
     "title": "Dataset",
-    "section": "Tasas por sitio y estación",
-    "text": "Tasas por sitio y estación\n\n\nMostrar código\ndatos_total %&gt;%\n  count(site, season) %&gt;%\n  pivot_wider(names_from = season, values_from = n) %&gt;%\n  kable(caption = \"Número de tasas por sitio y estación\") %&gt;%\n  kableExtra::kable_styling(full_width = FALSE)\n\n\n\nNúmero de tasas por sitio y estación\n\n\nsite\nanual\ninvierno\notoño\nverano\n\n\n\n\nPichilemu\n47\n141\n141\n135\n\n\nMatanzas\n43\n87\n120\n110\n\n\nLas Cruces\n42\n106\n144\n64\n\n\nEl Quisco\n83\n133\n139\n150\n\n\nQuintay\n36\n96\n127\n113\n\n\nCuraumilla\n23\n40\n47\n119\n\n\nMontemar\n12\n121\n105\n107\n\n\nLos Molles\n45\n133\n135\n113\n\n\nPunta de Talca\n25\n92\n128\n66\n\n\nGuanaqueros\n11\n129\n100\n65\n\n\nTemblador\n9\n147\n94\n71"
+    "section": "Tasas por sitio y estación o periodo",
+    "text": "Tasas por sitio y estación o periodo\n\n\nMostrar código\ndatos_total %&gt;%\n  count(site, season) %&gt;%\n  pivot_wider(names_from = season, values_from = n, values_fill = 0) %&gt;%\n  kable(caption = \"Número de tasas por sitio y estación o periodo\") %&gt;%\n  kable_styling(full_width = FALSE)\n\n\n\nNúmero de tasas por sitio y estación o periodo\n\n\nsite\nanual\ninvierno\notoño\nverano\n\n\n\n\nPichilemu\n47\n152\n146\n138\n\n\nMatanzas\n44\n98\n126\n114\n\n\nLas Cruces\n43\n119\n151\n140\n\n\nEl Quisco\n83\n148\n148\n152\n\n\nQuintay\n36\n128\n133\n120\n\n\nCuraumilla\n25\n60\n59\n143\n\n\nMontemar\n13\n152\n108\n128\n\n\nLos Molles\n45\n149\n139\n118\n\n\nPunta de Talca\n27\n162\n136\n78\n\n\nGuanaqueros\n11\n143\n103\n65\n\n\nTemblador\n9\n179\n111\n78"
   },
   {
-    "objectID": "dataset.html#periodos-de-exposición-en-días",
-    "href": "dataset.html#periodos-de-exposición-en-días",
+    "objectID": "dataset.html#tamaño-inicial-vs-tasa-de-crecimiento",
+    "href": "dataset.html#tamaño-inicial-vs-tasa-de-crecimiento",
     "title": "Dataset",
-    "section": "Periodos de exposición en días",
-    "text": "Periodos de exposición en días\n\n\nMostrar código\ndatos_total %&gt;%\n  group_by(site, season) %&gt;%\n  summarise(\n    date_inicial = min(date_inicial),\n    date_final   = max(date_final),\n    dias         = first(dias),\n    n            = n(),\n    .groups = \"drop\"\n  ) %&gt;%\n  arrange(site, season) %&gt;%\n  kable(\n    caption = \"Resumen de tasas de crecimiento por sitio, temporada y clase de tamaño\",\n    col.names = c(\n      \"Site\",\n      \"Season\",\n      # \"Size class\",\n      \"Fecha inicial\",\n      \"Fecha final\",\n      \"Días\",\n      \"N tasas\"\n    ),\n    align = c(\"l\",\"l\",\"l\",\"c\",\"c\",\"r\",\"r\")\n  )\n\n\n\nResumen de tasas de crecimiento por sitio, temporada y clase de tamaño\n\n\nSite\nSeason\nFecha inicial\nFecha final\nDías\nN tasas\n\n\n\n\nPichilemu\nanual\n2024-11-29\n2025-12-16\n382\n47\n\n\nPichilemu\ninvierno\n2025-07-17\n2025-10-21\n96\n141\n\n\nPichilemu\notoño\n2025-02-27\n2025-07-17\n140\n141\n\n\nPichilemu\nverano\n2024-11-29\n2025-02-27\n90\n135\n\n\nMatanzas\nanual\n2024-11-28\n2025-12-15\n382\n43\n\n\nMatanzas\ninvierno\n2025-07-10\n2025-10-08\n90\n87\n\n\nMatanzas\notoño\n2025-02-28\n2025-07-10\n132\n120\n\n\nMatanzas\nverano\n2024-11-28\n2025-02-28\n92\n110\n\n\nLas Cruces\nanual\n2024-12-04\n2025-12-11\n372\n42\n\n\nLas Cruces\ninvierno\n2025-07-20\n2025-10-06\n78\n106\n\n\nLas Cruces\notoño\n2025-03-14\n2025-07-20\n128\n144\n\n\nLas Cruces\nverano\n2024-12-04\n2025-03-14\n100\n64\n\n\nEl Quisco\nanual\n2024-12-05\n2025-12-10\n370\n83\n\n\nEl Quisco\ninvierno\n2025-07-11\n2025-10-07\n88\n133\n\n\nEl Quisco\notoño\n2025-03-11\n2025-07-11\n122\n139\n\n\nEl Quisco\nverano\n2024-12-05\n2025-03-11\n96\n150\n\n\nQuintay\nanual\n2024-12-01\n2025-12-17\n381\n36\n\n\nQuintay\ninvierno\n2025-07-29\n2025-10-15\n78\n96\n\n\nQuintay\notoño\n2025-03-12\n2025-07-29\n139\n127\n\n\nQuintay\nverano\n2024-12-01\n2025-03-12\n101\n113\n\n\nCuraumilla\nanual\n2024-11-30\n2026-02-17\n444\n23\n\n\nCuraumilla\ninvierno\n2025-08-10\n2025-10-20\n71\n40\n\n\nCuraumilla\notoño\n2025-03-13\n2025-08-10\n150\n47\n\n\nCuraumilla\nverano\n2024-11-30\n2025-03-13\n103\n119\n\n\nMontemar\nanual\n2024-12-11\n2026-01-14\n399\n12\n\n\nMontemar\ninvierno\n2025-08-11\n2025-10-22\n72\n121\n\n\nMontemar\notoño\n2025-04-14\n2025-08-11\n119\n105\n\n\nMontemar\nverano\n2024-12-11\n2025-04-14\n124\n107\n\n\nLos Molles\nanual\n2024-11-14\n2025-12-18\n399\n45\n\n\nLos Molles\ninvierno\n2025-07-25\n2025-09-23\n60\n133\n\n\nLos Molles\notoño\n2025-03-06\n2025-07-25\n141\n135\n\n\nLos Molles\nverano\n2024-11-14\n2025-03-06\n112\n113\n\n\nPunta de Talca\nanual\n2024-11-15\n2025-12-19\n399\n25\n\n\nPunta de Talca\ninvierno\n2025-07-24\n2025-09-24\n62\n92\n\n\nPunta de Talca\notoño\n2025-03-02\n2025-07-24\n144\n128\n\n\nPunta de Talca\nverano\n2024-11-15\n2025-03-02\n107\n66\n\n\nGuanaqueros\nanual\n2024-11-19\n2025-12-20\n396\n11\n\n\nGuanaqueros\ninvierno\n2025-07-23\n2025-09-25\n64\n129\n\n\nGuanaqueros\notoño\n2025-03-03\n2025-07-23\n142\n100\n\n\nGuanaqueros\nverano\n2024-11-19\n2025-03-03\n104\n65\n\n\nTemblador\nanual\n2024-11-18\n2025-12-21\n398\n9\n\n\nTemblador\ninvierno\n2025-07-22\n2025-09-26\n66\n147\n\n\nTemblador\notoño\n2025-03-04\n2025-07-22\n140\n94\n\n\nTemblador\nverano\n2024-11-18\n2025-03-04\n106\n71"
+    "section": "Tamaño inicial v/s tasa de crecimiento",
+    "text": "Tamaño inicial v/s tasa de crecimiento"
   },
   {
-    "objectID": "dataset.html#distribución-por-sitio",
-    "href": "dataset.html#distribución-por-sitio",
+    "objectID": "dataset.html#tasas-de-crecimiento-or-sitio",
+    "href": "dataset.html#tasas-de-crecimiento-or-sitio",
     "title": "Dataset",
-    "section": "Distribución por sitio",
-    "text": "Distribución por sitio"
-  },
-  {
-    "objectID": "dataset.html#distribución-de-tasas-de-crecimiento",
-    "href": "dataset.html#distribución-de-tasas-de-crecimiento",
-    "title": "Dataset",
-    "section": "Distribución de tasas de crecimiento",
-    "text": "Distribución de tasas de crecimiento\n\n\n\n\n\n\n\n\nFigura 1: Distribución de tasas de crecimiento de Perumytilus purpuratus."
-  },
-  {
-    "objectID": "dataset.html#archivos-generados",
-    "href": "dataset.html#archivos-generados",
-    "title": "Dataset",
-    "section": "Archivos generados",
-    "text": "Archivos generados\n\n\n\nArchivo\nDescripción\n\n\n\n\nTasas_Crecimiento_Ppurpuratus_CLEAN.rds\nDataset final\n\n\nTasas_Crecimiento_Ppurpuratus_RAW.rds\nTasas sin filtrar\n\n\nMediciones_Crecimiento_Ppurpuratus_RAW.rds\nMediciones originales"
+    "section": "Tasas de crecimiento or sitio",
+    "text": "Tasas de crecimiento or sitio\n\n\n\n\n\n\n\n\nFigura 1: Distribución descriptiva de tasas de crecimiento de P. purpuratus en el dataset analítico base.\n\n\n\n\n\n\n\n\n\n\n\nNotaNota sobre la ausencia de primavera\n\n\n\nLas figuras descriptivas incluidas en esta sección corresponden a una versión del resumen gráfico generada sin primavera, de acuerdo con la disponibilidad y el estado actual de procesamiento de esa temporalidad al momento de construir esta web. Esta decisión afecta solo estas visualizaciones resumidas y debe interpretarse como una nota de contexto sobre las figuras, no como una redefinición del pipeline general."
   },
   {
     "objectID": "preprocess.html",
     "href": "preprocess.html",
-    "title": "Pre-procesamiento",
+    "title": "Pre-procesamiento y control de calidad (QC)",
     "section": "",
-    "text": "Las mediciones de crecimiento de Perumytilus purpuratus fueron registradas en archivos Excel independientes para cada periodo experimental.\nAntes de realizar los análisis, los datos fueron sometidos a un proceso de pre-procesamiento y control de calidad con el objetivo de:\n\nEstandarizar la estructura de los datos\nGenerar identificadores únicos por individuo\nCalcular tasas de crecimiento individuales\nDetectar posibles errores de registro\nIdentificar y eliminar valores atípicos\n\nTodo el proceso se implementó en R mediante un flujo de procesamiento reproducible."
+    "text": "Esta sección describe el flujo completo de pre-procesamiento y control de calidad (Quality Control) aplicado a los datos de crecimiento de P. purpuratus. El objetivo fue:\n\nconsolidar mediciones individuales provenientes de múltiples planillas excel,\ncalcular tasas de crecimiento en largo (mm), ancho (mm) y peso (gr),\nidentificar observaciones potencialmente inconsistentes (duplicados, error de digitación, etc.),\nmantener trazabilidad completa de todas las decisiones,\ny generar salidas reproducibles para análisis base, análisis de sensibilidad y una revisión detallada.\n\nA diferencia de un enfoque puramente estadístico basado en la eliminación automática de outliers, aquí implementamos un sistema de QC biológicamente informado, basado en banderas de calidad (flags) y no en filtrado ciego con motosierra."
   },
   {
-    "objectID": "preprocess.html#reproducibilidad",
-    "href": "preprocess.html#reproducibilidad",
-    "title": "Pre-procesamiento",
-    "section": "Reproducibilidad",
-    "text": "Reproducibilidad\n\n\n\n\n\n\nNota\n\n\n\nTodo el flujo de pre-procesamiento fue implementado en R.\nEl siguiente script reproduce completamente la limpieza, filtrado y cálculo de tasas de crecimiento.\n\n\nScript_01_preprocess_growth_data_Ppurp.R\n# {{&lt; include R/Script_01_preprocess_growth_data_Ppurp.R &gt;}}"
+    "objectID": "preprocess.html#filosofía-general",
+    "href": "preprocess.html#filosofía-general",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "Filosofía general",
+    "text": "Filosofía general\nEl sistema de QC fue diseñado para distinguir entre:\n\nvariabilidad biológica real,\nerrores de medición o digitación,\ninconsistencias de emparejamiento entre mediciones,\ny combinaciones improbables de rasgos.\n\nEn lugar de asumir que todo valor extremo es un error, se implementó un enfoque escalonado y modular, compuesto por cuatro niveles complementarios:\n\nflags básicos\nQC univariado\nQC alométrico\nQC multivariado"
+  },
+  {
+    "objectID": "preprocess.html#flags-básicos-de-integridad",
+    "href": "preprocess.html#flags-básicos-de-integridad",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "1. Flags básicos de integridad",
+    "text": "1. Flags básicos de integridad\nEl primer nivel identifica problemas estructurales del dataset, incluyendo:\n\nintervalos de exposición inválidos o faltantes\nduplicados de medición\nduplicados de individuo\nobservaciones potencialmente dudosas en terreno o laboratorio\n\nEstas banderas no implican necesariamente exclusión, pero permiten rastrear observaciones que merecen atención adicional."
+  },
+  {
+    "objectID": "preprocess.html#manejo-de-crecimientos-negativos",
+    "href": "preprocess.html#manejo-de-crecimientos-negativos",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "2. Manejo de crecimientos negativos",
+    "text": "2. Manejo de crecimientos negativos\nEl crecimiento negativo se trató de forma explícita, reconociendo que en bivalvos puede existir erosión del borde de la concha, mantención neta de tamaño o pequeñas diferencias cercanas al error instrumental.\nPor ello se distinguieron dos categorías:\n\nNegativos leves\nCorresponden a cambios negativos de muy baja magnitud, compatibles con error de medición o mantención de biomasa/talla. Estos valores fueron corregidos a cero en las variables corregidas (*_corr).\n\n\nNegativos fuertes\nCorresponden a decrecimientos de magnitud mayor y fueron marcados, no eliminados automáticamente. Estos casos son especialmente útiles para identificar posibles errores de emparejamiento o asignación."
+  },
+  {
+    "objectID": "preprocess.html#qc-univariado-crecimiento-máximo-plausible",
+    "href": "preprocess.html#qc-univariado-crecimiento-máximo-plausible",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "3. QC univariado: crecimiento máximo plausible",
+    "text": "3. QC univariado: crecimiento máximo plausible\nEl siguiente nivel evalúa si cada individuo mostró un crecimiento mayor al máximo plausible esperado para su tamaño inicial.\nSe construyeron envelopes superiores de crecimiento para:\n\nlargo\nancho\npeso\n\nEstos envelopes se estimaron mediante regresión cuantílica al percentil 99, separando por:\n\nsitio\nclase de tamaño\ntratamiento\n\nSe utilizó una estrategia híbrida:\n\nsplines cuando el tamaño muestral y el rango del predictor fueron suficientes\nregresión lineal como alternativa conservadora cuando el soporte de datos era menor\n\nA partir de los residuos positivos respecto del envelope se calculó un umbral QC. Los individuos que excedieron ese límite fueron marcados como outliers univariados.\n\nInterpretación\nEste módulo responde a la pregunta:\n\n¿Este individuo creció más de lo plausible para su tamaño inicial dentro de su contexto experimental?"
+  },
+  {
+    "objectID": "preprocess.html#qc-alométrico-consistencia-morfológica-final",
+    "href": "preprocess.html#qc-alométrico-consistencia-morfológica-final",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "4. QC alométrico: consistencia morfológica final",
+    "text": "4. QC alométrico: consistencia morfológica final\nEl crecimiento también se evaluó desde la forma final del individuo, usando relaciones alométricas log-log entre:\n\nlargo final y ancho final\nlargo final y peso final\n\nLos individuos que se desviaron fuertemente de estas relaciones esperadas fueron marcados como outliers alométricos.\n\nInterpretación\nEste módulo responde a la pregunta:\n\n¿La morfología final del individuo es consistente con el patrón esperado para su largo?\n\nEste paso es especialmente útil para detectar:\n\nerrores de emparejamiento entre medición inicial y final\npesos incompatibles con el largo observado\nanchos anómalos para un largo dado\nerrores finos de digitación"
+  },
+  {
+    "objectID": "preprocess.html#qc-multivariado-combinaciones-improbables",
+    "href": "preprocess.html#qc-multivariado-combinaciones-improbables",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "5. QC multivariado: combinaciones improbables",
+    "text": "5. QC multivariado: combinaciones improbables\nFinalmente, se aplicó un control multivariado basado en distancias de Mahalanobis para identificar individuos cuya combinación conjunta de residuos fuera improbable, aunque ninguna variable por separado pareciera extrema.\nSe implementaron dos módulos:\n\nMultivariado de crecimiento\nUsa conjuntamente los residuos de:\n\nlargo\nancho\npeso\n\n\n\nMultivariado de forma\nUsa conjuntamente los residuos alométricos de:\n\nlargo–ancho\nlargo–peso\n\n\n\nInterpretación\nEste módulo responde a la pregunta:\n\n¿La combinación conjunta de rasgos o residuos de este individuo es improbable, aunque cada variable por separado no parezca extrema?"
+  },
+  {
+    "objectID": "preprocess.html#puntaje-global-y-categoría-final",
+    "href": "preprocess.html#puntaje-global-y-categoría-final",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "6. Puntaje global y categoría final",
+    "text": "6. Puntaje global y categoría final\nA partir de las banderas generadas por los distintos módulos se calculó un puntaje global:\n\nqc_score\n\ny una categoría final resumida:\n\nok\nrevisar\nsospechoso\nmuy_sospechoso\n\nEstas categorías no sustituyen el juicio biológico, pero permiten ordenar la evidencia y priorizar revisión.\n\n\n\n\n\n\nImportanteDecisión metodológica\n\n\n\nEl sistema de QC fue diseñado para marcar observaciones, no para eliminarlas automáticamente. Esto permite mantener trazabilidad completa, reducir sesgos por sobre-filtrado y evaluar análisis de sensibilidad de forma transparente."
+  },
+  {
+    "objectID": "preprocess.html#qc-univariado",
+    "href": "preprocess.html#qc-univariado",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "QC univariado",
+    "text": "QC univariado\nEstas figuras muestran los envelopes superiores de crecimiento plausible para largo, ancho y peso. Los puntos marcados corresponden a observaciones que exceden el umbral esperado para su tamaño inicial dentro de cada contexto experimental.\n\nFiguras"
+  },
+  {
+    "objectID": "preprocess.html#qc-alométrico",
+    "href": "preprocess.html#qc-alométrico",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "QC alométrico",
+    "text": "QC alométrico\nEstas relaciones alométricas permiten evaluar si el ancho final y el peso final son consistentes con el largo final observado. Los puntos destacados corresponden a individuos cuya morfología final se desvía del patrón esperado.\n\nFiguras"
+  },
+  {
+    "objectID": "preprocess.html#qc-multivariado",
+    "href": "preprocess.html#qc-multivariado",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "QC multivariado",
+    "text": "QC multivariado\nEstas figuras resumen la posición conjunta de cada observación en el espacio de residuos de crecimiento y de forma. El objetivo es detectar individuos cuya combinación de rasgos sea improbable, incluso cuando cada variable por separado no parezca extrema.\n\nFiguras\n\n\n\n\n\n\n\n\n\n\nNotaNota sobre interpretación visual\n\n\n\nLas figuras diagnósticas se construyeron como herramientas de inspección general. En algunos casos, una observación marcada puede parecer visualmente cercana a la nube principal cuando se agregan múltiples sitios dentro de un mismo panel. La decisión final de QC se basa siempre en los umbrales y residuos calculados a nivel del grupo correspondiente."
+  },
+  {
+    "objectID": "preprocess.html#archivos-.rds",
+    "href": "preprocess.html#archivos-.rds",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "Archivos .rds",
+    "text": "Archivos .rds\n\nMediciones_Crecimiento_Ppurpuratus_RAW.rds\nRespaldo directo de las mediciones originales leídas desde las planillas fuente.\n\n\nTasas_Crecimiento_Ppurpuratus_RAW.rds\nContiene los pares inicial–final por individuo y las tasas calculadas antes de aplicar las banderas de QC.\n\n\nTasas_Crecimiento_Ppurpuratus_QC.rds\nTabla analítica principal con:\n\ntasas de crecimiento\nvariables corregidas\nbanderas de QC univariado\nbanderas de QC alométrico\nbanderas de QC multivariado\nqc_score\nqc_categoria\n\n\n\nTasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds\nDataset sugerido para análisis base. Excluye únicamente:\n\nduplicados de medición\nduplicados de individuo\nintervalos de exposición inválidos\n\n\n\nTasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds\nDataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como muy sospechosas."
+  },
+  {
+    "objectID": "preprocess.html#pestañas-de-datos-principales",
+    "href": "preprocess.html#pestañas-de-datos-principales",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "Pestañas de datos principales",
+    "text": "Pestañas de datos principales\n\nmediciones_raw\nContiene las mediciones originales importadas desde las planillas fuente, antes del cálculo de tasas.\n\n\ntasas_raw\nContiene los pares inicial–final por individuo, junto con los cambios absolutos y tasas de crecimiento calculadas antes de aplicar QC.\n\n\ntasas_qc\nEs la tabla analítica principal del sistema. Integra:\n\nvariables originales\nvariables corregidas\nbanderas básicas\nQC univariado\nQC alométrico\nQC multivariado\nscore y categoría final\n\n\n\ntasas_analisis_base\nVersión recomendada para análisis principal, excluyendo solo problemas estructurales.\n\n\ntasas_analisis_sens\nVersión recomendada para análisis de sensibilidad, excluyendo además los casos muy sospechosos."
+  },
+  {
+    "objectID": "preprocess.html#pestañas-de-trazabilidad-y-revisión",
+    "href": "preprocess.html#pestañas-de-trazabilidad-y-revisión",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "Pestañas de trazabilidad y revisión",
+    "text": "Pestañas de trazabilidad y revisión\n\n\n\n\n\n\n\n\nGrupo\nPestaña\nDescripción\n\n\n\n\nDuplicados\ndup_medicion\nLista de individuos con duplicados de medición.\n\n\nDuplicados\ndup_individuo\nLista de individuos con duplicación a nivel de identificación.\n\n\nNegativos\nlog_negativos\nIncluye todos los casos con crecimiento negativo en alguna variable.\n\n\nNegativos\nlog_negativos_fuertes\nSubconjunto de negativos fuertes, más relevantes para revisión.\n\n\nQC univariado\nlog_outlier_univar\nLista total de observaciones marcadas por el QC univariado.\n\n\nQC univariado\nlog_outlier_largo\nSubconjunto marcado específicamente en crecimiento en largo.\n\n\nQC univariado\nlog_outlier_ancho\nSubconjunto marcado específicamente en crecimiento en ancho.\n\n\nQC univariado\nlog_outlier_peso\nSubconjunto marcado específicamente en crecimiento en peso.\n\n\nQC alométrico\nlog_outlier_shape\nLista total de observaciones marcadas por el QC alométrico.\n\n\nQC alométrico\nlog_allometry_la\nSubconjunto marcado por la relación alométrica largo–ancho.\n\n\nQC alométrico\nlog_allometry_lp\nSubconjunto marcado por la relación alométrica largo–peso.\n\n\nQC multivariado\nlog_outlier_multi\nLista total de observaciones marcadas por el QC multivariado.\n\n\nQC multivariado\nlog_multi_growth\nSubconjunto marcado por el multivariado de crecimiento.\n\n\nQC multivariado\nlog_multi_shape\nSubconjunto marcado por el multivariado de forma.\n\n\nSíntesis QC\nlog_qc_sospechoso\nIncluye todas las observaciones clasificadas como sospechoso o muy_sospechoso.\n\n\n\n\ndiagnostico_qc\nResumen por:\n\nsitio\nclase de tamaño\ntratamiento\n\nIncluye número de observaciones, frecuencia de flags y distribución por categorías QC.\n\n\nresumen_qc_global\nResumen total del sistema de QC para todo el experimento.\n\n\ntabla_combinaciones_qc\nResume las combinaciones entre los tres módulos principales:\n\nunivariado\nalométrico\nmultivariado\n\nPermite distinguir observaciones detectadas por un solo módulo, por dos módulos o por los tres simultáneamente.\n\n\n\n\n\n\nNotaNota operativa\n\n\n\nPara inspección detallada del sistema completo, la pestaña más importante es tasas_qc. Para análisis principales, la referencia recomendada es tasas_analisis_base. Para evaluación de sensibilidad, la referencia es tasas_analisis_sens."
+  },
+  {
+    "objectID": "preprocess.html#extremos-de-crecimiento",
+    "href": "preprocess.html#extremos-de-crecimiento",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "1. Extremos de crecimiento",
+    "text": "1. Extremos de crecimiento\nDetectados por el QC univariado."
+  },
+  {
+    "objectID": "preprocess.html#inconsistencias-morfológicas",
+    "href": "preprocess.html#inconsistencias-morfológicas",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "2. Inconsistencias morfológicas",
+    "text": "2. Inconsistencias morfológicas\nDetectadas por el QC alométrico."
+  },
+  {
+    "objectID": "preprocess.html#combinaciones-improbables-de-rasgos",
+    "href": "preprocess.html#combinaciones-improbables-de-rasgos",
+    "title": "Pre-procesamiento y control de calidad (QC)",
+    "section": "3. Combinaciones improbables de rasgos",
+    "text": "3. Combinaciones improbables de rasgos\nDetectadas por el QC multivariado.\nLa combinación de estos módulos permite mantener observaciones potencialmente valiosas dentro del sistema, pero con una trazabilidad clara que facilita revisión, sensibilidad y discusión biológica."
   }
 ]

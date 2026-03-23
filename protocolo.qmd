@@ -1,42 +1,53 @@
 ---
 title: "Protocolo"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
 ---
 
-# Diseño
+# Objetivo
 
+Esta sección describe el diseño experimental utilizado para cuantificar las tasas de crecimiento de *Perumytilus purpuratus* en distintos sitios de la costa de Chile, considerando variación espacial, temporal y entre clases de tamaño inicial.
 
+# Diseño general
 
-Para cuantificar las tasas de crecimiento del mitílido *P. purpuratus*, se realizaron trasplantes de individuos de dos tamaños iniciales diferentes (**factor fijo *size class*, dos niveles: chicos y grandes**), y se dejaron expuestos durante dos temporalidades diferentes (anual y estacional). 
+Para cuantificar las tasas de crecimiento del mitílido *P. purpuratus*, se realizaron trasplantes de individuos pertenecientes a dos clases de tamaño inicial y dos temporalidades de exposición.
 
-Para ello, se recolectaron individuos de dos clases basados en su longitud total: los individuos considerados **“Chicos”** registraron una longitud total entre los **5-10 mm**  y los considerados **“Grandes”** entre **10.1-15 mm**. Las dos clases de longitud total inicial fueron escogidos para permitir comparaciones con datos obtenidos en los experimentos ancestrales realizados entre 1997 y 2003 (ver @tbl-resumen).
+Las clases de tamaño utilizadas fueron:
 
+- **Chicos**: 5–10 mm
+- **Grandes**: 10.1–15 mm
 
-
+Estas clases fueron definidas para mantener comparabilidad biológica con experimentos previos de crecimiento realizados entre 1997 y 2003, aunque parte del rango histórico incluyó individuos de tallas mayores en algunos periodos.
 
 ## Diseño estadístico
 
 Se implementó un diseño factorial con:
 
-- **Clases de tamaño (factor fijo, 2 niveles):**
-  - Chicos: 5–10 mm
-  - Grandes: 10.1–15 mm
+- **Clase de tamaño** (factor fijo, 2 niveles)
+  - Chicos
+  - Grandes
 
-- **Temporalidad (factor fijo, 2 niveles):**
+- **Temporalidad** (factor fijo, 2 niveles)
   - Anual (~400 días)
   - Estacional (~100 días por periodo)
 
-- **Sitio (factor aleatorio)**
+- **Sitio** (factor aleatorio)
 
-Cada combinación fue replicada en 5 plots por sitio.
+Cada combinación fue replicada en **5 plots por sitio**.
 
-## Sitios de estudio
+# Sitios de estudio
 
-**Zona Norte (<32°S) **:
+## Zona norte (<32°S)
+
 - Temblador
 - Guanaqueros
 - Punta de Talca
 
-**Zona Centro (>32°S) **:
+## Zona centro (>32°S)
+
 - Los Molles
 - Montemar
 - Curaumilla
@@ -46,50 +57,59 @@ Cada combinación fue replicada en 5 plots por sitio.
 - Matanzas
 - Pichilemu
 
-## Procedimiento de marcaje
+# Procedimiento de marcaje
 
-Los individuos para realizar los trasplantes fueron extraídos de dos sitios diferentes, uno para cada región de estudio: 
-Para la zona norte se usaron individuos de Los Molles y para la región Centro se recolectaron individuos desde Las Cruces. 
+Los individuos utilizados en los trasplantes fueron recolectados desde dos sitios fuente, uno para cada región de estudio:
 
-Los primeros fueron trasplantados a plataformas semi expuestas al oleaje en 3 sitios al norte de los 32° de latitud S (Temblador, Guanaqueros y Pta de Talca), mientras que aquellos extraídos desde Las Cruces fueron trasplantados a 8 sitios al sur (Los Molles, Montemar, Curaumilla, Quintay, El Quisco, Las Cruces, Matanzas y Pichilemu). 
+- Para la zona norte se utilizaron individuos provenientes de **Los Molles**
+- Para la zona centro se utilizaron individuos provenientes de **Las Cruces**
 
-Una vez recolectados, todos los individuos fueron limpiados de epibiontes, secados con toalla de papel, medidos (Precisión caliper 0.05 mm), pesados (Precisión balanza de 0.01 gr), y etiquetados individualmente con marcas de abeja (bee tags) para ellos se utilizó un adhesivo instantáneo en gel La gotita® (Etilcianoacrilato) para fijar la etiqueta sobre sus valvas previamente lijadas para asegurar el pegado, posteriormente al secado se impermeabilizó la etiqueta con esmalte para uñas para prevenir adhesión de algas y maximizar la adhesión de los bee-tag's. 
+Los individuos recolectados fueron limpiados de epibiontes, secados con toalla de papel, medidos, pesados y marcados individualmente con etiquetas tipo bee-tag.
 
-Las medidas iniciales registradas corresponden a la longitud máxima (longitud Antero-posterior mm), el ancho máximo (longitud Dorso-ventral mm) de cada individuo y el peso en gramos (@fig-medidas).
+Las mediciones iniciales registradas en cada individuo correspondieron a:
+
+- longitud máxima (antero-posterior, mm)
+- ancho máximo (dorso-ventral, mm)
+- peso húmedo total (g)
 
 ![Medidas morfológicas registradas en cada individuo.](figs/Medidas_choritos.png){#fig-medidas width=30%}
 
-Posteriormente y antes de la instalación de los trasplantes los individuos fueron dispuestos en contenedores plásticos con agua de mar, alga húmeda y aireadores, donde fueron mantenidos hasta el momento del trasplante.
+Para las mediciones se utilizó:
 
+- **Caliper** con precisión de 0.05 mm
+- **Balanza** con precisión de 0.01 g
 
-Caliper (0.05 mm) foto
+Las etiquetas fueron adheridas con adhesivo instantáneo en gel sobre una superficie previamente lijada, y luego impermeabilizadas con esmalte para uñas para minimizar el desprendimiento y la colonización por algas.
 
-Balanza (0.01 gr) foto
+Posteriormente, antes de la instalación de los trasplantes, los individuos fueron mantenidos en contenedores plásticos con agua de mar, alga húmeda y aireación, hasta el momento de su instalación en terreno.
 
-Bee-tags foto
+# Instalación de los trasplantes
 
-Adhesivo La Gotita® (Etilcianoacrilato) foto
+En cada sitio, los individuos fueron asignados a **5 plots** previamente limpiados de algas y epibiontes mediante raspado con espátulas y cepillos de acero.
 
-Sellado con esmalte foto
+Dentro de cada plot se instalaron **4 subdivisiones** construidas con aros de PVC (diámetro 80 mm, altura 6 mm), unidos mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos.
 
-## Instalación
+A cada subdivisión se le asignó aleatoriamente uno de cuatro tratamientos:
 
-En cada sitio, 80 individuos fueron asignados para ser trasplantados en cada uno de 5 plots previamente limpios de algas y epibiontes, raspados mediante espátulas y cepillos de acero. 
-Al interior de cada plot, 4 aros de PVC (diámetro 80 mm y altura de 6 mm) unidos entre sí mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos, fueron dispuestos para subdividir el plot (Figura 1a). 
+- **T1** = chico–anual
+- **T2** = chico–estacional
+- **T3** = grande–anual
+- **T4** = grande–estacional
 
-A cada subdivisión, se le asignó de forma aleatoria uno de 4 tratamientos, con las combinaciones de tamaño inicial y temporalidad: T1= tamaño chico-anual; T2= tamaño chico-estacional; T3=tamaño grande-anual; T4= tamaño grande-estacional @fig-esquema (a) muestra la asignación de tratamientos. 
-Una vez asignados los tratamientos y los individuos correspondientes instalados, el plot se cubrió con una malla plástica maleable con luz de malla pequeño de 1x1 mm, la cuál permitirá la re-adhesión de los individuos al sustrato, ver @fig-esquema (b) el sistema de fijación. Esta malla, a su vez, fue cubierta con un domo construido de malla vexar, con luz de malla de 10x10 mm, el cuál evitó que los individuos fueran depredados durante todo el periodo de exposición. 
+La figura siguiente resume el esquema experimental.
 
-Pasados 15 a 30 días de exposición, la malla plástica pequeña de sujeción fue extraída (verificando que los individuos hayan quedado adheridos al sustrato) dejando solamente el domo de luz de 10 mm, que fue preservado durante todo el tiempo de exposición para evitar depredación.
-
-![Esquema del experimento de trasplante de *P. purpuratus*. 
-(a) Asignación aleatoria de tratamientos. 
+![Esquema del experimento de trasplante de *P. purpuratus*.  
+(a) Asignación aleatoria de tratamientos.  
 (b) Fijación al sustrato con malla y domo.](figs/esquema_trasplantes.png){#fig-esquema width=70%}
 
+Una vez instalados los individuos, cada plot fue cubierto con una malla plástica flexible de luz pequeña (1 × 1 mm), diseñada para permitir la re-adhesión de los individuos al sustrato. Esta malla fue posteriormente cubierta con un domo de malla vexar de 10 × 10 mm para reducir la depredación durante el periodo de exposición.
 
-## Instalación de experimentos
+Entre 15 y 30 días después de la instalación, la malla interior de sujeción fue retirada, verificando previamente que los individuos hubieran quedado adheridos al sustrato. El domo protector externo se mantuvo durante todo el experimento.
 
-Set-Up de los experimentos en el sitio de Los Molles
+# Registro fotográfico del experimento
+
+## Instalación general
+
 ```{r}
 #| echo: false
 #| label: fig-experiment-setup
@@ -98,36 +118,39 @@ Set-Up de los experimentos en el sitio de Los Molles
 #| out-width: "50%"
 
 knitr::include_graphics("photos/exp_install_MOLL.JPG")
-```
 
-Vista de los trasplantes instalados en el sitio Los Molles
+### Vista de los trasplantes en terreno (Los Molles)
 ```{r}
 #| echo: false
 #| label: fig-trasplant-field
-#| fig-cap: "Trasplante instalado en el intermareal rocoso de Los Molles."
+#| fig-cap: "Vista general del trasplante instalado en el intermareal rocoso de Los Molles."
 #| fig-align: center
 #| out-width: "80%"
 
 knitr::include_graphics("photos/trasplante_en_terreno.JPG")
 ```
-
+### Vista del plot instalado
 ```{r}
 #| echo: false
 #| label: fig-trasplant-platform
-#| fig-cap: "Trasplante instalado en el intermareal rocoso de Los Molles."
+#| fig-cap: "Detalle del plot de trasplante instalado en el intermareal rocoso de Los Molles."
 #| fig-align: center
 #| out-width: "80%"
 
 knitr::include_graphics("photos/trasplante_plot.JPG")
 ```
 
-Set-Up de los experimentos en el sitio de Los Molles.
+### Detalle interno de los experimentos (sitio Los Molles).
 ```{r}
 #| echo: false
 #| label: fig-trasplant-detail
-#| fig-cap: "Detalle al interior del trasplante en Los Molles."
+#| fig-cap: "Detalle interno del sistema de trasplante en Los Molles."
 #| fig-align: center
 #| out-width: "80%"
 
 knitr::include_graphics("photos/trasplante_detalle_aros.JPG")
 ```
+
+## Resumen
+
+El experimento fue diseñado para evaluar la variación en el crecimiento individual de *P. purpuratus* en función de la clase de tamaño inicial, la temporalidad de exposición y el sitio. La combinación de un diseño replicado en múltiples localidades y un sistema de marcaje individual permite reconstruir el crecimiento de cada individuo y analizarlo posteriormente con trazabilidad completa.

@@ -99,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./preprocess.html"> 
-<span class="menu-text">Pre-procesamiento</span></a>
+<span class="menu-text">Pre-procesamiento y control de calidad (QC)</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./dataset.html"> 
@@ -121,13 +121,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#diseño" id="toc-diseño" class="nav-link active" data-scroll-target="#diseño">Diseño</a>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#diseño-general" id="toc-diseño-general" class="nav-link" data-scroll-target="#diseño-general">Diseño general</a>
   <ul class="collapse">
   <li><a href="#diseño-estadístico" id="toc-diseño-estadístico" class="nav-link" data-scroll-target="#diseño-estadístico">Diseño estadístico</a></li>
-  <li><a href="#sitios-de-estudio" id="toc-sitios-de-estudio" class="nav-link" data-scroll-target="#sitios-de-estudio">Sitios de estudio</a></li>
+  </ul></li>
+  <li><a href="#sitios-de-estudio" id="toc-sitios-de-estudio" class="nav-link" data-scroll-target="#sitios-de-estudio">Sitios de estudio</a>
+  <ul class="collapse">
+  <li><a href="#zona-norte-32s" id="toc-zona-norte-32s" class="nav-link" data-scroll-target="#zona-norte-32s">Zona norte (&lt;32°S)</a></li>
+  <li><a href="#zona-centro-32s" id="toc-zona-centro-32s" class="nav-link" data-scroll-target="#zona-centro-32s">Zona centro (&gt;32°S)</a></li>
+  </ul></li>
   <li><a href="#procedimiento-de-marcaje" id="toc-procedimiento-de-marcaje" class="nav-link" data-scroll-target="#procedimiento-de-marcaje">Procedimiento de marcaje</a></li>
-  <li><a href="#instalación" id="toc-instalación" class="nav-link" data-scroll-target="#instalación">Instalación</a></li>
-  <li><a href="#instalación-de-experimentos" id="toc-instalación-de-experimentos" class="nav-link" data-scroll-target="#instalación-de-experimentos">Instalación de experimentos</a></li>
+  <li><a href="#instalación-de-los-trasplantes" id="toc-instalación-de-los-trasplantes" class="nav-link" data-scroll-target="#instalación-de-los-trasplantes">Instalación de los trasplantes</a></li>
+  <li><a href="#registro-fotográfico-del-experimento" id="toc-registro-fotográfico-del-experimento" class="nav-link" data-scroll-target="#registro-fotográfico-del-experimento">Registro fotográfico del experimento</a>
+  <ul class="collapse">
+  <li><a href="#instalación-general" id="toc-instalación-general" class="nav-link" data-scroll-target="#instalación-general">Instalación general</a>
+  <ul class="collapse">
+  <li><a href="#vista-del-plot-instalado" id="toc-vista-del-plot-instalado" class="nav-link" data-scroll-target="#vista-del-plot-instalado">Vista del plot instalado</a></li>
+  <li><a href="#detalle-interno-de-los-experimentos-sitio-los-molles." id="toc-detalle-interno-de-los-experimentos-sitio-los-molles." class="nav-link" data-scroll-target="#detalle-interno-de-los-experimentos-sitio-los-molles.">Detalle interno de los experimentos (sitio Los Molles).</a></li>
+  </ul></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -154,39 +167,76 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="diseño" class="level1">
-<h1>Diseño</h1>
-<p>Para cuantificar las tasas de crecimiento del mitílido <em>P. purpuratus</em>, se realizaron trasplantes de individuos de dos tamaños iniciales diferentes (<strong>factor fijo <em>size class</em>, dos niveles: chicos y grandes</strong>), y se dejaron expuestos durante dos temporalidades diferentes (anual y estacional).</p>
-<p>Para ello, se recolectaron individuos de dos clases basados en su longitud total: los individuos considerados <strong>“Chicos”</strong> registraron una longitud total entre los <strong>5-10 mm</strong> y los considerados <strong>“Grandes”</strong> entre <strong>10.1-15 mm</strong>. Las dos clases de longitud total inicial fueron escogidos para permitir comparaciones con datos obtenidos en los experimentos ancestrales realizados entre 1997 y 2003 (ver <strong>?@tbl-resumen</strong>).</p>
+<section id="objetivo" class="level1">
+<h1>Objetivo</h1>
+<p>Esta sección describe el diseño experimental utilizado para cuantificar las tasas de crecimiento de <em>Perumytilus purpuratus</em> en distintos sitios de la costa de Chile, considerando variación espacial, temporal y entre clases de tamaño inicial.</p>
+</section>
+<section id="diseño-general" class="level1">
+<h1>Diseño general</h1>
+<p>Para cuantificar las tasas de crecimiento del mitílido <em>P. purpuratus</em>, se realizaron trasplantes de individuos pertenecientes a dos clases de tamaño inicial y dos temporalidades de exposición.</p>
+<p>Las clases de tamaño utilizadas fueron:</p>
+<ul>
+<li><strong>Chicos</strong>: 5–10 mm</li>
+<li><strong>Grandes</strong>: 10.1–15 mm</li>
+</ul>
+<p>Estas clases fueron definidas para mantener comparabilidad biológica con experimentos previos de crecimiento realizados entre 1997 y 2003, aunque parte del rango histórico incluyó individuos de tallas mayores en algunos periodos.</p>
 <section id="diseño-estadístico" class="level2">
 <h2 class="anchored" data-anchor-id="diseño-estadístico">Diseño estadístico</h2>
 <p>Se implementó un diseño factorial con:</p>
 <ul>
-<li><strong>Clases de tamaño (factor fijo, 2 niveles):</strong>
+<li><strong>Clase de tamaño</strong> (factor fijo, 2 niveles)
 <ul>
-<li>Chicos: 5–10 mm</li>
-<li>Grandes: 10.1–15 mm</li>
+<li>Chicos</li>
+<li>Grandes</li>
 </ul></li>
-<li><strong>Temporalidad (factor fijo, 2 niveles):</strong>
+<li><strong>Temporalidad</strong> (factor fijo, 2 niveles)
 <ul>
 <li>Anual (~400 días)</li>
 <li>Estacional (~100 días por periodo)</li>
 </ul></li>
-<li><strong>Sitio (factor aleatorio)</strong></li>
+<li><strong>Sitio</strong> (factor aleatorio)</li>
 </ul>
-<p>Cada combinación fue replicada en 5 plots por sitio.</p>
+<p>Cada combinación fue replicada en <strong>5 plots por sitio</strong>.</p>
 </section>
-<section id="sitios-de-estudio" class="level2">
-<h2 class="anchored" data-anchor-id="sitios-de-estudio">Sitios de estudio</h2>
-<p><strong>Zona Norte (&lt;32°S) </strong>: - Temblador - Guanaqueros - Punta de Talca</p>
-<p><strong>Zona Centro (&gt;32°S) </strong>: - Los Molles - Montemar - Curaumilla - Quintay - El Quisco - Las Cruces - Matanzas - Pichilemu</p>
 </section>
-<section id="procedimiento-de-marcaje" class="level2">
-<h2 class="anchored" data-anchor-id="procedimiento-de-marcaje">Procedimiento de marcaje</h2>
-<p>Los individuos para realizar los trasplantes fueron extraídos de dos sitios diferentes, uno para cada región de estudio: Para la zona norte se usaron individuos de Los Molles y para la región Centro se recolectaron individuos desde Las Cruces.</p>
-<p>Los primeros fueron trasplantados a plataformas semi expuestas al oleaje en 3 sitios al norte de los 32° de latitud S (Temblador, Guanaqueros y Pta de Talca), mientras que aquellos extraídos desde Las Cruces fueron trasplantados a 8 sitios al sur (Los Molles, Montemar, Curaumilla, Quintay, El Quisco, Las Cruces, Matanzas y Pichilemu).</p>
-<p>Una vez recolectados, todos los individuos fueron limpiados de epibiontes, secados con toalla de papel, medidos (Precisión caliper 0.05 mm), pesados (Precisión balanza de 0.01 gr), y etiquetados individualmente con marcas de abeja (bee tags) para ellos se utilizó un adhesivo instantáneo en gel La gotita® (Etilcianoacrilato) para fijar la etiqueta sobre sus valvas previamente lijadas para asegurar el pegado, posteriormente al secado se impermeabilizó la etiqueta con esmalte para uñas para prevenir adhesión de algas y maximizar la adhesión de los bee-tag’s.</p>
-<p>Las medidas iniciales registradas corresponden a la longitud máxima (longitud Antero-posterior mm), el ancho máximo (longitud Dorso-ventral mm) de cada individuo y el peso en gramos (<a href="#fig-medidas" class="quarto-xref">Figura&nbsp;1</a>).</p>
+<section id="sitios-de-estudio" class="level1">
+<h1>Sitios de estudio</h1>
+<section id="zona-norte-32s" class="level2">
+<h2 class="anchored" data-anchor-id="zona-norte-32s">Zona norte (&lt;32°S)</h2>
+<ul>
+<li>Temblador</li>
+<li>Guanaqueros</li>
+<li>Punta de Talca</li>
+</ul>
+</section>
+<section id="zona-centro-32s" class="level2">
+<h2 class="anchored" data-anchor-id="zona-centro-32s">Zona centro (&gt;32°S)</h2>
+<ul>
+<li>Los Molles</li>
+<li>Montemar</li>
+<li>Curaumilla</li>
+<li>Quintay</li>
+<li>El Quisco</li>
+<li>Las Cruces</li>
+<li>Matanzas</li>
+<li>Pichilemu</li>
+</ul>
+</section>
+</section>
+<section id="procedimiento-de-marcaje" class="level1">
+<h1>Procedimiento de marcaje</h1>
+<p>Los individuos utilizados en los trasplantes fueron recolectados desde dos sitios fuente, uno para cada región de estudio:</p>
+<ul>
+<li>Para la zona norte se utilizaron individuos provenientes de <strong>Los Molles</strong></li>
+<li>Para la zona centro se utilizaron individuos provenientes de <strong>Las Cruces</strong></li>
+</ul>
+<p>Los individuos recolectados fueron limpiados de epibiontes, secados con toalla de papel, medidos, pesados y marcados individualmente con etiquetas tipo bee-tag.</p>
+<p>Las mediciones iniciales registradas en cada individuo correspondieron a:</p>
+<ul>
+<li>longitud máxima (antero-posterior, mm)</li>
+<li>ancho máximo (dorso-ventral, mm)</li>
+<li>peso húmedo total (g)</li>
+</ul>
 <div id="fig-medidas" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-medidas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -197,32 +247,45 @@ Figura&nbsp;1: Medidas morfológicas registradas en cada individuo.
 </figcaption>
 </figure>
 </div>
-<p>Posteriormente y antes de la instalación de los trasplantes los individuos fueron dispuestos en contenedores plásticos con agua de mar, alga húmeda y aireadores, donde fueron mantenidos hasta el momento del trasplante.</p>
-<p>Caliper (0.05 mm) foto</p>
-<p>Balanza (0.01 gr) foto</p>
-<p>Bee-tags foto</p>
-<p>Adhesivo La Gotita® (Etilcianoacrilato) foto</p>
-<p>Sellado con esmalte foto</p>
+<p>Para las mediciones se utilizó:</p>
+<ul>
+<li><strong>Caliper</strong> con precisión de 0.05 mm</li>
+<li><strong>Balanza</strong> con precisión de 0.01 g</li>
+</ul>
+<p>Las etiquetas fueron adheridas con adhesivo instantáneo en gel sobre una superficie previamente lijada, y luego impermeabilizadas con esmalte para uñas para minimizar el desprendimiento y la colonización por algas.</p>
+<p>Posteriormente, antes de la instalación de los trasplantes, los individuos fueron mantenidos en contenedores plásticos con agua de mar, alga húmeda y aireación, hasta el momento de su instalación en terreno.</p>
 </section>
-<section id="instalación" class="level2">
-<h2 class="anchored" data-anchor-id="instalación">Instalación</h2>
-<p>En cada sitio, 80 individuos fueron asignados para ser trasplantados en cada uno de 5 plots previamente limpios de algas y epibiontes, raspados mediante espátulas y cepillos de acero. Al interior de cada plot, 4 aros de PVC (diámetro 80 mm y altura de 6 mm) unidos entre sí mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos, fueron dispuestos para subdividir el plot (Figura 1a).</p>
-<p>A cada subdivisión, se le asignó de forma aleatoria uno de 4 tratamientos, con las combinaciones de tamaño inicial y temporalidad: T1= tamaño chico-anual; T2= tamaño chico-estacional; T3=tamaño grande-anual; T4= tamaño grande-estacional <a href="#fig-esquema" class="quarto-xref">Figura&nbsp;2</a> (a) muestra la asignación de tratamientos. Una vez asignados los tratamientos y los individuos correspondientes instalados, el plot se cubrió con una malla plástica maleable con luz de malla pequeño de 1x1 mm, la cuál permitirá la re-adhesión de los individuos al sustrato, ver <a href="#fig-esquema" class="quarto-xref">Figura&nbsp;2</a> (b) el sistema de fijación. Esta malla, a su vez, fue cubierta con un domo construido de malla vexar, con luz de malla de 10x10 mm, el cuál evitó que los individuos fueran depredados durante todo el periodo de exposición.</p>
-<p>Pasados 15 a 30 días de exposición, la malla plástica pequeña de sujeción fue extraída (verificando que los individuos hayan quedado adheridos al sustrato) dejando solamente el domo de luz de 10 mm, que fue preservado durante todo el tiempo de exposición para evitar depredación.</p>
+<section id="instalación-de-los-trasplantes" class="level1">
+<h1>Instalación de los trasplantes</h1>
+<p>En cada sitio, los individuos fueron asignados a <strong>5 plots</strong> previamente limpiados de algas y epibiontes mediante raspado con espátulas y cepillos de acero.</p>
+<p>Dentro de cada plot se instalaron <strong>4 subdivisiones</strong> construidas con aros de PVC (diámetro 80 mm, altura 6 mm), unidos mediante amarracables y provistos de una malla y manguera plástica para impedir la salida de los individuos.</p>
+<p>A cada subdivisión se le asignó aleatoriamente uno de cuatro tratamientos:</p>
+<ul>
+<li><strong>T1</strong> = chico–anual</li>
+<li><strong>T2</strong> = chico–estacional</li>
+<li><strong>T3</strong> = grande–anual</li>
+<li><strong>T4</strong> = grande–estacional</li>
+</ul>
+<p>La figura siguiente resume el esquema experimental.</p>
 <div id="fig-esquema" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-esquema-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figs/esquema_trasplantes.png" class="img-fluid figure-img" style="width:70.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-esquema-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2: Esquema del experimento de trasplante de <em>P. purpuratus</em>. (a) Asignación aleatoria de tratamientos. (b) Fijación al sustrato con malla y domo.
+Figura&nbsp;2: Esquema del experimento de trasplante de <em>P. purpuratus</em>.<br>
+(a) Asignación aleatoria de tratamientos.<br>
+(b) Fijación al sustrato con malla y domo.
 </figcaption>
 </figure>
 </div>
+<p>Una vez instalados los individuos, cada plot fue cubierto con una malla plástica flexible de luz pequeña (1 × 1 mm), diseñada para permitir la re-adhesión de los individuos al sustrato. Esta malla fue posteriormente cubierta con un domo de malla vexar de 10 × 10 mm para reducir la depredación durante el periodo de exposición.</p>
+<p>Entre 15 y 30 días después de la instalación, la malla interior de sujeción fue retirada, verificando previamente que los individuos hubieran quedado adheridos al sustrato. El domo protector externo se mantuvo durante todo el experimento.</p>
 </section>
-<section id="instalación-de-experimentos" class="level2">
-<h2 class="anchored" data-anchor-id="instalación-de-experimentos">Instalación de experimentos</h2>
-<p>Set-Up de los experimentos en el sitio de Los Molles</p>
+<section id="registro-fotográfico-del-experimento" class="level1">
+<h1>Registro fotográfico del experimento</h1>
+<section id="instalación-general" class="level2">
+<h2 class="anchored" data-anchor-id="instalación-general">Instalación general</h2>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-experiment-setup" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -237,7 +300,6 @@ Figura&nbsp;3: Instalación del experimento de crecimiento en el intermareal roc
 </div>
 </div>
 </div>
-<p>Vista de los trasplantes instalados en el sitio Los Molles</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-trasplant-field" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -246,12 +308,14 @@ Figura&nbsp;3: Instalación del experimento de crecimiento en el intermareal roc
 <img src="photos/trasplante_en_terreno.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trasplant-field-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4: Trasplante instalado en el intermareal rocoso de Los Molles.
+Figura&nbsp;4: Vista general del trasplante instalado en el intermareal rocoso de Los Molles.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<section id="vista-del-plot-instalado" class="level3">
+<h3 class="anchored" data-anchor-id="vista-del-plot-instalado">Vista del plot instalado</h3>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-trasplant-platform" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -260,13 +324,15 @@ Figura&nbsp;4: Trasplante instalado en el intermareal rocoso de Los Molles.
 <img src="photos/trasplante_plot.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trasplant-platform-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;5: Trasplante instalado en el intermareal rocoso de Los Molles.
+Figura&nbsp;5: Detalle del plot de trasplante instalado en el intermareal rocoso de Los Molles.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Set-Up de los experimentos en el sitio de Los Molles.</p>
+</section>
+<section id="detalle-interno-de-los-experimentos-sitio-los-molles." class="level3">
+<h3 class="anchored" data-anchor-id="detalle-interno-de-los-experimentos-sitio-los-molles.">Detalle interno de los experimentos (sitio Los Molles).</h3>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-trasplant-detail" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -275,12 +341,17 @@ Figura&nbsp;5: Trasplante instalado en el intermareal rocoso de Los Molles.
 <img src="photos/trasplante_detalle_aros.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trasplant-detail-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;6: Detalle al interior del trasplante en Los Molles.
+Figura&nbsp;6: Detalle interno del sistema de trasplante en Los Molles.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<p>El experimento fue diseñado para evaluar la variación en el crecimiento individual de <em>P. purpuratus</em> en función de la clase de tamaño inicial, la temporalidad de exposición y el sitio. La combinación de un diseño replicado en múltiples localidades y un sistema de marcaje individual permite reconstruir el crecimiento de cada individuo y analizarlo posteriormente con trazabilidad completa.</p>
 
 
 </section>

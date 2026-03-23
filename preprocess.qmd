@@ -1,235 +1,405 @@
 ---
-title: "Pre-procesamiento"
+title: "Pre-procesamiento y control de calidad (QC)"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
 ---
 
 # Objetivo
 
-Las mediciones de crecimiento de *Perumytilus purpuratus* fueron registradas en archivos Excel independientes para cada periodo experimental.  
-Antes de realizar los análisis, los datos fueron sometidos a un proceso de **pre-procesamiento y control de calidad** con el objetivo de:
+Esta sección describe el flujo completo de pre-procesamiento y control de calidad (**Q**uality **C**ontrol) aplicado a los datos de crecimiento de *P. purpuratus*. El objetivo fue:
 
-- Estandarizar la estructura de los datos
-- Generar identificadores únicos por individuo
-- Calcular tasas de crecimiento individuales
-- Detectar posibles errores de registro
-- Identificar y eliminar valores atípicos
+- consolidar mediciones individuales provenientes de múltiples planillas excel,
+- calcular tasas de crecimiento en largo (mm), ancho (mm) y peso (gr),
+- identificar observaciones potencialmente inconsistentes (duplicados, error de digitación, etc.),
+- mantener trazabilidad completa de todas las decisiones,
+- y generar salidas reproducibles para análisis base, análisis de sensibilidad y una revisión detallada.
 
-Todo el proceso se implementó en **R** mediante un flujo de procesamiento reproducible.
+A diferencia de un enfoque puramente estadístico basado en la eliminación automática de outliers, aquí implementamos un sistema de QC **biológicamente informado**, basado en **banderas de calidad** (flags) y no en filtrado ciego con motosierra.
 
 # Estructura de los datos de entrada
 
-Cada archivo Excel contiene una hoja llamada `datos`, donde cada fila corresponde a una medición individual.
+El script trabaja con archivos `.xlsx` independientes, correspondientes a combinaciones de tratamiento temporal y estación de exposición. Cada archivo contiene mediciones individuales tomadas en dos momentos (exposure_type):
 
-Los metadatos para todos set de datos son:
+- **inicial**
+- **final**
 
-| Columna | Descripción | Ejemplo |
-|--------|-------------|--------|
-| dy | Día de la medición | 1 al 31 |
-| mo | Mes de la medición | 1 al 12 |
-| yr | Año de la medición | 2024 al 2026 |
-| site | Nombre completo del sitio | Quintay etc |
-| plot | Número del plot (1 al 5 por sitio). El plot 1 corresponde al más al norte de la plataforma | 1 |
-| ring | Número del anillo que contiene cada set de choritos dentro de cada plot | 1–4 |
-| n_site | Número correlativo para cada combinación de estacionalidad y talla. Generalmente 100 individuos en las mediciones iniciales | 1–100 |
-| tag_n | Número del bee-tag adherido a la concha de *P. purpuratus* | 1 |
-| tag_color | Color del bee tag adherido | azul |
-| treatment | Categoría de exposición: `anual` (exposición durante un año) o `estacional` (exposición durante una estación del año) | anual |
-| size_class | Clase de tamaño inicial: `chico` (4–9 mm) o `grande` (12–15 mm) | chico |
-| season | Estación de exposición: `verano`, `otoño`, `invierno`, `primavera` o `anual` | verano |
-| exposure_type | Tipo de medición: `inicial` o `final` | inicial |
-| reemplazo_perdida | Indicador de individuos reemplazados por pérdidas en los plots (`R`). En algunos casos `D` cuando existe diferencia | R |
-| largo_max_mm | Longitud máxima total de la valva (mm). Precisión del caliper: 0.05 mm | Numérico |
-| ancho_max_mm | Ancho máximo total de la valva (mm). Precisión del caliper: 0.05 mm | Numérico |
-| peso_gr | Peso húmedo total del individuo (g). Precisión de la balanza: 0.01 g | Numérico |
-| Obs_Mediciones | Observaciones en las mediciones iniciales que no están en la distribución de tratamientos | Texto |
-| Obs_Trat | Observaciones en la distribución de tratamientos que no aparecen en las mediciones iniciales | Texto |
-| obs | Observaciones generales | Texto |
+A partir de estas mediciones se reconstruyen pares inicial–final por individuo para calcular:
 
-# Flujo de procesamiento
+- crecimiento en largo
+- crecimiento en ancho
+- crecimiento en peso
+- tasas diarias de crecimiento para cada variable
 
-El flujo de procesamiento de datos se resume en la @fig-pipeline.
+# Flujo general del procesamiento
 
-```{mermaid}
-%%| label: fig-pipeline
-%%| fig-cap: "Flujo de procesamiento de datos de crecimiento de *Perumytilus purpuratus*."
+El flujo puede resumirse así:
 
-flowchart LR
+1. Lectura y estandarización de planillas fuente  
+2. Validación de columnas mínimas y creación de fecha  
+3. Construcción de un identificador único por individuo (ID)  
+4. Detección de duplicados  
+5. Cálculo de cambios absolutos y tasas de crecimiento  
+6. Aplicación de banderas básicas de integridad  
+7. Corrección de negativos leves y marcado de negativos fuertes  
+8. QC univariado basado en crecimiento máximo plausible  
+9. QC alométrico basado en relaciones largo–ancho y largo–peso  
+10. QC multivariado basado en combinaciones improbables de residuos  
+11. Construcción de un puntaje global de QC (`qc_score`)  
+12. Asignación de una categoría final (`qc_categoria`)  
+13. Exportación de datasets, logs y resumen maestro en formato `.rds` y `.xlsx`
 
-subgraph Campo
-A[Archivos Excel<br>registro mediciones]
-end
-
-subgraph Preprocesamiento
-B[Lectura de datos en R]
-C[Estandarización<br>de nombres de columnas]
-D[Creación de fecha<br>yr + mo + dy]
-E[Creación ID único<br>chorito_id]
-end
-
-subgraph Cálculo
-F[Separar mediciones<br>Inicial / Final]
-G[Calcular crecimiento<br>y días de exposición]
-H[Calcular tasas<br>mm/día y g/día]
-end
-
-subgraph Control_calidad
-I[Detección de duplicados]
-J[Eliminación crecimiento<br>negativo]
-K[Detección de outliers<br>criterio 1.5 × IQR]
-end
-
-subgraph Outputs
-L[Mediciones consolidadas<br>RAW]
-M[Tasas de crecimiento<br>RAW]
-N[Dataset limpio<br>CLEAN]
-O[Logs QA/QC<br>negativos y outliers]
-end
-
-A --> B
-B --> C
-C --> D
-D --> E
-E --> F
-F --> G
-G --> H
-H --> I
-I --> J
-J --> K
-K --> L
-K --> M
-K --> N
-K --> O
-```
-
-
+::: {.callout-note}
+## Idea central del sistema
+El QC no elimina observaciones automáticamente. En su lugar, cada individuo recibe una o más **banderas de calidad**, que luego pueden utilizarse para revisión, trazabilidad y análisis de sensibilidad.
+:::
 
 # Creación de identificador único
 
-Cada individuo fue identificado mediante un código único **(chorito_id)** construido a partir de las variables:
+Cada individuo se identificó mediante un campo compuesto (`chorito_id`) construido a partir de variables clave del diseño experimental y del marcado en terreno, incluyendo:
 
 - sitio
-- color de etiqueta
-- número de etiqueta
+- color del tag
+- número del tag
 - clase de tamaño
 - tratamiento
-- temporalidad
+- estación
 - plot
-- reemplazo de pérdida
+- información de reemplazo por pérdida
 
-Esto permite seguir cada individuo a lo largo del experimento.
+Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias.
 
 # Cálculo de tasas de crecimiento
 
-Para cada individuo se calcularon:
+Una vez emparejadas las mediciones iniciales y finales, se calcularon:
 
-- crecimiento absoluto en longitud (mm)
-- crecimiento absoluto en ancho (mm)
-- crecimiento absoluto en peso (gr)
+- `crecimiento_largo_mm`
+- `crecimiento_ancho_mm`
+- `crecimiento_peso_gr`
 
-El crecimiento individual se estimó como:
+y sus respectivas tasas diarias:
 
-$$
-Growth = L_{final} - L_{inicial}
-$$
+- `tasa_diaria_largo`
+- `tasa_diaria_ancho`
+- `tasa_diaria_peso`
 
-La tasa de crecimiento se calculó como:
+El número de días de exposición (`dias`) se calculó como la diferencia entre la fecha final y la fecha inicial.
 
-$$
-Rate = \frac{Growth}{Días\ de\ exposición}
-$$
+# Sistema de control de calidad (QC)
 
-expresado en mm/día.
+## Filosofía general
 
+El sistema de QC fue diseñado para distinguir entre:
 
-# Control de calidad de datos
-El pipeline incluye tres controles principales.
+- variabilidad biológica real,
+- errores de medición o digitación,
+- inconsistencias de emparejamiento entre mediciones,
+- y combinaciones improbables de rasgos.
 
-1. Detección de duplicados
+En lugar de asumir que todo valor extremo es un error, se implementó un enfoque escalonado y modular, compuesto por cuatro niveles complementarios:
 
-Se detectan duplicados en dos niveles:
+1. **flags básicos**
+2. **QC univariado**
+3. **QC alométrico**
+4. **QC multivariado**
 
-mediciones repetidas para un mismo individuo y fecha
+## 1. Flags básicos de integridad
 
-individuos registrados más de una vez en un mismo periodo
+El primer nivel identifica problemas estructurales del dataset, incluyendo:
 
-2. Crecimiento negativo
+- intervalos de exposición inválidos o faltantes
+- duplicados de medición
+- duplicados de individuo
+- observaciones potencialmente dudosas en terreno o laboratorio
 
-Registros con crecimiento negativo fueron eliminados, ya que generalmente corresponden a:
+Estas banderas no implican necesariamente exclusión, pero permiten rastrear observaciones que merecen atención adicional.
 
-- errores de medición
+## 2. Manejo de crecimientos negativos
 
-- errores de digitación
+El crecimiento negativo se trató de forma explícita, reconociendo que en bivalvos puede existir erosión del borde de la concha, mantención neta de tamaño o pequeñas diferencias cercanas al error instrumental.
 
-- daño en la concha
+Por ello se distinguieron dos categorías:
 
-Estos registros se almacenan en un archivo de log para su revisión.
+### Negativos leves
+Corresponden a cambios negativos de muy baja magnitud, compatibles con error de medición o mantención de biomasa/talla. Estos valores fueron corregidos a cero en las variables corregidas (`*_corr`).
 
-3. Detección de outliers
+### Negativos fuertes
+Corresponden a decrecimientos de magnitud mayor y fueron **marcados**, no eliminados automáticamente. Estos casos son especialmente útiles para identificar posibles errores de emparejamiento o asignación.
 
-Los valores atípicos se identificaron utilizando el criterio de 1.5 × IQR (rango intercuartílico).
+## 3. QC univariado: crecimiento máximo plausible
 
-Para cada variable:
+El siguiente nivel evalúa si cada individuo mostró un crecimiento mayor al máximo plausible esperado para su tamaño inicial.
 
-- tasa de crecimiento en longitud
+Se construyeron envelopes superiores de crecimiento para:
 
-- tasa de crecimiento en ancho
+- largo
+- ancho
+- peso
 
-- tasa de crecimiento en peso
+Estos envelopes se estimaron mediante **regresión cuantílica al percentil 99**, separando por:
 
-se calcularon los límites:
-$$
-Lower = Q1−1.5×IQR
-$$
-$$
-Upper=Q3+1.5×IQR
-$$
+- sitio
+- clase de tamaño
+- tratamiento
 
-Los registros fuera de estos límites fueron removidos del dataset final.
+Se utilizó una estrategia híbrida:
 
-# Orden geográfico de los sitios
+- **splines** cuando el tamaño muestral y el rango del predictor fueron suficientes
+- **regresión lineal** como alternativa conservadora cuando el soporte de datos era menor
 
-Para facilitar la generación de figuras, la variable **site** se transformó en un factor ordenado según su posición geográfica:
+A partir de los residuos positivos respecto del envelope se calculó un umbral QC. Los individuos que excedieron ese límite fueron marcados como **outliers univariados**.
 
-- Pichilemu
-- Matanzas
-- Las Cruces
-- El Quisco
-- Quintay
-- Curaumilla
-- Montemar
-- Los Molles
-- Punta de Talca
-- Guanaqueros
-- Temblador
+### Interpretación
+Este módulo responde a la pregunta:
 
-Esto permite que los gráficos generados en R mantengan automáticamente el orden espacial de los sitios.
+> ¿Este individuo creció más de lo plausible para su tamaño inicial dentro de su contexto experimental?
 
-# Datos generados por el pipeline
+## 4. QC alométrico: consistencia morfológica final
 
-El script genera tres datasets principales:
+El crecimiento también se evaluó desde la forma final del individuo, usando relaciones alométricas log-log entre:
 
-| Archivo                                      | Contenido                          |
-| -------------------------------------------- | ---------------------------------- |
-| `Mediciones_Crecimiento_Ppurpuratus_RAW.rds` | Mediciones originales consolidadas |
-| `Tasas_Crecimiento_Ppurpuratus_RAW.rds`      | Tasas calculadas sin filtrado      |
-| `Tasas_Crecimiento_Ppurpuratus_CLEAN.rds`    | Dataset final limpio               |
+- largo final y ancho final
+- largo final y peso final
 
-Además, se genera un archivo Excel con información de control de calidad que contiene:
+Los individuos que se desviaron fuertemente de estas relaciones esperadas fueron marcados como **outliers alométricos**.
 
-- registros con crecimiento negativo
+### Interpretación
+Este módulo responde a la pregunta:
 
-- valores atípicos eliminados
+> ¿La morfología final del individuo es consistente con el patrón esperado para su largo?
 
-- diagnóstico por sitio y temporada
+Este paso es especialmente útil para detectar:
 
-## Reproducibilidad
+- errores de emparejamiento entre medición inicial y final
+- pesos incompatibles con el largo observado
+- anchos anómalos para un largo dado
+- errores finos de digitación
 
-::: {.callout-note}
-Todo el flujo de pre-procesamiento fue implementado en **R**.  
-El siguiente script reproduce completamente la limpieza, filtrado y cálculo de tasas de crecimiento.
+## 5. QC multivariado: combinaciones improbables
+
+Finalmente, se aplicó un control multivariado basado en **distancias de Mahalanobis** para identificar individuos cuya combinación conjunta de residuos fuera improbable, aunque ninguna variable por separado pareciera extrema.
+
+Se implementaron dos módulos:
+
+### Multivariado de crecimiento
+Usa conjuntamente los residuos de:
+
+- largo
+- ancho
+- peso
+
+### Multivariado de forma
+Usa conjuntamente los residuos alométricos de:
+
+- largo–ancho
+- largo–peso
+
+### Interpretación
+Este módulo responde a la pregunta:
+
+> ¿La combinación conjunta de rasgos o residuos de este individuo es improbable, aunque cada variable por separado no parezca extrema?
+
+## 6. Puntaje global y categoría final
+
+A partir de las banderas generadas por los distintos módulos se calculó un puntaje global:
+
+- `qc_score`
+
+y una categoría final resumida:
+
+- `ok`
+- `revisar`
+- `sospechoso`
+- `muy_sospechoso`
+
+Estas categorías no sustituyen el juicio biológico, pero permiten ordenar la evidencia y priorizar revisión.
+
+::: {.callout-important}
+## Decisión metodológica
+El sistema de QC fue diseñado para **marcar** observaciones, no para eliminarlas automáticamente. Esto permite mantener trazabilidad completa, reducir sesgos por sobre-filtrado y evaluar análisis de sensibilidad de forma transparente.
 :::
 
-`Script_01_preprocess_growth_data_Ppurp.R`
+# Visualización del control de calidad QC
 
-```r
-{{< include R/Script_01_preprocess_growth_data_Ppurp.R >}}
-```
+Las figuras diagnósticas se organizaron en tres bloques principales.
+
+## QC univariado
+
+Estas figuras muestran los envelopes superiores de crecimiento plausible para largo, ancho y peso. Los puntos marcados corresponden a observaciones que exceden el umbral esperado para su tamaño inicial dentro de cada contexto experimental.
+
+### Figuras 
+
+![](figs/QC_envelope_largo.png){fig-alt="QC univariado para largo"}
+
+![](figs/QC_envelope_ancho.png){fig-alt="QC univariado para ancho"}
+
+![](figs/QC_envelope_peso.png){fig-alt="QC univariado para peso"}
+
+## QC alométrico
+
+Estas relaciones alométricas permiten evaluar si el ancho final y el peso final son consistentes con el largo final observado. Los puntos destacados corresponden a individuos cuya morfología final se desvía del patrón esperado.
+
+### Figuras 
+
+![](figs/QC_allometry_largo_ancho.png){fig-alt="QC alométrico largo-ancho"}
+
+![](figs/QC_allometry_largo_peso.png){fig-alt="QC alométrico largo-peso"}
+
+## QC multivariado
+
+Estas figuras resumen la posición conjunta de cada observación en el espacio de residuos de crecimiento y de forma. El objetivo es detectar individuos cuya combinación de rasgos sea improbable, incluso cuando cada variable por separado no parezca extrema.
+
+### Figuras 
+
+![](figs/QC_multivariate_growth.png){fig-alt="QC multivariado de crecimiento"}
+
+![](figs/QC_multivariate_shape.png){fig-alt="QC multivariado de forma"}
+
+![](figs/QC_multivariate_growth_distance.png){fig-alt="Distribución de distancias multivariadas en crecimiento"}
+
+![](figs/QC_multivariate_shape_distance.png){fig-alt="Distribución de distancias multivariadas en forma"}
+
+::: {.callout-note}
+## Nota sobre interpretación visual
+Las figuras diagnósticas se construyeron como herramientas de inspección general. En algunos casos, una observación marcada puede parecer visualmente cercana a la nube principal cuando se agregan múltiples sitios dentro de un mismo panel. La decisión final de QC se basa siempre en los umbrales y residuos calculados a nivel del grupo correspondiente.
+:::
+
+# Archivos generados por el flujo de trabajo
+
+El pipeline genera múltiples salidas complementarias.
+
+## Archivos `.rds`
+
+### `Mediciones_Crecimiento_Ppurpuratus_RAW.rds`
+Respaldo directo de las mediciones originales leídas desde las planillas fuente.
+
+### `Tasas_Crecimiento_Ppurpuratus_RAW.rds`
+Contiene los pares inicial–final por individuo y las tasas calculadas antes de aplicar las banderas de QC.
+
+### `Tasas_Crecimiento_Ppurpuratus_QC.rds`
+Tabla analítica principal con:
+
+- tasas de crecimiento
+- variables corregidas
+- banderas de QC univariado
+- banderas de QC alométrico
+- banderas de QC multivariado
+- `qc_score`
+- `qc_categoria`
+
+### `Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds`
+Dataset sugerido para análisis base. Excluye únicamente:
+
+- duplicados de medición
+- duplicados de individuo
+- intervalos de exposición inválidos
+
+### `Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds`
+Dataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como **muy sospechosas**.
+
+# Estructura del Excel maestro
+
+El archivo `Crecimiento_Ppurpuratus_MASTER_QC.xlsx` consolida tanto los datos originales como las distintas salidas del sistema de QC. Su estructura está pensada para trazabilidad, inspección y discusión metodológica.
+
+## Pestañas de datos principales
+
+### `mediciones_raw`
+Contiene las mediciones originales importadas desde las planillas fuente, antes del cálculo de tasas.
+
+### `tasas_raw`
+Contiene los pares inicial–final por individuo, junto con los cambios absolutos y tasas de crecimiento calculadas antes de aplicar QC.
+
+### `tasas_qc`
+Es la tabla analítica principal del sistema. Integra:
+
+- variables originales
+- variables corregidas
+- banderas básicas
+- QC univariado
+- QC alométrico
+- QC multivariado
+- score y categoría final
+
+### `tasas_analisis_base`
+Versión recomendada para análisis principal, excluyendo solo problemas estructurales.
+
+### `tasas_analisis_sens`
+Versión recomendada para análisis de sensibilidad, excluyendo además los casos **muy sospechosos**.
+
+## Pestañas de trazabilidad y revisión
+
+| Grupo | Pestaña | Descripción |
+|---|---|---|
+| Duplicados | `dup_medicion` | Lista de individuos con duplicados de medición. |
+| Duplicados | `dup_individuo` | Lista de individuos con duplicación a nivel de identificación. |
+| Negativos | `log_negativos` | Incluye todos los casos con crecimiento negativo en alguna variable. |
+| Negativos | `log_negativos_fuertes` | Subconjunto de negativos fuertes, más relevantes para revisión. |
+| QC univariado | `log_outlier_univar` | Lista total de observaciones marcadas por el QC univariado. |
+| QC univariado | `log_outlier_largo` | Subconjunto marcado específicamente en crecimiento en largo. |
+| QC univariado | `log_outlier_ancho` | Subconjunto marcado específicamente en crecimiento en ancho. |
+| QC univariado | `log_outlier_peso` | Subconjunto marcado específicamente en crecimiento en peso. |
+| QC alométrico | `log_outlier_shape` | Lista total de observaciones marcadas por el QC alométrico. |
+| QC alométrico | `log_allometry_la` | Subconjunto marcado por la relación alométrica largo–ancho. |
+| QC alométrico | `log_allometry_lp` | Subconjunto marcado por la relación alométrica largo–peso. |
+| QC multivariado | `log_outlier_multi` | Lista total de observaciones marcadas por el QC multivariado. |
+| QC multivariado | `log_multi_growth` | Subconjunto marcado por el multivariado de crecimiento. |
+| QC multivariado | `log_multi_shape` | Subconjunto marcado por el multivariado de forma. |
+| Síntesis QC | `log_qc_sospechoso` | Incluye todas las observaciones clasificadas como `sospechoso` o `muy_sospechoso`. |
+
+### `diagnostico_qc`
+Resumen por:
+
+- sitio
+- clase de tamaño
+- tratamiento
+
+Incluye número de observaciones, frecuencia de flags y distribución por categorías QC.
+
+### `resumen_qc_global`
+Resumen total del sistema de QC para todo el experimento.
+
+### `tabla_combinaciones_qc`
+Resume las combinaciones entre los tres módulos principales:
+
+- univariado
+- alométrico
+- multivariado
+
+Permite distinguir observaciones detectadas por un solo módulo, por dos módulos o por los tres simultáneamente.
+
+::: {.callout-note}
+## Nota operativa
+Para inspección detallada del sistema completo, la pestaña más importante es `tasas_qc`. Para análisis principales, la referencia recomendada es `tasas_analisis_base`. Para evaluación de sensibilidad, la referencia es `tasas_analisis_sens`.
+:::
+
+# Resumen ejecutivo del sistema de QC
+
+En términos prácticos, el sistema implementado permite separar tres tipos de evidencia:
+
+## 1. Extremos de crecimiento
+Detectados por el QC univariado.
+
+## 2. Inconsistencias morfológicas
+Detectadas por el QC alométrico.
+
+## 3. Combinaciones improbables de rasgos
+Detectadas por el QC multivariado.
+
+La combinación de estos módulos permite mantener observaciones potencialmente valiosas dentro del sistema, pero con una trazabilidad clara que facilita revisión, sensibilidad y discusión biológica.
+
+# Reproducibilidad
+
+Todo el flujo de trabajo fue implementado mediante scripts reproducibles en R. El pipeline:
+
+- lee planillas fuente en formato `.xlsx`,
+- genera objetos consolidados `.rds`,
+- produce un libro maestro `.xlsx`,
+- y exporta figuras diagnósticas para inspección visual del sistema de QC.
+
+Esto permite actualizar el procesamiento de forma consistente a medida que se incorporen nuevas mediciones o se refinen criterios de revisión.
+
+# Conclusión
+
+El pre-procesamiento y control de calidad de los datos de crecimiento se estructuró como un sistema escalonado, transparente y biológicamente informado. En lugar de eliminar observaciones extremas de manera automática, se construyó una arquitectura de banderas que permite distinguir entre extremos plausibles, inconsistencias morfológicas y combinaciones conjuntas improbables. Esta aproximación conserva la variabilidad real del sistema, facilita la trazabilidad y fortalece la reproducibilidad de los análisis posteriores.

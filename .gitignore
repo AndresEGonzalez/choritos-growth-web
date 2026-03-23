@@ -3,8 +3,8 @@ data/
 R/
 
 # symlinks a carpetas externas
-figs/
-photos/
+/figs/
+/photos/
 
 # cache de Quarto
 _freeze/

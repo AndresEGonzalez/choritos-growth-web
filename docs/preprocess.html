@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pre-procesamiento – Crecimiento P. purpuratus</title>
+<title>Pre-procesamiento y control de calidad (QC) – Crecimiento P. purpuratus</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -103,39 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Buscar"
   }
 }</script>
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -166,7 +99,7 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./preprocess.html" aria-current="page"> 
-<span class="menu-text">Pre-procesamiento</span></a>
+<span class="menu-text">Pre-procesamiento y control de calidad (QC)</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./dataset.html"> 
@@ -190,15 +123,85 @@ window.Quarto = {
   <ul>
   <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
   <li><a href="#estructura-de-los-datos-de-entrada" id="toc-estructura-de-los-datos-de-entrada" class="nav-link" data-scroll-target="#estructura-de-los-datos-de-entrada">Estructura de los datos de entrada</a></li>
-  <li><a href="#flujo-de-procesamiento" id="toc-flujo-de-procesamiento" class="nav-link" data-scroll-target="#flujo-de-procesamiento">Flujo de procesamiento</a></li>
+  <li><a href="#flujo-general-del-procesamiento" id="toc-flujo-general-del-procesamiento" class="nav-link" data-scroll-target="#flujo-general-del-procesamiento">Flujo general del procesamiento</a></li>
   <li><a href="#creación-de-identificador-único" id="toc-creación-de-identificador-único" class="nav-link" data-scroll-target="#creación-de-identificador-único">Creación de identificador único</a></li>
   <li><a href="#cálculo-de-tasas-de-crecimiento" id="toc-cálculo-de-tasas-de-crecimiento" class="nav-link" data-scroll-target="#cálculo-de-tasas-de-crecimiento">Cálculo de tasas de crecimiento</a></li>
-  <li><a href="#control-de-calidad-de-datos" id="toc-control-de-calidad-de-datos" class="nav-link" data-scroll-target="#control-de-calidad-de-datos">Control de calidad de datos</a></li>
-  <li><a href="#orden-geográfico-de-los-sitios" id="toc-orden-geográfico-de-los-sitios" class="nav-link" data-scroll-target="#orden-geográfico-de-los-sitios">Orden geográfico de los sitios</a></li>
-  <li><a href="#datos-generados-por-el-pipeline" id="toc-datos-generados-por-el-pipeline" class="nav-link" data-scroll-target="#datos-generados-por-el-pipeline">Datos generados por el pipeline</a>
+  <li><a href="#sistema-de-control-de-calidad-qc" id="toc-sistema-de-control-de-calidad-qc" class="nav-link" data-scroll-target="#sistema-de-control-de-calidad-qc">Sistema de control de calidad (QC)</a>
   <ul class="collapse">
-  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
+  <li><a href="#filosofía-general" id="toc-filosofía-general" class="nav-link" data-scroll-target="#filosofía-general">Filosofía general</a></li>
+  <li><a href="#flags-básicos-de-integridad" id="toc-flags-básicos-de-integridad" class="nav-link" data-scroll-target="#flags-básicos-de-integridad">1. Flags básicos de integridad</a></li>
+  <li><a href="#manejo-de-crecimientos-negativos" id="toc-manejo-de-crecimientos-negativos" class="nav-link" data-scroll-target="#manejo-de-crecimientos-negativos">2. Manejo de crecimientos negativos</a>
+  <ul class="collapse">
+  <li><a href="#negativos-leves" id="toc-negativos-leves" class="nav-link" data-scroll-target="#negativos-leves">Negativos leves</a></li>
+  <li><a href="#negativos-fuertes" id="toc-negativos-fuertes" class="nav-link" data-scroll-target="#negativos-fuertes">Negativos fuertes</a></li>
   </ul></li>
+  <li><a href="#qc-univariado-crecimiento-máximo-plausible" id="toc-qc-univariado-crecimiento-máximo-plausible" class="nav-link" data-scroll-target="#qc-univariado-crecimiento-máximo-plausible">3. QC univariado: crecimiento máximo plausible</a>
+  <ul class="collapse">
+  <li><a href="#interpretación" id="toc-interpretación" class="nav-link" data-scroll-target="#interpretación">Interpretación</a></li>
+  </ul></li>
+  <li><a href="#qc-alométrico-consistencia-morfológica-final" id="toc-qc-alométrico-consistencia-morfológica-final" class="nav-link" data-scroll-target="#qc-alométrico-consistencia-morfológica-final">4. QC alométrico: consistencia morfológica final</a>
+  <ul class="collapse">
+  <li><a href="#interpretación-1" id="toc-interpretación-1" class="nav-link" data-scroll-target="#interpretación-1">Interpretación</a></li>
+  </ul></li>
+  <li><a href="#qc-multivariado-combinaciones-improbables" id="toc-qc-multivariado-combinaciones-improbables" class="nav-link" data-scroll-target="#qc-multivariado-combinaciones-improbables">5. QC multivariado: combinaciones improbables</a>
+  <ul class="collapse">
+  <li><a href="#multivariado-de-crecimiento" id="toc-multivariado-de-crecimiento" class="nav-link" data-scroll-target="#multivariado-de-crecimiento">Multivariado de crecimiento</a></li>
+  <li><a href="#multivariado-de-forma" id="toc-multivariado-de-forma" class="nav-link" data-scroll-target="#multivariado-de-forma">Multivariado de forma</a></li>
+  <li><a href="#interpretación-2" id="toc-interpretación-2" class="nav-link" data-scroll-target="#interpretación-2">Interpretación</a></li>
+  </ul></li>
+  <li><a href="#puntaje-global-y-categoría-final" id="toc-puntaje-global-y-categoría-final" class="nav-link" data-scroll-target="#puntaje-global-y-categoría-final">6. Puntaje global y categoría final</a></li>
+  </ul></li>
+  <li><a href="#visualización-del-control-de-calidad-qc" id="toc-visualización-del-control-de-calidad-qc" class="nav-link" data-scroll-target="#visualización-del-control-de-calidad-qc">Visualización del control de calidad QC</a>
+  <ul class="collapse">
+  <li><a href="#qc-univariado" id="toc-qc-univariado" class="nav-link" data-scroll-target="#qc-univariado">QC univariado</a>
+  <ul class="collapse">
+  <li><a href="#figuras" id="toc-figuras" class="nav-link" data-scroll-target="#figuras">Figuras</a></li>
+  </ul></li>
+  <li><a href="#qc-alométrico" id="toc-qc-alométrico" class="nav-link" data-scroll-target="#qc-alométrico">QC alométrico</a>
+  <ul class="collapse">
+  <li><a href="#figuras-1" id="toc-figuras-1" class="nav-link" data-scroll-target="#figuras-1">Figuras</a></li>
+  </ul></li>
+  <li><a href="#qc-multivariado" id="toc-qc-multivariado" class="nav-link" data-scroll-target="#qc-multivariado">QC multivariado</a>
+  <ul class="collapse">
+  <li><a href="#figuras-2" id="toc-figuras-2" class="nav-link" data-scroll-target="#figuras-2">Figuras</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#archivos-generados-por-el-flujo-de-trabajo" id="toc-archivos-generados-por-el-flujo-de-trabajo" class="nav-link" data-scroll-target="#archivos-generados-por-el-flujo-de-trabajo">Archivos generados por el flujo de trabajo</a>
+  <ul class="collapse">
+  <li><a href="#archivos-.rds" id="toc-archivos-.rds" class="nav-link" data-scroll-target="#archivos-.rds">Archivos <code>.rds</code></a>
+  <ul class="collapse">
+  <li><a href="#mediciones_crecimiento_ppurpuratus_raw.rds" id="toc-mediciones_crecimiento_ppurpuratus_raw.rds" class="nav-link" data-scroll-target="#mediciones_crecimiento_ppurpuratus_raw.rds"><code>Mediciones_Crecimiento_Ppurpuratus_RAW.rds</code></a></li>
+  <li><a href="#tasas_crecimiento_ppurpuratus_raw.rds" id="toc-tasas_crecimiento_ppurpuratus_raw.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_raw.rds"><code>Tasas_Crecimiento_Ppurpuratus_RAW.rds</code></a></li>
+  <li><a href="#tasas_crecimiento_ppurpuratus_qc.rds" id="toc-tasas_crecimiento_ppurpuratus_qc.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_qc.rds"><code>Tasas_Crecimiento_Ppurpuratus_QC.rds</code></a></li>
+  <li><a href="#tasas_crecimiento_ppurpuratus_analisis_base.rds" id="toc-tasas_crecimiento_ppurpuratus_analisis_base.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_analisis_base.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds</code></a></li>
+  <li><a href="#tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" id="toc-tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds</code></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#estructura-del-excel-maestro" id="toc-estructura-del-excel-maestro" class="nav-link" data-scroll-target="#estructura-del-excel-maestro">Estructura del Excel maestro</a>
+  <ul class="collapse">
+  <li><a href="#pestañas-de-datos-principales" id="toc-pestañas-de-datos-principales" class="nav-link" data-scroll-target="#pestañas-de-datos-principales">Pestañas de datos principales</a>
+  <ul class="collapse">
+  <li><a href="#mediciones_raw" id="toc-mediciones_raw" class="nav-link" data-scroll-target="#mediciones_raw"><code>mediciones_raw</code></a></li>
+  <li><a href="#tasas_raw" id="toc-tasas_raw" class="nav-link" data-scroll-target="#tasas_raw"><code>tasas_raw</code></a></li>
+  <li><a href="#tasas_qc" id="toc-tasas_qc" class="nav-link" data-scroll-target="#tasas_qc"><code>tasas_qc</code></a></li>
+  <li><a href="#tasas_analisis_base" id="toc-tasas_analisis_base" class="nav-link" data-scroll-target="#tasas_analisis_base"><code>tasas_analisis_base</code></a></li>
+  <li><a href="#tasas_analisis_sens" id="toc-tasas_analisis_sens" class="nav-link" data-scroll-target="#tasas_analisis_sens"><code>tasas_analisis_sens</code></a></li>
+  </ul></li>
+  <li><a href="#pestañas-de-trazabilidad-y-revisión" id="toc-pestañas-de-trazabilidad-y-revisión" class="nav-link" data-scroll-target="#pestañas-de-trazabilidad-y-revisión">Pestañas de trazabilidad y revisión</a>
+  <ul class="collapse">
+  <li><a href="#diagnostico_qc" id="toc-diagnostico_qc" class="nav-link" data-scroll-target="#diagnostico_qc"><code>diagnostico_qc</code></a></li>
+  <li><a href="#resumen_qc_global" id="toc-resumen_qc_global" class="nav-link" data-scroll-target="#resumen_qc_global"><code>resumen_qc_global</code></a></li>
+  <li><a href="#tabla_combinaciones_qc" id="toc-tabla_combinaciones_qc" class="nav-link" data-scroll-target="#tabla_combinaciones_qc"><code>tabla_combinaciones_qc</code></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#resumen-ejecutivo-del-sistema-de-qc" id="toc-resumen-ejecutivo-del-sistema-de-qc" class="nav-link" data-scroll-target="#resumen-ejecutivo-del-sistema-de-qc">Resumen ejecutivo del sistema de QC</a>
+  <ul class="collapse">
+  <li><a href="#extremos-de-crecimiento" id="toc-extremos-de-crecimiento" class="nav-link" data-scroll-target="#extremos-de-crecimiento">1. Extremos de crecimiento</a></li>
+  <li><a href="#inconsistencias-morfológicas" id="toc-inconsistencias-morfológicas" class="nav-link" data-scroll-target="#inconsistencias-morfológicas">2. Inconsistencias morfológicas</a></li>
+  <li><a href="#combinaciones-improbables-de-rasgos" id="toc-combinaciones-improbables-de-rasgos" class="nav-link" data-scroll-target="#combinaciones-improbables-de-rasgos">3. Combinaciones improbables de rasgos</a></li>
+  </ul></li>
+  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
+  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión">Conclusión</a></li>
   </ul>
 </nav>
     </div>
@@ -207,7 +210,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Pre-procesamiento</h1>
+<h1 class="title">Pre-procesamiento y control de calidad (QC)</h1>
 </div>
 
 
@@ -226,347 +229,547 @@ window.Quarto = {
 
 <section id="objetivo" class="level1">
 <h1>Objetivo</h1>
-<p>Las mediciones de crecimiento de <em>Perumytilus purpuratus</em> fueron registradas en archivos Excel independientes para cada periodo experimental.<br>
-Antes de realizar los análisis, los datos fueron sometidos a un proceso de <strong>pre-procesamiento y control de calidad</strong> con el objetivo de:</p>
+<p>Esta sección describe el flujo completo de pre-procesamiento y control de calidad (<strong>Q</strong>uality <strong>C</strong>ontrol) aplicado a los datos de crecimiento de <em>P. purpuratus</em>. El objetivo fue:</p>
 <ul>
-<li>Estandarizar la estructura de los datos</li>
-<li>Generar identificadores únicos por individuo</li>
-<li>Calcular tasas de crecimiento individuales</li>
-<li>Detectar posibles errores de registro</li>
-<li>Identificar y eliminar valores atípicos</li>
+<li>consolidar mediciones individuales provenientes de múltiples planillas excel,</li>
+<li>calcular tasas de crecimiento en largo (mm), ancho (mm) y peso (gr),</li>
+<li>identificar observaciones potencialmente inconsistentes (duplicados, error de digitación, etc.),</li>
+<li>mantener trazabilidad completa de todas las decisiones,</li>
+<li>y generar salidas reproducibles para análisis base, análisis de sensibilidad y una revisión detallada.</li>
 </ul>
-<p>Todo el proceso se implementó en <strong>R</strong> mediante un flujo de procesamiento reproducible.</p>
+<p>A diferencia de un enfoque puramente estadístico basado en la eliminación automática de outliers, aquí implementamos un sistema de QC <strong>biológicamente informado</strong>, basado en <strong>banderas de calidad</strong> (flags) y no en filtrado ciego con motosierra.</p>
 </section>
 <section id="estructura-de-los-datos-de-entrada" class="level1">
 <h1>Estructura de los datos de entrada</h1>
-<p>Cada archivo Excel contiene una hoja llamada <code>datos</code>, donde cada fila corresponde a una medición individual.</p>
-<p>Los metadatos para todos set de datos son:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 27%">
-<col style="width: 44%">
-<col style="width: 27%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Columna</th>
-<th>Descripción</th>
-<th>Ejemplo</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>dy</td>
-<td>Día de la medición</td>
-<td>1 al 31</td>
-</tr>
-<tr class="even">
-<td>mo</td>
-<td>Mes de la medición</td>
-<td>1 al 12</td>
-</tr>
-<tr class="odd">
-<td>yr</td>
-<td>Año de la medición</td>
-<td>2024 al 2026</td>
-</tr>
-<tr class="even">
-<td>site</td>
-<td>Nombre completo del sitio</td>
-<td>Quintay etc</td>
-</tr>
-<tr class="odd">
-<td>plot</td>
-<td>Número del plot (1 al 5 por sitio). El plot 1 corresponde al más al norte de la plataforma</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>ring</td>
-<td>Número del anillo que contiene cada set de choritos dentro de cada plot</td>
-<td>1–4</td>
-</tr>
-<tr class="odd">
-<td>n_site</td>
-<td>Número correlativo para cada combinación de estacionalidad y talla. Generalmente 100 individuos en las mediciones iniciales</td>
-<td>1–100</td>
-</tr>
-<tr class="even">
-<td>tag_n</td>
-<td>Número del bee-tag adherido a la concha de <em>P. purpuratus</em></td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td>tag_color</td>
-<td>Color del bee tag adherido</td>
-<td>azul</td>
-</tr>
-<tr class="even">
-<td>treatment</td>
-<td>Categoría de exposición: <code>anual</code> (exposición durante un año) o <code>estacional</code> (exposición durante una estación del año)</td>
-<td>anual</td>
-</tr>
-<tr class="odd">
-<td>size_class</td>
-<td>Clase de tamaño inicial: <code>chico</code> (4–9 mm) o <code>grande</code> (12–15 mm)</td>
-<td>chico</td>
-</tr>
-<tr class="even">
-<td>season</td>
-<td>Estación de exposición: <code>verano</code>, <code>otoño</code>, <code>invierno</code>, <code>primavera</code> o <code>anual</code></td>
-<td>verano</td>
-</tr>
-<tr class="odd">
-<td>exposure_type</td>
-<td>Tipo de medición: <code>inicial</code> o <code>final</code></td>
-<td>inicial</td>
-</tr>
-<tr class="even">
-<td>reemplazo_perdida</td>
-<td>Indicador de individuos reemplazados por pérdidas en los plots (<code>R</code>). En algunos casos <code>D</code> cuando existe diferencia</td>
-<td>R</td>
-</tr>
-<tr class="odd">
-<td>largo_max_mm</td>
-<td>Longitud máxima total de la valva (mm). Precisión del caliper: 0.05 mm</td>
-<td>Numérico</td>
-</tr>
-<tr class="even">
-<td>ancho_max_mm</td>
-<td>Ancho máximo total de la valva (mm). Precisión del caliper: 0.05 mm</td>
-<td>Numérico</td>
-</tr>
-<tr class="odd">
-<td>peso_gr</td>
-<td>Peso húmedo total del individuo (g). Precisión de la balanza: 0.01 g</td>
-<td>Numérico</td>
-</tr>
-<tr class="even">
-<td>Obs_Mediciones</td>
-<td>Observaciones en las mediciones iniciales que no están en la distribución de tratamientos</td>
-<td>Texto</td>
-</tr>
-<tr class="odd">
-<td>Obs_Trat</td>
-<td>Observaciones en la distribución de tratamientos que no aparecen en las mediciones iniciales</td>
-<td>Texto</td>
-</tr>
-<tr class="even">
-<td>obs</td>
-<td>Observaciones generales</td>
-<td>Texto</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="flujo-de-procesamiento" class="level1">
-<h1>Flujo de procesamiento</h1>
-<p>El flujo de procesamiento de datos se resume en la <a href="#fig-pipeline" class="quarto-xref">Figura&nbsp;1</a>.</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div id="fig-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div>
-<pre class="mermaid mermaid-js" data-label="fig-pipeline">flowchart LR
-
-subgraph Campo
-A[Archivos Excel&lt;br&gt;registro mediciones]
-end
-
-subgraph Preprocesamiento
-B[Lectura de datos en R]
-C[Estandarización&lt;br&gt;de nombres de columnas]
-D[Creación de fecha&lt;br&gt;yr + mo + dy]
-E[Creación ID único&lt;br&gt;chorito_id]
-end
-
-subgraph Cálculo
-F[Separar mediciones&lt;br&gt;Inicial / Final]
-G[Calcular crecimiento&lt;br&gt;y días de exposición]
-H[Calcular tasas&lt;br&gt;mm/día y g/día]
-end
-
-subgraph Control_calidad
-I[Detección de duplicados]
-J[Eliminación crecimiento&lt;br&gt;negativo]
-K[Detección de outliers&lt;br&gt;criterio 1.5 × IQR]
-end
-
-subgraph Outputs
-L[Mediciones consolidadas&lt;br&gt;RAW]
-M[Tasas de crecimiento&lt;br&gt;RAW]
-N[Dataset limpio&lt;br&gt;CLEAN]
-O[Logs QA/QC&lt;br&gt;negativos y outliers]
-end
-
-A --&gt; B
-B --&gt; C
-C --&gt; D
-D --&gt; E
-E --&gt; F
-F --&gt; G
-G --&gt; H
-H --&gt; I
-I --&gt; J
-J --&gt; K
-K --&gt; L
-K --&gt; M
-K --&gt; N
-K --&gt; O
-</pre>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Flujo de procesamiento de datos de crecimiento de <em>Perumytilus purpuratus</em>.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="creación-de-identificador-único" class="level1">
-<h1>Creación de identificador único</h1>
-<p>Cada individuo fue identificado mediante un código único <strong>(chorito_id)</strong> construido a partir de las variables:</p>
+<p>El script trabaja con archivos <code>.xlsx</code> independientes, correspondientes a combinaciones de tratamiento temporal y estación de exposición. Cada archivo contiene mediciones individuales tomadas en dos momentos (exposure_type):</p>
 <ul>
-<li>sitio</li>
-<li>color de etiqueta</li>
-<li>número de etiqueta</li>
-<li>clase de tamaño</li>
-<li>tratamiento</li>
-<li>temporalidad</li>
-<li>plot</li>
-<li>reemplazo de pérdida</li>
+<li><strong>inicial</strong></li>
+<li><strong>final</strong></li>
 </ul>
-<p>Esto permite seguir cada individuo a lo largo del experimento.</p>
-</section>
-<section id="cálculo-de-tasas-de-crecimiento" class="level1">
-<h1>Cálculo de tasas de crecimiento</h1>
-<p>Para cada individuo se calcularon:</p>
+<p>A partir de estas mediciones se reconstruyen pares inicial–final por individuo para calcular:</p>
 <ul>
-<li>crecimiento absoluto en longitud (mm)</li>
-<li>crecimiento absoluto en ancho (mm)</li>
-<li>crecimiento absoluto en peso (gr)</li>
+<li>crecimiento en largo</li>
+<li>crecimiento en ancho</li>
+<li>crecimiento en peso</li>
+<li>tasas diarias de crecimiento para cada variable</li>
 </ul>
-<p>El crecimiento individual se estimó como:</p>
-<p><span class="math display">\[
-Growth = L_{final} - L_{inicial}
-\]</span></p>
-<p>La tasa de crecimiento se calculó como:</p>
-<p><span class="math display">\[
-Rate = \frac{Growth}{Días\ de\ exposición}
-\]</span></p>
-<p>expresado en mm/día.</p>
 </section>
-<section id="control-de-calidad-de-datos" class="level1">
-<h1>Control de calidad de datos</h1>
-<p>El pipeline incluye tres controles principales.</p>
+<section id="flujo-general-del-procesamiento" class="level1">
+<h1>Flujo general del procesamiento</h1>
+<p>El flujo puede resumirse así:</p>
 <ol type="1">
-<li>Detección de duplicados</li>
+<li>Lectura y estandarización de planillas fuente<br>
+</li>
+<li>Validación de columnas mínimas y creación de fecha<br>
+</li>
+<li>Construcción de un identificador único por individuo (ID)<br>
+</li>
+<li>Detección de duplicados<br>
+</li>
+<li>Cálculo de cambios absolutos y tasas de crecimiento<br>
+</li>
+<li>Aplicación de banderas básicas de integridad<br>
+</li>
+<li>Corrección de negativos leves y marcado de negativos fuertes<br>
+</li>
+<li>QC univariado basado en crecimiento máximo plausible<br>
+</li>
+<li>QC alométrico basado en relaciones largo–ancho y largo–peso<br>
+</li>
+<li>QC multivariado basado en combinaciones improbables de residuos<br>
+</li>
+<li>Construcción de un puntaje global de QC (<code>qc_score</code>)<br>
+</li>
+<li>Asignación de una categoría final (<code>qc_categoria</code>)<br>
+</li>
+<li>Exportación de datasets, logs y resumen maestro en formato <code>.rds</code> y <code>.xlsx</code></li>
 </ol>
-<p>Se detectan duplicados en dos niveles:</p>
-<p>mediciones repetidas para un mismo individuo y fecha</p>
-<p>individuos registrados más de una vez en un mismo periodo</p>
-<ol start="2" type="1">
-<li>Crecimiento negativo</li>
-</ol>
-<p>Registros con crecimiento negativo fueron eliminados, ya que generalmente corresponden a:</p>
-<ul>
-<li><p>errores de medición</p></li>
-<li><p>errores de digitación</p></li>
-<li><p>daño en la concha</p></li>
-</ul>
-<p>Estos registros se almacenan en un archivo de log para su revisión.</p>
-<ol start="3" type="1">
-<li>Detección de outliers</li>
-</ol>
-<p>Los valores atípicos se identificaron utilizando el criterio de 1.5 × IQR (rango intercuartílico).</p>
-<p>Para cada variable:</p>
-<ul>
-<li><p>tasa de crecimiento en longitud</p></li>
-<li><p>tasa de crecimiento en ancho</p></li>
-<li><p>tasa de crecimiento en peso</p></li>
-</ul>
-<p>se calcularon los límites: <span class="math display">\[
-Lower = Q1−1.5×IQR
-\]</span> <span class="math display">\[
-Upper=Q3+1.5×IQR
-\]</span></p>
-<p>Los registros fuera de estos límites fueron removidos del dataset final.</p>
-</section>
-<section id="orden-geográfico-de-los-sitios" class="level1">
-<h1>Orden geográfico de los sitios</h1>
-<p>Para facilitar la generación de figuras, la variable <strong>site</strong> se transformó en un factor ordenado según su posición geográfica:</p>
-<ul>
-<li>Pichilemu</li>
-<li>Matanzas</li>
-<li>Las Cruces</li>
-<li>El Quisco</li>
-<li>Quintay</li>
-<li>Curaumilla</li>
-<li>Montemar</li>
-<li>Los Molles</li>
-<li>Punta de Talca</li>
-<li>Guanaqueros</li>
-<li>Temblador</li>
-</ul>
-<p>Esto permite que los gráficos generados en R mantengan automáticamente el orden espacial de los sitios.</p>
-</section>
-<section id="datos-generados-por-el-pipeline" class="level1">
-<h1>Datos generados por el pipeline</h1>
-<p>El script genera tres datasets principales:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 56%">
-<col style="width: 43%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Archivo</th>
-<th>Contenido</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Mediciones_Crecimiento_Ppurpuratus_RAW.rds</code></td>
-<td>Mediciones originales consolidadas</td>
-</tr>
-<tr class="even">
-<td><code>Tasas_Crecimiento_Ppurpuratus_RAW.rds</code></td>
-<td>Tasas calculadas sin filtrado</td>
-</tr>
-<tr class="odd">
-<td><code>Tasas_Crecimiento_Ppurpuratus_CLEAN.rds</code></td>
-<td>Dataset final limpio</td>
-</tr>
-</tbody>
-</table>
-<p>Además, se genera un archivo Excel con información de control de calidad que contiene:</p>
-<ul>
-<li><p>registros con crecimiento negativo</p></li>
-<li><p>valores atípicos eliminados</p></li>
-<li><p>diagnóstico por sitio y temporada</p></li>
-</ul>
-<section id="reproducibilidad" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibilidad">Reproducibilidad</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Nota
+<span class="screen-reader-only">Nota</span>Idea central del sistema
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Todo el flujo de pre-procesamiento fue implementado en <strong>R</strong>.<br>
-El siguiente script reproduce completamente la limpieza, filtrado y cálculo de tasas de crecimiento.</p>
+<p>El QC no elimina observaciones automáticamente. En su lugar, cada individuo recibe una o más <strong>banderas de calidad</strong>, que luego pueden utilizarse para revisión, trazabilidad y análisis de sensibilidad.</p>
 </div>
 </div>
-<p><code>Script_01_preprocess_growth_data_Ppurp.R</code></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># {{&lt; include R/Script_01_preprocess_growth_data_Ppurp.R &gt;}}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-
-
 </section>
+<section id="creación-de-identificador-único" class="level1">
+<h1>Creación de identificador único</h1>
+<p>Cada individuo se identificó mediante un campo compuesto (<code>chorito_id</code>) construido a partir de variables clave del diseño experimental y del marcado en terreno, incluyendo:</p>
+<ul>
+<li>sitio</li>
+<li>color del tag</li>
+<li>número del tag</li>
+<li>clase de tamaño</li>
+<li>tratamiento</li>
+<li>estación</li>
+<li>plot</li>
+<li>información de reemplazo por pérdida</li>
+</ul>
+<p>Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias.</p>
+</section>
+<section id="cálculo-de-tasas-de-crecimiento" class="level1">
+<h1>Cálculo de tasas de crecimiento</h1>
+<p>Una vez emparejadas las mediciones iniciales y finales, se calcularon:</p>
+<ul>
+<li><code>crecimiento_largo_mm</code></li>
+<li><code>crecimiento_ancho_mm</code></li>
+<li><code>crecimiento_peso_gr</code></li>
+</ul>
+<p>y sus respectivas tasas diarias:</p>
+<ul>
+<li><code>tasa_diaria_largo</code></li>
+<li><code>tasa_diaria_ancho</code></li>
+<li><code>tasa_diaria_peso</code></li>
+</ul>
+<p>El número de días de exposición (<code>dias</code>) se calculó como la diferencia entre la fecha final y la fecha inicial.</p>
+</section>
+<section id="sistema-de-control-de-calidad-qc" class="level1">
+<h1>Sistema de control de calidad (QC)</h1>
+<section id="filosofía-general" class="level2">
+<h2 class="anchored" data-anchor-id="filosofía-general">Filosofía general</h2>
+<p>El sistema de QC fue diseñado para distinguir entre:</p>
+<ul>
+<li>variabilidad biológica real,</li>
+<li>errores de medición o digitación,</li>
+<li>inconsistencias de emparejamiento entre mediciones,</li>
+<li>y combinaciones improbables de rasgos.</li>
+</ul>
+<p>En lugar de asumir que todo valor extremo es un error, se implementó un enfoque escalonado y modular, compuesto por cuatro niveles complementarios:</p>
+<ol type="1">
+<li><strong>flags básicos</strong></li>
+<li><strong>QC univariado</strong></li>
+<li><strong>QC alométrico</strong></li>
+<li><strong>QC multivariado</strong></li>
+</ol>
+</section>
+<section id="flags-básicos-de-integridad" class="level2">
+<h2 class="anchored" data-anchor-id="flags-básicos-de-integridad">1. Flags básicos de integridad</h2>
+<p>El primer nivel identifica problemas estructurales del dataset, incluyendo:</p>
+<ul>
+<li>intervalos de exposición inválidos o faltantes</li>
+<li>duplicados de medición</li>
+<li>duplicados de individuo</li>
+<li>observaciones potencialmente dudosas en terreno o laboratorio</li>
+</ul>
+<p>Estas banderas no implican necesariamente exclusión, pero permiten rastrear observaciones que merecen atención adicional.</p>
+</section>
+<section id="manejo-de-crecimientos-negativos" class="level2">
+<h2 class="anchored" data-anchor-id="manejo-de-crecimientos-negativos">2. Manejo de crecimientos negativos</h2>
+<p>El crecimiento negativo se trató de forma explícita, reconociendo que en bivalvos puede existir erosión del borde de la concha, mantención neta de tamaño o pequeñas diferencias cercanas al error instrumental.</p>
+<p>Por ello se distinguieron dos categorías:</p>
+<section id="negativos-leves" class="level3">
+<h3 class="anchored" data-anchor-id="negativos-leves">Negativos leves</h3>
+<p>Corresponden a cambios negativos de muy baja magnitud, compatibles con error de medición o mantención de biomasa/talla. Estos valores fueron corregidos a cero en las variables corregidas (<code>*_corr</code>).</p>
+</section>
+<section id="negativos-fuertes" class="level3">
+<h3 class="anchored" data-anchor-id="negativos-fuertes">Negativos fuertes</h3>
+<p>Corresponden a decrecimientos de magnitud mayor y fueron <strong>marcados</strong>, no eliminados automáticamente. Estos casos son especialmente útiles para identificar posibles errores de emparejamiento o asignación.</p>
+</section>
+</section>
+<section id="qc-univariado-crecimiento-máximo-plausible" class="level2">
+<h2 class="anchored" data-anchor-id="qc-univariado-crecimiento-máximo-plausible">3. QC univariado: crecimiento máximo plausible</h2>
+<p>El siguiente nivel evalúa si cada individuo mostró un crecimiento mayor al máximo plausible esperado para su tamaño inicial.</p>
+<p>Se construyeron envelopes superiores de crecimiento para:</p>
+<ul>
+<li>largo</li>
+<li>ancho</li>
+<li>peso</li>
+</ul>
+<p>Estos envelopes se estimaron mediante <strong>regresión cuantílica al percentil 99</strong>, separando por:</p>
+<ul>
+<li>sitio</li>
+<li>clase de tamaño</li>
+<li>tratamiento</li>
+</ul>
+<p>Se utilizó una estrategia híbrida:</p>
+<ul>
+<li><strong>splines</strong> cuando el tamaño muestral y el rango del predictor fueron suficientes</li>
+<li><strong>regresión lineal</strong> como alternativa conservadora cuando el soporte de datos era menor</li>
+</ul>
+<p>A partir de los residuos positivos respecto del envelope se calculó un umbral QC. Los individuos que excedieron ese límite fueron marcados como <strong>outliers univariados</strong>.</p>
+<section id="interpretación" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación">Interpretación</h3>
+<p>Este módulo responde a la pregunta:</p>
+<blockquote class="blockquote">
+<p>¿Este individuo creció más de lo plausible para su tamaño inicial dentro de su contexto experimental?</p>
+</blockquote>
+</section>
+</section>
+<section id="qc-alométrico-consistencia-morfológica-final" class="level2">
+<h2 class="anchored" data-anchor-id="qc-alométrico-consistencia-morfológica-final">4. QC alométrico: consistencia morfológica final</h2>
+<p>El crecimiento también se evaluó desde la forma final del individuo, usando relaciones alométricas log-log entre:</p>
+<ul>
+<li>largo final y ancho final</li>
+<li>largo final y peso final</li>
+</ul>
+<p>Los individuos que se desviaron fuertemente de estas relaciones esperadas fueron marcados como <strong>outliers alométricos</strong>.</p>
+<section id="interpretación-1" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-1">Interpretación</h3>
+<p>Este módulo responde a la pregunta:</p>
+<blockquote class="blockquote">
+<p>¿La morfología final del individuo es consistente con el patrón esperado para su largo?</p>
+</blockquote>
+<p>Este paso es especialmente útil para detectar:</p>
+<ul>
+<li>errores de emparejamiento entre medición inicial y final</li>
+<li>pesos incompatibles con el largo observado</li>
+<li>anchos anómalos para un largo dado</li>
+<li>errores finos de digitación</li>
+</ul>
+</section>
+</section>
+<section id="qc-multivariado-combinaciones-improbables" class="level2">
+<h2 class="anchored" data-anchor-id="qc-multivariado-combinaciones-improbables">5. QC multivariado: combinaciones improbables</h2>
+<p>Finalmente, se aplicó un control multivariado basado en <strong>distancias de Mahalanobis</strong> para identificar individuos cuya combinación conjunta de residuos fuera improbable, aunque ninguna variable por separado pareciera extrema.</p>
+<p>Se implementaron dos módulos:</p>
+<section id="multivariado-de-crecimiento" class="level3">
+<h3 class="anchored" data-anchor-id="multivariado-de-crecimiento">Multivariado de crecimiento</h3>
+<p>Usa conjuntamente los residuos de:</p>
+<ul>
+<li>largo</li>
+<li>ancho</li>
+<li>peso</li>
+</ul>
+</section>
+<section id="multivariado-de-forma" class="level3">
+<h3 class="anchored" data-anchor-id="multivariado-de-forma">Multivariado de forma</h3>
+<p>Usa conjuntamente los residuos alométricos de:</p>
+<ul>
+<li>largo–ancho</li>
+<li>largo–peso</li>
+</ul>
+</section>
+<section id="interpretación-2" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-2">Interpretación</h3>
+<p>Este módulo responde a la pregunta:</p>
+<blockquote class="blockquote">
+<p>¿La combinación conjunta de rasgos o residuos de este individuo es improbable, aunque cada variable por separado no parezca extrema?</p>
+</blockquote>
+</section>
+</section>
+<section id="puntaje-global-y-categoría-final" class="level2">
+<h2 class="anchored" data-anchor-id="puntaje-global-y-categoría-final">6. Puntaje global y categoría final</h2>
+<p>A partir de las banderas generadas por los distintos módulos se calculó un puntaje global:</p>
+<ul>
+<li><code>qc_score</code></li>
+</ul>
+<p>y una categoría final resumida:</p>
+<ul>
+<li><code>ok</code></li>
+<li><code>revisar</code></li>
+<li><code>sospechoso</code></li>
+<li><code>muy_sospechoso</code></li>
+</ul>
+<p>Estas categorías no sustituyen el juicio biológico, pero permiten ordenar la evidencia y priorizar revisión.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Decisión metodológica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El sistema de QC fue diseñado para <strong>marcar</strong> observaciones, no para eliminarlas automáticamente. Esto permite mantener trazabilidad completa, reducir sesgos por sobre-filtrado y evaluar análisis de sensibilidad de forma transparente.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="visualización-del-control-de-calidad-qc" class="level1">
+<h1>Visualización del control de calidad QC</h1>
+<p>Las figuras diagnósticas se organizaron en tres bloques principales.</p>
+<section id="qc-univariado" class="level2">
+<h2 class="anchored" data-anchor-id="qc-univariado">QC univariado</h2>
+<p>Estas figuras muestran los envelopes superiores de crecimiento plausible para largo, ancho y peso. Los puntos marcados corresponden a observaciones que exceden el umbral esperado para su tamaño inicial dentro de cada contexto experimental.</p>
+<section id="figuras" class="level3">
+<h3 class="anchored" data-anchor-id="figuras">Figuras</h3>
+<p><img src="figs/QC_envelope_largo.png" class="img-fluid" alt="QC univariado para largo"></p>
+<p><img src="figs/QC_envelope_ancho.png" class="img-fluid" alt="QC univariado para ancho"></p>
+<p><img src="figs/QC_envelope_peso.png" class="img-fluid" alt="QC univariado para peso"></p>
+</section>
+</section>
+<section id="qc-alométrico" class="level2">
+<h2 class="anchored" data-anchor-id="qc-alométrico">QC alométrico</h2>
+<p>Estas relaciones alométricas permiten evaluar si el ancho final y el peso final son consistentes con el largo final observado. Los puntos destacados corresponden a individuos cuya morfología final se desvía del patrón esperado.</p>
+<section id="figuras-1" class="level3">
+<h3 class="anchored" data-anchor-id="figuras-1">Figuras</h3>
+<p><img src="figs/QC_allometry_largo_ancho.png" class="img-fluid" alt="QC alométrico largo-ancho"></p>
+<p><img src="figs/QC_allometry_largo_peso.png" class="img-fluid" alt="QC alométrico largo-peso"></p>
+</section>
+</section>
+<section id="qc-multivariado" class="level2">
+<h2 class="anchored" data-anchor-id="qc-multivariado">QC multivariado</h2>
+<p>Estas figuras resumen la posición conjunta de cada observación en el espacio de residuos de crecimiento y de forma. El objetivo es detectar individuos cuya combinación de rasgos sea improbable, incluso cuando cada variable por separado no parezca extrema.</p>
+<section id="figuras-2" class="level3">
+<h3 class="anchored" data-anchor-id="figuras-2">Figuras</h3>
+<p><img src="figs/QC_multivariate_growth.png" class="img-fluid" alt="QC multivariado de crecimiento"></p>
+<p><img src="figs/QC_multivariate_shape.png" class="img-fluid" alt="QC multivariado de forma"></p>
+<p><img src="figs/QC_multivariate_growth_distance.png" class="img-fluid" alt="Distribución de distancias multivariadas en crecimiento"></p>
+<p><img src="figs/QC_multivariate_shape_distance.png" class="img-fluid" alt="Distribución de distancias multivariadas en forma"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota sobre interpretación visual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las figuras diagnósticas se construyeron como herramientas de inspección general. En algunos casos, una observación marcada puede parecer visualmente cercana a la nube principal cuando se agregan múltiples sitios dentro de un mismo panel. La decisión final de QC se basa siempre en los umbrales y residuos calculados a nivel del grupo correspondiente.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="archivos-generados-por-el-flujo-de-trabajo" class="level1">
+<h1>Archivos generados por el flujo de trabajo</h1>
+<p>El pipeline genera múltiples salidas complementarias.</p>
+<section id="archivos-.rds" class="level2">
+<h2 class="anchored" data-anchor-id="archivos-.rds">Archivos <code>.rds</code></h2>
+<section id="mediciones_crecimiento_ppurpuratus_raw.rds" class="level3">
+<h3 class="anchored" data-anchor-id="mediciones_crecimiento_ppurpuratus_raw.rds"><code>Mediciones_Crecimiento_Ppurpuratus_RAW.rds</code></h3>
+<p>Respaldo directo de las mediciones originales leídas desde las planillas fuente.</p>
+</section>
+<section id="tasas_crecimiento_ppurpuratus_raw.rds" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_raw.rds"><code>Tasas_Crecimiento_Ppurpuratus_RAW.rds</code></h3>
+<p>Contiene los pares inicial–final por individuo y las tasas calculadas antes de aplicar las banderas de QC.</p>
+</section>
+<section id="tasas_crecimiento_ppurpuratus_qc.rds" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_qc.rds"><code>Tasas_Crecimiento_Ppurpuratus_QC.rds</code></h3>
+<p>Tabla analítica principal con:</p>
+<ul>
+<li>tasas de crecimiento</li>
+<li>variables corregidas</li>
+<li>banderas de QC univariado</li>
+<li>banderas de QC alométrico</li>
+<li>banderas de QC multivariado</li>
+<li><code>qc_score</code></li>
+<li><code>qc_categoria</code></li>
+</ul>
+</section>
+<section id="tasas_crecimiento_ppurpuratus_analisis_base.rds" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_analisis_base.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds</code></h3>
+<p>Dataset sugerido para análisis base. Excluye únicamente:</p>
+<ul>
+<li>duplicados de medición</li>
+<li>duplicados de individuo</li>
+<li>intervalos de exposición inválidos</li>
+</ul>
+</section>
+<section id="tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds</code></h3>
+<p>Dataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como <strong>muy sospechosas</strong>.</p>
+</section>
+</section>
+</section>
+<section id="estructura-del-excel-maestro" class="level1">
+<h1>Estructura del Excel maestro</h1>
+<p>El archivo <code>Crecimiento_Ppurpuratus_MASTER_QC.xlsx</code> consolida tanto los datos originales como las distintas salidas del sistema de QC. Su estructura está pensada para trazabilidad, inspección y discusión metodológica.</p>
+<section id="pestañas-de-datos-principales" class="level2">
+<h2 class="anchored" data-anchor-id="pestañas-de-datos-principales">Pestañas de datos principales</h2>
+<section id="mediciones_raw" class="level3">
+<h3 class="anchored" data-anchor-id="mediciones_raw"><code>mediciones_raw</code></h3>
+<p>Contiene las mediciones originales importadas desde las planillas fuente, antes del cálculo de tasas.</p>
+</section>
+<section id="tasas_raw" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_raw"><code>tasas_raw</code></h3>
+<p>Contiene los pares inicial–final por individuo, junto con los cambios absolutos y tasas de crecimiento calculadas antes de aplicar QC.</p>
+</section>
+<section id="tasas_qc" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_qc"><code>tasas_qc</code></h3>
+<p>Es la tabla analítica principal del sistema. Integra:</p>
+<ul>
+<li>variables originales</li>
+<li>variables corregidas</li>
+<li>banderas básicas</li>
+<li>QC univariado</li>
+<li>QC alométrico</li>
+<li>QC multivariado</li>
+<li>score y categoría final</li>
+</ul>
+</section>
+<section id="tasas_analisis_base" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_analisis_base"><code>tasas_analisis_base</code></h3>
+<p>Versión recomendada para análisis principal, excluyendo solo problemas estructurales.</p>
+</section>
+<section id="tasas_analisis_sens" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_analisis_sens"><code>tasas_analisis_sens</code></h3>
+<p>Versión recomendada para análisis de sensibilidad, excluyendo además los casos <strong>muy sospechosos</strong>.</p>
+</section>
+</section>
+<section id="pestañas-de-trazabilidad-y-revisión" class="level2">
+<h2 class="anchored" data-anchor-id="pestañas-de-trazabilidad-y-revisión">Pestañas de trazabilidad y revisión</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Grupo</th>
+<th>Pestaña</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Duplicados</td>
+<td><code>dup_medicion</code></td>
+<td>Lista de individuos con duplicados de medición.</td>
+</tr>
+<tr class="even">
+<td>Duplicados</td>
+<td><code>dup_individuo</code></td>
+<td>Lista de individuos con duplicación a nivel de identificación.</td>
+</tr>
+<tr class="odd">
+<td>Negativos</td>
+<td><code>log_negativos</code></td>
+<td>Incluye todos los casos con crecimiento negativo en alguna variable.</td>
+</tr>
+<tr class="even">
+<td>Negativos</td>
+<td><code>log_negativos_fuertes</code></td>
+<td>Subconjunto de negativos fuertes, más relevantes para revisión.</td>
+</tr>
+<tr class="odd">
+<td>QC univariado</td>
+<td><code>log_outlier_univar</code></td>
+<td>Lista total de observaciones marcadas por el QC univariado.</td>
+</tr>
+<tr class="even">
+<td>QC univariado</td>
+<td><code>log_outlier_largo</code></td>
+<td>Subconjunto marcado específicamente en crecimiento en largo.</td>
+</tr>
+<tr class="odd">
+<td>QC univariado</td>
+<td><code>log_outlier_ancho</code></td>
+<td>Subconjunto marcado específicamente en crecimiento en ancho.</td>
+</tr>
+<tr class="even">
+<td>QC univariado</td>
+<td><code>log_outlier_peso</code></td>
+<td>Subconjunto marcado específicamente en crecimiento en peso.</td>
+</tr>
+<tr class="odd">
+<td>QC alométrico</td>
+<td><code>log_outlier_shape</code></td>
+<td>Lista total de observaciones marcadas por el QC alométrico.</td>
+</tr>
+<tr class="even">
+<td>QC alométrico</td>
+<td><code>log_allometry_la</code></td>
+<td>Subconjunto marcado por la relación alométrica largo–ancho.</td>
+</tr>
+<tr class="odd">
+<td>QC alométrico</td>
+<td><code>log_allometry_lp</code></td>
+<td>Subconjunto marcado por la relación alométrica largo–peso.</td>
+</tr>
+<tr class="even">
+<td>QC multivariado</td>
+<td><code>log_outlier_multi</code></td>
+<td>Lista total de observaciones marcadas por el QC multivariado.</td>
+</tr>
+<tr class="odd">
+<td>QC multivariado</td>
+<td><code>log_multi_growth</code></td>
+<td>Subconjunto marcado por el multivariado de crecimiento.</td>
+</tr>
+<tr class="even">
+<td>QC multivariado</td>
+<td><code>log_multi_shape</code></td>
+<td>Subconjunto marcado por el multivariado de forma.</td>
+</tr>
+<tr class="odd">
+<td>Síntesis QC</td>
+<td><code>log_qc_sospechoso</code></td>
+<td>Incluye todas las observaciones clasificadas como <code>sospechoso</code> o <code>muy_sospechoso</code>.</td>
+</tr>
+</tbody>
+</table>
+<section id="diagnostico_qc" class="level3">
+<h3 class="anchored" data-anchor-id="diagnostico_qc"><code>diagnostico_qc</code></h3>
+<p>Resumen por:</p>
+<ul>
+<li>sitio</li>
+<li>clase de tamaño</li>
+<li>tratamiento</li>
+</ul>
+<p>Incluye número de observaciones, frecuencia de flags y distribución por categorías QC.</p>
+</section>
+<section id="resumen_qc_global" class="level3">
+<h3 class="anchored" data-anchor-id="resumen_qc_global"><code>resumen_qc_global</code></h3>
+<p>Resumen total del sistema de QC para todo el experimento.</p>
+</section>
+<section id="tabla_combinaciones_qc" class="level3">
+<h3 class="anchored" data-anchor-id="tabla_combinaciones_qc"><code>tabla_combinaciones_qc</code></h3>
+<p>Resume las combinaciones entre los tres módulos principales:</p>
+<ul>
+<li>univariado</li>
+<li>alométrico</li>
+<li>multivariado</li>
+</ul>
+<p>Permite distinguir observaciones detectadas por un solo módulo, por dos módulos o por los tres simultáneamente.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota operativa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para inspección detallada del sistema completo, la pestaña más importante es <code>tasas_qc</code>. Para análisis principales, la referencia recomendada es <code>tasas_analisis_base</code>. Para evaluación de sensibilidad, la referencia es <code>tasas_analisis_sens</code>.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="resumen-ejecutivo-del-sistema-de-qc" class="level1">
+<h1>Resumen ejecutivo del sistema de QC</h1>
+<p>En términos prácticos, el sistema implementado permite separar tres tipos de evidencia:</p>
+<section id="extremos-de-crecimiento" class="level2">
+<h2 class="anchored" data-anchor-id="extremos-de-crecimiento">1. Extremos de crecimiento</h2>
+<p>Detectados por el QC univariado.</p>
+</section>
+<section id="inconsistencias-morfológicas" class="level2">
+<h2 class="anchored" data-anchor-id="inconsistencias-morfológicas">2. Inconsistencias morfológicas</h2>
+<p>Detectadas por el QC alométrico.</p>
+</section>
+<section id="combinaciones-improbables-de-rasgos" class="level2">
+<h2 class="anchored" data-anchor-id="combinaciones-improbables-de-rasgos">3. Combinaciones improbables de rasgos</h2>
+<p>Detectadas por el QC multivariado.</p>
+<p>La combinación de estos módulos permite mantener observaciones potencialmente valiosas dentro del sistema, pero con una trazabilidad clara que facilita revisión, sensibilidad y discusión biológica.</p>
+</section>
+</section>
+<section id="reproducibilidad" class="level1">
+<h1>Reproducibilidad</h1>
+<p>Todo el flujo de trabajo fue implementado mediante scripts reproducibles en R. El pipeline:</p>
+<ul>
+<li>lee planillas fuente en formato <code>.xlsx</code>,</li>
+<li>genera objetos consolidados <code>.rds</code>,</li>
+<li>produce un libro maestro <code>.xlsx</code>,</li>
+<li>y exporta figuras diagnósticas para inspección visual del sistema de QC.</li>
+</ul>
+<p>Esto permite actualizar el procesamiento de forma consistente a medida que se incorporen nuevas mediciones o se refinen criterios de revisión.</p>
+</section>
+<section id="conclusión" class="level1">
+<h1>Conclusión</h1>
+<p>El pre-procesamiento y control de calidad de los datos de crecimiento se estructuró como un sistema escalonado, transparente y biológicamente informado. En lugar de eliminar observaciones extremas de manera automática, se construyó una arquitectura de banderas que permite distinguir entre extremos plausibles, inconsistencias morfológicas y combinaciones conjuntas improbables. Esta aproximación conserva la variabilidad real del sistema, facilita la trazabilidad y fortalece la reproducibilidad de los análisis posteriores.</p>
+
+
 </section>
 
 </main> <!-- /main -->

@@ -1,6 +1,10 @@
 project:
   type: website
-  output-dir: .
+  output-dir: docs
+  resources:
+    - figs
+    - photos
+    - data
 
 website:
   title: "Crecimiento <i>P. purpuratus</i>"
@@ -10,7 +14,6 @@ website:
       - protocolo.qmd
       - preprocess.qmd
       - dataset.qmd
-      
 
 format:
   html:
@@ -23,10 +26,7 @@ lang: es
 
 execute:
   freeze: auto
-  
+
 crossref:
   fig-title: "Figura"
   tbl-title: "Tabla"
-
-
-
