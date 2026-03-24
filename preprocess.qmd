@@ -223,7 +223,7 @@ A partir de los residuos positivos respecto del envelope se calculó un umbral Q
 ### Interpretación
 Este módulo responde a la pregunta:
 
-> ¿Este individuo creció demasiadp para su tamaño inicial?
+> ¿Este individuo creció demasiado para su tamaño inicial?
 
 ## 4. QC alométrico: consistencia morfológica final
 
