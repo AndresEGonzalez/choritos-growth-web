@@ -6,6 +6,7 @@ format:
     toc-depth: 3
     number-sections: false
 ---
+# Pre-procesamiento y control de calidad {#sec-preprocess}
 
 # Objetivo
 
@@ -298,6 +299,15 @@ Dataset sugerido para análisis base. Excluye únicamente:
 
 ### `Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds`
 Dataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como **muy sospechosas**.
+
+### `Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds`
+
+Versión derivada para visualización descriptiva. Excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como `muy_sospechoso`. Esta versión fue diseñada para facilitar la inspección gráfica de patrones generales sin que observaciones altamente problemáticas dominen la visualización.
+
+::: {.callout-note}
+## Uso recomendado
+`VIS_LIMPIO` fue pensado para figuras descriptivas y exploratorias. Los análisis principales siguen referenciando `ANALISIS_BASE`, mientras que la trazabilidad completa se conserva en `QC`.
+:::
 
 # Estructura del Excel maestro
 

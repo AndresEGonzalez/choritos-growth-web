@@ -24,22 +24,23 @@ La tabla siguiente resume los principales experimentos previos de crecimiento de
 
 Esta documentación se organiza en tres secciones principales.
 
-### Protocolo experimental
+### [Protocolo experimental](protocolo.qmd#sec-protocolo)
 
 Describe el diseño del experimento, los sitios de estudio, el procedimiento de marcaje individual y la instalación de los trasplantes en el intermareal rocoso.
 
-### Pre-procesamiento y control de calidad
+
+### [Pre-procesamiento y control de calidad](preprocess.qmd#sec-preprocess)
 
 Describe el flujo de procesamiento implementado en R para consolidar mediciones, calcular tasas de crecimiento, aplicar banderas de control de calidad biológicamente informadas y generar distintos productos analíticos con trazabilidad completa.
 
-### Dataset analítico
+### [Dataset analítico](dataset.qmd#sec-dataset)
 
 Presenta un resumen del dataset analítico principal derivado del sistema QC, incluyendo su estructura, número de observaciones por sitio y temporalidad, periodos de exposición y visualizaciones descriptivas de las tasas de crecimiento.
 
 ## Nota sobre la estructura de datos
 
-El flujo de trabajo genera varias salidas complementarias. En esta web, la sección **Dataset** resume principalmente el archivo:
+El flujo de trabajo genera varias salidas complementarias. En esta web, la sección [Dataset](dataset.qmd#sec-dataset) resume principalmente el archivo:
 
 `Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds`
 
-que corresponde al dataset analítico recomendado para los análisis principales. Las versiones `RAW`, `QC` y `ANALISIS_SENSIBILIDAD` se describen en detalle en la sección de pre-procesamiento.
+que corresponde a un dataset analítico recomendado para realizar los análisis principales. Las versiones `RAW`, `QC` y `ANALISIS_SENSIBILIDAD` se describen en detalle en la sección de [pre-procesamiento](preprocess.qmd#sec-preprocess).

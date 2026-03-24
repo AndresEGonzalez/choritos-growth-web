@@ -7,7 +7,7 @@ format:
     number-sections: false
 ---
 
-# Objetivo
+# Objetivo {#sec-protocolo}
 
 Esta sección describe el diseño experimental utilizado para cuantificar las tasas de crecimiento de *Perumytilus purpuratus* en distintos sitios de la costa de Chile, considerando variación espacial, temporal y entre clases de tamaño inicial.
 

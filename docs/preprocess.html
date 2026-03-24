@@ -121,7 +121,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
+  <li><a href="#sec-preprocess" id="toc-sec-preprocess" class="nav-link active" data-scroll-target="#sec-preprocess">Pre-procesamiento y control de calidad</a></li>
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo">Objetivo</a></li>
   <li><a href="#estructura-de-los-datos-de-entrada" id="toc-estructura-de-los-datos-de-entrada" class="nav-link" data-scroll-target="#estructura-de-los-datos-de-entrada">Estructura de los datos de entrada</a></li>
   <li><a href="#flujo-general-del-procesamiento" id="toc-flujo-general-del-procesamiento" class="nav-link" data-scroll-target="#flujo-general-del-procesamiento">Flujo general del procesamiento</a></li>
   <li><a href="#creación-de-identificador-único" id="toc-creación-de-identificador-único" class="nav-link" data-scroll-target="#creación-de-identificador-único">Creación de identificador único</a></li>
@@ -175,6 +176,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#tasas_crecimiento_ppurpuratus_qc.rds" id="toc-tasas_crecimiento_ppurpuratus_qc.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_qc.rds"><code>Tasas_Crecimiento_Ppurpuratus_QC.rds</code></a></li>
   <li><a href="#tasas_crecimiento_ppurpuratus_analisis_base.rds" id="toc-tasas_crecimiento_ppurpuratus_analisis_base.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_analisis_base.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds</code></a></li>
   <li><a href="#tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" id="toc-tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds</code></a></li>
+  <li><a href="#tasas_crecimiento_ppurpuratus_vis_limpio.rds" id="toc-tasas_crecimiento_ppurpuratus_vis_limpio.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_vis_limpio.rds"><code>Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds</code></a></li>
   </ul></li>
   </ul></li>
   <li><a href="#estructura-del-excel-maestro" id="toc-estructura-del-excel-maestro" class="nav-link" data-scroll-target="#estructura-del-excel-maestro">Estructura del Excel maestro</a>
@@ -227,6 +229,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-preprocess" class="level1">
+<h1>Pre-procesamiento y control de calidad</h1>
+</section>
 <section id="objetivo" class="level1">
 <h1>Objetivo</h1>
 <p>Esta sección describe el flujo completo de pre-procesamiento y control de calidad (<strong>Q</strong>uality <strong>C</strong>ontrol) aplicado a los datos de crecimiento de <em>P. purpuratus</em>. El objetivo fue:</p>
@@ -567,6 +572,23 @@ ul.task-list li input[type="checkbox"] {
 <section id="tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" class="level3">
 <h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds</code></h3>
 <p>Dataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como <strong>muy sospechosas</strong>.</p>
+</section>
+<section id="tasas_crecimiento_ppurpuratus_vis_limpio.rds" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_vis_limpio.rds"><code>Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds</code></h3>
+<p>Versión derivada para visualización descriptiva. Excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como <code>muy_sospechoso</code>. Esta versión fue diseñada para facilitar la inspección gráfica de patrones generales sin que observaciones altamente problemáticas dominen la visualización.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Uso recomendado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>VIS_LIMPIO</code> fue pensado para figuras descriptivas y exploratorias. Los análisis principales siguen referenciando <code>ANALISIS_BASE</code>, mientras que la trazabilidad completa se conserva en <code>QC</code>.</p>
+</div>
+</div>
 </section>
 </section>
 </section>
