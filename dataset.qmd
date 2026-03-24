@@ -197,8 +197,6 @@ tibble(
   kable_styling(full_width = FALSE)
 ```
 
-# Número de tasas
-
 ## Tasas por estación o periodo
 
 ```{r}
