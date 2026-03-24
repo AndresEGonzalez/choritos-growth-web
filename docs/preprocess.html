@@ -69,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -125,8 +154,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo">Objetivo</a></li>
   <li><a href="#estructura-de-los-datos-de-entrada" id="toc-estructura-de-los-datos-de-entrada" class="nav-link" data-scroll-target="#estructura-de-los-datos-de-entrada">Estructura de los datos de entrada</a></li>
   <li><a href="#flujo-general-del-procesamiento" id="toc-flujo-general-del-procesamiento" class="nav-link" data-scroll-target="#flujo-general-del-procesamiento">Flujo general del procesamiento</a></li>
-  <li><a href="#creación-de-identificador-único" id="toc-creación-de-identificador-único" class="nav-link" data-scroll-target="#creación-de-identificador-único">Creación de identificador único</a></li>
+  <li><a href="#creación-de-identificador-único" id="toc-creación-de-identificador-único" class="nav-link" data-scroll-target="#creación-de-identificador-único">Creación de identificador único</a>
+  <ul class="collapse">
   <li><a href="#cálculo-de-tasas-de-crecimiento" id="toc-cálculo-de-tasas-de-crecimiento" class="nav-link" data-scroll-target="#cálculo-de-tasas-de-crecimiento">Cálculo de tasas de crecimiento</a></li>
+  <li><a href="#corrección-de-negativos-leves" id="toc-corrección-de-negativos-leves" class="nav-link" data-scroll-target="#corrección-de-negativos-leves">Corrección de negativos leves</a></li>
+  </ul></li>
   <li><a href="#sistema-de-control-de-calidad-qc" id="toc-sistema-de-control-de-calidad-qc" class="nav-link" data-scroll-target="#sistema-de-control-de-calidad-qc">Sistema de control de calidad (QC)</a>
   <ul class="collapse">
   <li><a href="#filosofía-general" id="toc-filosofía-general" class="nav-link" data-scroll-target="#filosofía-general">Filosofía general</a></li>
@@ -317,22 +349,67 @@ ul.task-list li input[type="checkbox"] {
 <li>información de reemplazo por pérdida</li>
 </ul>
 <p>Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias.</p>
+<section id="cálculo-de-tasas-de-crecimiento" class="level2">
+<h2 class="anchored" data-anchor-id="cálculo-de-tasas-de-crecimiento">Cálculo de tasas de crecimiento</h2>
+<p>Una vez emparejadas las mediciones iniciales y finales, para cada individuo, se calcularon el crecimiento absoluto en largo, ancho y peso se estimó como la diferencia entre la medición final y la inicial. Si <span class="math inline">\(X_i\)</span> corresponde al valor inicial, <span class="math inline">\(X_f\)</span> al valor final y <span class="math inline">\(\Delta t\)</span> al número de días transcurridos entre ambas mediciones, entonces:</p>
+<p><span class="math display">\[
+G_X = X_f - X_i
+\]</span></p>
+<p>donde <span class="math inline">\(G_X\)</span> representa el crecimiento absoluto de la variable <span class="math inline">\(X\)</span>.</p>
+<p>La tasa diaria de crecimiento se calculó como:</p>
+<p><span class="math display">\[
+R_X = \frac{X_f - X_i}{\Delta t}
+\]</span></p>
+<p>donde <span class="math inline">\(R_X\)</span> es la tasa diaria de crecimiento para la variable <span class="math inline">\(X\)</span>.</p>
+<p>En este estudio, las ecuaciones utilizadas fueron:</p>
+<p><span class="math display">\[
+\text{crecimiento\_largo\_mm} = \text{largo\_max\_mm\_final} - \text{largo\_max\_mm\_inicial}
+\]</span></p>
+<p><span class="math display">\[
+\text{crecimiento\_ancho\_mm} = \text{ancho\_max\_mm\_final} - \text{ancho\_max\_mm\_inicial}
+\]</span></p>
+<p><span class="math display">\[
+\text{crecimiento\_peso\_gr} = \text{peso\_gr\_final} - \text{peso\_gr\_inicial}
+\]</span></p>
+<p>y luego:</p>
+<p><span class="math display">\[
+\text{tasa\_diaria\_largo} = \frac{\text{crecimiento\_largo\_mm}}{\text{dias}}
+\]</span></p>
+<p><span class="math display">\[
+\text{tasa\_diaria\_ancho} = \frac{\text{crecimiento\_ancho\_mm}}{\text{dias}}
+\]</span></p>
+<p><span class="math display">\[
+\text{tasa\_diaria\_peso} = \frac{\text{crecimiento\_peso\_gr}}{\text{dias}}
+\]</span></p>
+<p>De este modo, las tasas quedaron expresadas en mm día<span class="math inline">\(^{-1}\)</span> para largo y ancho, y en g día<span class="math inline">\(^{-1}\)</span> para peso.</p>
 </section>
-<section id="cálculo-de-tasas-de-crecimiento" class="level1">
-<h1>Cálculo de tasas de crecimiento</h1>
-<p>Una vez emparejadas las mediciones iniciales y finales, se calcularon:</p>
+<section id="corrección-de-negativos-leves" class="level2">
+<h2 class="anchored" data-anchor-id="corrección-de-negativos-leves">Corrección de negativos leves</h2>
+<p>Durante el control de calidad, se detectaron algunos casos con crecimiento negativo de pequeña magnitud, atribuibles probablemente a error de medición o pequeñas inconsistencias de registro. Para evitar interpretar estas diferencias menores como decrecimiento biológico real, se aplicó una corrección conservadora a los valores negativos leves.</p>
+<p>Se definieron los siguientes umbrales:</p>
 <ul>
-<li><code>crecimiento_largo_mm</code></li>
-<li><code>crecimiento_ancho_mm</code></li>
-<li><code>crecimiento_peso_gr</code></li>
+<li><strong>Largo:</strong> 0.05 mm</li>
+<li><strong>Ancho:</strong> 0.05 mm</li>
+<li><strong>Peso:</strong> 0.02 g</li>
 </ul>
-<p>y sus respectivas tasas diarias:</p>
-<ul>
-<li><code>tasa_diaria_largo</code></li>
-<li><code>tasa_diaria_ancho</code></li>
-<li><code>tasa_diaria_peso</code></li>
-</ul>
-<p>El número de días de exposición (<code>dias</code>) se calculó como la diferencia entre la fecha final y la fecha inicial.</p>
+<p>Cuando un valor de crecimiento fue negativo, pero su magnitud fue menor que el umbral correspondiente, se reemplazó por cero:</p>
+<p><span class="math display">\[
+G_X^{corr} = 0 \quad \text{si} \quad -\tau_X &lt; G_X &lt; 0
+\]</span></p>
+<p>donde <span class="math inline">\(\tau_X\)</span> representa la tolerancia definida para cada variable.</p>
+<p>En cambio, los valores negativos de mayor magnitud se mantuvieron en el dataset y fueron marcados mediante <em>flags</em> de control de calidad para su revisión posterior.</p>
+<p>A partir de los crecimientos corregidos, se recalcularon las tasas diarias corregidas:</p>
+<p><span class="math display">\[
+\text{tasa\_diaria\_largo\_corr} = \frac{\text{crecimiento\_largo\_mm\_corr}}{\text{dias}}
+\]</span></p>
+<p><span class="math display">\[
+\text{tasa\_diaria\_ancho\_corr} = \frac{\text{crecimiento\_ancho\_mm\_corr}}{\text{dias}}
+\]</span></p>
+<p><span class="math display">\[
+\text{tasa\_diaria\_peso\_corr} = \frac{\text{crecimiento\_peso\_gr\_corr}}{\text{dias}}
+\]</span></p>
+<p>Estas variables corregidas se utilizaron en las etapas posteriores del pipeline de control de calidad, particularmente en la detección de <em>outliers</em> univariados, chequeos alométricos y evaluación multivariada.</p>
+</section>
 </section>
 <section id="sistema-de-control-de-calidad-qc" class="level1">
 <h1>Sistema de control de calidad (QC)</h1>
