@@ -225,6 +225,468 @@ Este módulo responde a la pregunta:
 
 > ¿Este individuo creció demasiado para su tamaño inicial?
 
+### R code
+```{R}
+#| eval: false
+#| code-fold: true
+################################################
+# LIBRERIAS
+################################################
+
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(stringr)
+library(purrr)
+library(rlang)
+library(quantreg)
+library(openxlsx)
+
+################################################
+# DIRECTORIOS
+################################################
+
+base.dir <- "DIR_DATA"
+
+dir.output <- file.path(base.dir, "02_output")
+dir.figs   <- file.path(base.dir, "03_figs")
+dir.data   <- file.path(base.dir, "01_data")
+
+################################################
+# ORDEN DE SITIOS
+################################################
+
+site_levels <- c(
+  "Pichilemu",
+  "Matanzas",
+  "Las Cruces",
+  "El Quisco",
+  "Quintay",
+  "Curaumilla",
+  "Montemar",
+  "Los Molles",
+  "Punta de Talca",
+  "Guanaqueros",
+  "Temblador"
+)
+
+################################################
+# FUNCIONES AUXILIARES QC
+################################################
+
+################################################
+# 1) FLAGS BASICOS QC
+################################################
+
+agregar_flags_basicos_qc <- function(tasas, dup_medicion = NULL, dup_individuo = NULL) {
+
+  tasas_qc <- tasas %>%
+    mutate(
+      qc_group_local    = paste(site, size_class, treatment, sep = "_"),
+      qc_group_fallback = paste(size_class, treatment, sep = "_"),
+      flag_dias_invalidos = is.na(dias) | dias <= 0,
+      flag_dudoso_terreno = FALSE
+    )
+
+  if (!is.null(dup_medicion) && nrow(dup_medicion) > 0) {
+    ids_dup_medicion <- unique(dup_medicion$chorito_id)
+    tasas_qc <- tasas_qc %>%
+      mutate(flag_dup_medicion = chorito_id %in% ids_dup_medicion)
+  } else {
+    tasas_qc <- tasas_qc %>%
+      mutate(flag_dup_medicion = FALSE)
+  }
+
+  if (!is.null(dup_individuo) && nrow(dup_individuo) > 0) {
+    ids_dup_individuo <- unique(dup_individuo$chorito_id)
+    tasas_qc <- tasas_qc %>%
+      mutate(flag_dup_individuo = chorito_id %in% ids_dup_individuo)
+  } else {
+    tasas_qc <- tasas_qc %>%
+      mutate(flag_dup_individuo = FALSE)
+  }
+
+  tasas_qc
+}
+
+################################################
+# 2) CORREGIR NEGATIVOS LEVES
+################################################
+
+corregir_negativos_leves <- function(
+  tasas,
+  tol_largo = 0.05,
+  tol_ancho = 0.05,
+  tol_peso  = 0.02
+) {
+
+  tasas %>%
+    mutate(
+      flag_negativo_largo = !is.na(crecimiento_largo_mm) & crecimiento_largo_mm < 0,
+      flag_negativo_leve_largo =
+        !is.na(crecimiento_largo_mm) &
+        crecimiento_largo_mm < 0 &
+        crecimiento_largo_mm > -tol_largo,
+      flag_negativo_fuerte_largo =
+        !is.na(crecimiento_largo_mm) &
+        crecimiento_largo_mm <= -tol_largo,
+
+      crecimiento_largo_mm_corr = case_when(
+        flag_negativo_leve_largo ~ 0,
+        TRUE ~ crecimiento_largo_mm
+      ),
+
+      flag_negativo_ancho = !is.na(crecimiento_ancho_mm) & crecimiento_ancho_mm < 0,
+      flag_negativo_leve_ancho =
+        !is.na(crecimiento_ancho_mm) &
+        crecimiento_ancho_mm < 0 &
+        crecimiento_ancho_mm > -tol_ancho,
+      flag_negativo_fuerte_ancho =
+        !is.na(crecimiento_ancho_mm) &
+        crecimiento_ancho_mm <= -tol_ancho,
+
+      crecimiento_ancho_mm_corr = case_when(
+        flag_negativo_leve_ancho ~ 0,
+        TRUE ~ crecimiento_ancho_mm
+      ),
+
+      flag_negativo_peso = !is.na(crecimiento_peso_gr) & crecimiento_peso_gr < 0,
+      flag_negativo_leve_peso =
+        !is.na(crecimiento_peso_gr) &
+        crecimiento_peso_gr < 0 &
+        crecimiento_peso_gr > -tol_peso,
+      flag_negativo_fuerte_peso =
+        !is.na(crecimiento_peso_gr) &
+        crecimiento_peso_gr <= -tol_peso,
+
+      crecimiento_peso_gr_corr = case_when(
+        flag_negativo_leve_peso ~ 0,
+        TRUE ~ crecimiento_peso_gr
+      ),
+
+      tasa_diaria_largo_corr = if_else(
+        !is.na(dias) & dias > 0,
+        crecimiento_largo_mm_corr / dias,
+        NA_real_
+      ),
+      tasa_diaria_ancho_corr = if_else(
+        !is.na(dias) & dias > 0,
+        crecimiento_ancho_mm_corr / dias,
+        NA_real_
+      ),
+      tasa_diaria_peso_corr = if_else(
+        !is.na(dias) & dias > 0,
+        crecimiento_peso_gr_corr / dias,
+        NA_real_
+      ),
+
+      flag_negativo =
+        flag_negativo_largo | flag_negativo_ancho | flag_negativo_peso,
+
+      flag_negativo_fuerte =
+        flag_negativo_fuerte_largo |
+        flag_negativo_fuerte_ancho |
+        flag_negativo_fuerte_peso
+    )
+}
+########################################
+# 3) AJUSTAR ENVELOPE CON QUANTILE REGRESSION
+################################################
+
+ajustar_envelope_qr <- function(
+  data,
+  x_var,
+  y_var,
+  group_vars_local = c("site", "size_class", "treatment"),
+  group_vars_fallback = c("size_class", "treatment"),
+  min_n_local = 25,
+  tau = 0.99,
+  threshold_method = c("sd", "mad"),
+  k = 3,
+  use_hybrid = TRUE,
+  spline_df = 3,
+  n_min_spline = 40,
+  x_range_min = 2
+) {
+
+  threshold_method <- match.arg(threshold_method)
+
+  x_sym <- sym(x_var)
+  y_sym <- sym(y_var)
+
+  df <- data %>%
+    mutate(.row_id_qc = row_number())
+
+  model_df <- df %>%
+    filter(
+      !is.na(!!x_sym),
+      !is.na(!!y_sym),
+      !is.na(site),
+      !is.na(size_class),
+      !is.na(treatment),
+      !!y_sym >= 0
+    ) %>%
+    mutate(
+      .group_local = interaction(!!!syms(group_vars_local), drop = TRUE, lex.order = TRUE),
+      .group_fallback = interaction(!!!syms(group_vars_fallback), drop = TRUE, lex.order = TRUE)
+    )
+
+  if (nrow(model_df) == 0) {
+    return(
+      df %>%
+        transmute(
+          .row_id_qc,
+          env_pred = NA_real_,
+          env_thr = NA_real_,
+          resid_env = NA_real_,
+          flag_outlier_univar = NA,
+          env_level = NA_character_,
+          env_model = NA_character_
+        )
+    )
+  }
+
+  n_local_tbl <- model_df %>%
+    count(.group_local, name = "n_local")
+
+  model_df <- model_df %>%
+    left_join(n_local_tbl, by = ".group_local") %>%
+    mutate(
+      .use_local = n_local >= min_n_local,
+      .fit_group = if_else(.use_local, as.character(.group_local), as.character(.group_fallback)),
+      .fit_level = if_else(.use_local, "site_size_treatment", "size_treatment")
+    )
+
+  fit_one_group <- function(subdf) {
+
+    this_level <- unique(subdf$.fit_level)
+
+    if (nrow(subdf) < 5) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            env_pred = NA_real_,
+            env_thr = NA_real_,
+            resid_env = NA_real_,
+            flag_outlier_univar = NA,
+            env_level = this_level,
+            env_model = NA_character_
+          )
+      )
+    }
+
+    x_vals <- subdf[[x_var]]
+    n_group <- sum(!is.na(x_vals))
+    x_range <- diff(range(x_vals, na.rm = TRUE))
+
+    model_type <- "linear"
+
+    if (use_hybrid) {
+      if (n_group >= n_min_spline && is.finite(x_range) && x_range >= x_range_min) {
+        model_type <- "spline"
+      } else {
+        model_type <- "linear"
+      }
+    }
+
+    if (model_type == "spline") {
+      form <- as.formula(
+        paste0(y_var, " ~ splines::bs(", x_var, ", df = ", spline_df, ")")
+      )
+    } else {
+      form <- as.formula(paste(y_var, "~", x_var))
+    }
+
+    fit <- tryCatch(
+      quantreg::rq(form, tau = tau, data = subdf),
+      error = function(e) NULL
+    )
+
+    if (is.null(fit) && model_type == "spline") {
+      model_type <- "linear"
+      form <- as.formula(paste(y_var, "~", x_var))
+      fit <- tryCatch(
+        quantreg::rq(form, tau = tau, data = subdf),
+        error = function(e) NULL
+      )
+    }
+
+    if (is.null(fit)) {
+      fit <- tryCatch(
+        quantreg::rq(as.formula(paste(y_var, "~ 1")), tau = tau, data = subdf),
+        error = function(e) NULL
+      )
+
+      if (is.null(fit)) {
+        return(
+          subdf %>%
+            transmute(
+              .row_id_qc,
+              env_pred = NA_real_,
+              env_thr = NA_real_,
+              resid_env = NA_real_,
+              flag_outlier_univar = NA,
+              env_level = this_level,
+              env_model = NA_character_
+            )
+        )
+      }
+
+      model_type <- "intercept_only"
+    }
+
+    pred <- tryCatch(
+      as.numeric(predict(fit, newdata = subdf)),
+      error = function(e) rep(NA_real_, nrow(subdf))
+    )
+
+    pred <- pmax(pred, 0, na.rm = FALSE)
+
+    resid_env <- subdf[[y_var]] - pred
+    resid_pos <- resid_env[!is.na(resid_env) & resid_env > 0]
+
+    spread_val <- NA_real_
+
+    if (length(resid_pos) >= 5) {
+      if (threshold_method == "sd") {
+        spread_val <- sd(resid_pos, na.rm = TRUE)
+      } else {
+        spread_val <- mad(resid_pos, constant = 1, na.rm = TRUE)
+      }
+    }
+
+    if (is.na(spread_val)) spread_val <- 0
+
+    thr <- pred + k * spread_val
+
+    out_flag <- ifelse(
+      !is.na(subdf[[y_var]]) & !is.na(thr),
+      subdf[[y_var]] > thr,
+      NA
+    )
+
+    subdf %>%
+      transmute(
+        .row_id_qc,
+        env_pred = pred,
+        env_thr = thr,
+        resid_env = resid_env,
+        flag_outlier_univar = out_flag,
+        env_level = this_level,
+        env_model = model_type
+      )
+  }
+
+  fitted_df <- model_df %>%
+    group_split(.fit_group, .keep = TRUE) %>%
+    purrr::map_dfr(fit_one_group)
+
+  df %>%
+    select(.row_id_qc) %>%
+    left_join(fitted_df, by = ".row_id_qc")
+}
+
+################################################
+# 4) APLICAR ENVELOPES UNIVARIADOS
+################################################
+
+aplicar_envelopes_univariados <- function(
+  tasas,
+  min_n_local = 25,
+  tau = 0.99,
+  threshold_method = "mad",
+  k = 3,
+  use_hybrid = TRUE,
+  spline_df = 3,
+  n_min_spline = 40,
+  x_range_min_largo = 2,
+  x_range_min_ancho = 2,
+  x_range_min_peso  = 0.15
+) {
+
+  env_largo <- ajustar_envelope_qr(
+    data = tasas,
+    x_var = "largo_max_mm_inicial",
+    y_var = "crecimiento_largo_mm_corr",
+    min_n_local = min_n_local,
+    tau = tau,
+    threshold_method = threshold_method,
+    k = k,
+    use_hybrid = use_hybrid,
+    spline_df = spline_df,
+    n_min_spline = n_min_spline,
+    x_range_min = x_range_min_largo
+  ) %>%
+    rename(
+      env_pred_largo = env_pred,
+      env_thr_largo = env_thr,
+      resid_env_largo = resid_env,
+      flag_outlier_univar_largo = flag_outlier_univar,
+      env_level_largo = env_level,
+      env_model_largo = env_model
+    )
+
+  env_ancho <- ajustar_envelope_qr(
+    data = tasas,
+    x_var = "ancho_max_mm_inicial",
+    y_var = "crecimiento_ancho_mm_corr",
+    min_n_local = min_n_local,
+    tau = tau,
+    threshold_method = threshold_method,
+    k = k,
+    use_hybrid = use_hybrid,
+    spline_df = spline_df,
+    n_min_spline = n_min_spline,
+    x_range_min = x_range_min_ancho
+  ) %>%
+    rename(
+      env_pred_ancho = env_pred,
+      env_thr_ancho = env_thr,
+      resid_env_ancho = resid_env,
+      flag_outlier_univar_ancho = flag_outlier_univar,
+      env_level_ancho = env_level,
+      env_model_ancho = env_model
+    )
+
+  env_peso <- ajustar_envelope_qr(
+    data = tasas,
+    x_var = "peso_gr_inicial",
+    y_var = "crecimiento_peso_gr_corr",
+    min_n_local = min_n_local,
+    tau = tau,
+    threshold_method = threshold_method,
+    k = k,
+    use_hybrid = use_hybrid,
+    spline_df = spline_df,
+    n_min_spline = n_min_spline,
+    x_range_min = x_range_min_peso
+  ) %>%
+    rename(
+      env_pred_peso = env_pred,
+      env_thr_peso = env_thr,
+      resid_env_peso = resid_env,
+      flag_outlier_univar_peso = flag_outlier_univar,
+      env_level_peso = env_level,
+      env_model_peso = env_model
+    )
+
+  tasas %>%
+    mutate(.row_id_qc = row_number()) %>%
+    left_join(env_largo, by = ".row_id_qc") %>%
+    left_join(env_ancho, by = ".row_id_qc") %>%
+    left_join(env_peso,  by = ".row_id_qc") %>%
+    mutate(
+      flag_outlier_univar =
+        coalesce(flag_outlier_univar_largo, FALSE) |
+        coalesce(flag_outlier_univar_ancho, FALSE) |
+        coalesce(flag_outlier_univar_peso, FALSE)
+    ) %>%
+    select(-.row_id_qc)
+}
+```
+
 ## 4. QC alométrico: consistencia morfológica final
 
 El crecimiento también se evaluó desde la forma final del individuo, usando relaciones alométricas log-log entre:
@@ -246,9 +708,236 @@ Este paso es especialmente útil para detectar:
 - anchos anómalos para un largo dado
 - errores finos de digitación
 
+- Si un individuo tiene:
+    - `flag_outlier_univar = FALSE`
+    - `flag_allometry_la = TRUE`
+  significa:  
+  Que no creció “demasiado”, pero su forma final no calza con la morfología esperada.  
+  **Eso es exactamente el tipo de error que el QC univariado no ve.**
+
+### R code
+
+```{R}
+#| eval: false
+#| code-fold: true
+################################################
+# 5) AJUSTAR QC ALOMETRICO
+################################################
+
+ajustar_alometria_qc <- function(
+  data,
+  x_var,
+  y_var,
+  group_vars_local = c("site", "size_class", "treatment"),
+  group_vars_fallback = c("size_class", "treatment"),
+  min_n_local = 15,
+  threshold_method = c("sd", "mad"),
+  k = 3
+) {
+
+  threshold_method <- match.arg(threshold_method)
+
+  x_sym <- rlang::sym(x_var)
+  y_sym <- rlang::sym(y_var)
+
+  df <- data %>%
+    mutate(.row_id_qc = dplyr::row_number())
+
+  model_df <- df %>%
+    filter(
+      !is.na(!!x_sym),
+      !is.na(!!y_sym),
+      !!x_sym > 0,
+      !!y_sym > 0,
+      !is.na(site),
+      !is.na(size_class),
+      !is.na(treatment)
+    ) %>%
+    mutate(
+      log_x = log(!!x_sym),
+      log_y = log(!!y_sym),
+      .group_local = interaction(!!!rlang::syms(group_vars_local), drop = TRUE, lex.order = TRUE),
+      .group_fallback = interaction(!!!rlang::syms(group_vars_fallback), drop = TRUE, lex.order = TRUE)
+    )
+
+  if (nrow(model_df) == 0) {
+    return(
+      df %>%
+        transmute(
+          .row_id_qc,
+          allo_pred = NA_real_,
+          resid_allo = NA_real_,
+          allo_thr = NA_real_,
+          flag_allometry = NA,
+          allo_level = NA_character_
+        )
+    )
+  }
+
+  n_local_tbl <- model_df %>%
+    count(.group_local, name = "n_local")
+
+  model_df <- model_df %>%
+    left_join(n_local_tbl, by = ".group_local") %>%
+    mutate(
+      .use_local = n_local >= min_n_local,
+      .fit_group = if_else(.use_local, as.character(.group_local), as.character(.group_fallback)),
+      .fit_level = if_else(.use_local, "site_size_treatment", "size_treatment")
+    )
+
+  fit_one_group <- function(subdf) {
+
+    this_level <- unique(subdf$.fit_level)
+
+    if (nrow(subdf) < 5) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            allo_pred = NA_real_,
+            resid_allo = NA_real_,
+            allo_thr = NA_real_,
+            flag_allometry = NA,
+            allo_level = this_level
+          )
+      )
+    }
+
+    fit <- tryCatch(
+      lm(log_y ~ log_x, data = subdf),
+      error = function(e) NULL
+    )
+
+    if (is.null(fit)) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            allo_pred = NA_real_,
+            resid_allo = NA_real_,
+            allo_thr = NA_real_,
+            flag_allometry = NA,
+            allo_level = this_level
+          )
+      )
+    }
+
+    pred <- tryCatch(
+      as.numeric(predict(fit, newdata = subdf)),
+      error = function(e) rep(NA_real_, nrow(subdf))
+    )
+
+    resid_allo <- subdf$log_y - pred
+
+    spread_val <- NA_real_
+
+    if (sum(!is.na(resid_allo)) >= 5) {
+      if (threshold_method == "sd") {
+        spread_val <- sd(resid_allo, na.rm = TRUE)
+      } else {
+        spread_val <- mad(resid_allo, constant = 1, na.rm = TRUE)
+      }
+    }
+
+    if (is.na(spread_val)) spread_val <- 0
+
+    thr <- k * spread_val
+
+    flag <- ifelse(
+      !is.na(resid_allo),
+      abs(resid_allo) > thr,
+      NA
+    )
+
+    subdf %>%
+      transmute(
+        .row_id_qc,
+        allo_pred = pred,
+        resid_allo = resid_allo,
+        allo_thr = thr,
+        flag_allometry = flag,
+        allo_level = this_level
+      )
+  }
+
+  fitted_df <- model_df %>%
+    group_split(.fit_group, .keep = TRUE) %>%
+    purrr::map_dfr(fit_one_group)
+
+  df %>%
+    select(.row_id_qc) %>%
+    left_join(fitted_df, by = ".row_id_qc")
+}
+
+################################################
+# 6) APLICAR QC ALOMETRICO
+################################################
+
+aplicar_alometria_qc <- function(
+  tasas,
+  min_n_local = 15,
+  threshold_method = "mad",
+  k = 3
+) {
+
+  allo_la <- ajustar_alometria_qc(
+    data = tasas,
+    x_var = "largo_max_mm_final",
+    y_var = "ancho_max_mm_final",
+    min_n_local = min_n_local,
+    threshold_method = threshold_method,
+    k = k
+  ) %>%
+    rename(
+      allo_pred_la = allo_pred,
+      resid_allo_la = resid_allo,
+      allo_thr_la = allo_thr,
+      flag_allometry_la = flag_allometry,
+      allo_level_la = allo_level
+    )
+
+  allo_lp <- ajustar_alometria_qc(
+    data = tasas,
+    x_var = "largo_max_mm_final",
+    y_var = "peso_gr_final",
+    min_n_local = min_n_local,
+    threshold_method = threshold_method,
+    k = k
+  ) %>%
+    rename(
+      allo_pred_lp = allo_pred,
+      resid_allo_lp = resid_allo,
+      allo_thr_lp = allo_thr,
+      flag_allometry_lp = flag_allometry,
+      allo_level_lp = allo_level
+    )
+
+  tasas %>%
+    mutate(.row_id_qc = row_number()) %>%
+    left_join(allo_la, by = ".row_id_qc") %>%
+    left_join(allo_lp, by = ".row_id_qc") %>%
+    mutate(
+      flag_outlier_shape =
+        dplyr::coalesce(flag_allometry_la, FALSE) |
+        dplyr::coalesce(flag_allometry_lp, FALSE)
+    ) %>%
+    select(-.row_id_qc)
+}
+```
 ## 5. QC multivariado: combinaciones improbables
 
-Finalmente, se aplicó un control multivariado basado en **distancias de Mahalanobis** para identificar individuos cuya combinación conjunta de residuos fuera improbable, aunque ninguna variable por separado pareciera extrema.
+Finalmente, se aplicó un control multivariado basado en **distancias de Mahalanobis** para identificar individuos cuya combinación conjunta de residuos fuera improbable, aunque ninguna variable por separado pareciera extrema. **Sirve para refinar combinaciones raras.**
+
+**Distancia de Mahalanobis**
+
+	-
+	  Distancia M = qué tan lejos está un individuo del centro multivariado esperado,
+	  considerando la covarianza entre variables
+	-
+
+::: {.callout-note}
+El QC multivariado puede aportar una señal nueva y sobre todo ayuda a **refinar** la señal alométrica y a identificar un subconjunto pequeño de observaciones altamente sospechosas.
+:::
 
 Se implementaron dos módulos:
 
@@ -270,6 +959,213 @@ Este módulo responde a la pregunta:
 
 > ¿La combinación conjunta de rasgos o residuos de este individuo es improbable, aunque cada variable por separado no parezca extrema?
 
+### R code
+
+```{R}
+#| eval: false
+#| code-fold: true
+################################################
+# 7) AJUSTAR QC MULTIVARIADO
+################################################
+
+ajustar_multivariado_qc <- function(
+  data,
+  vars,
+  group_vars = c("size_class", "treatment"),
+  min_n_group = 30,
+  alpha = 0.99,
+  level_name = "size_treatment"
+) {
+
+  df <- data %>%
+    mutate(.row_id_qc = dplyr::row_number())
+
+  model_df <- df %>%
+    filter(
+      if_all(all_of(vars), ~ !is.na(.x)),
+      !is.na(size_class),
+      !is.na(treatment)
+    ) %>%
+    mutate(
+      .fit_group = interaction(!!!rlang::syms(group_vars), drop = TRUE, lex.order = TRUE)
+    )
+
+  if (nrow(model_df) == 0) {
+    return(
+      df %>%
+        transmute(
+          .row_id_qc,
+          dist_multi = NA_real_,
+          thr_multi = NA_real_,
+          flag_outlier_multi = NA,
+          multi_level = NA_character_
+        )
+    )
+  }
+
+  n_group_tbl <- model_df %>%
+    count(.fit_group, name = "n_group")
+
+  model_df <- model_df %>%
+    left_join(n_group_tbl, by = ".fit_group")
+
+  fit_one_group <- function(subdf) {
+
+    if (nrow(subdf) < min_n_group) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            dist_multi = NA_real_,
+            thr_multi = NA_real_,
+            flag_outlier_multi = NA,
+            multi_level = level_name
+          )
+      )
+    }
+
+    X <- as.matrix(subdf[, vars, drop = FALSE])
+
+    keep_cols <- apply(X, 2, function(z) stats::sd(z, na.rm = TRUE) > 0)
+
+    if (sum(keep_cols) < 2) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            dist_multi = NA_real_,
+            thr_multi = NA_real_,
+            flag_outlier_multi = NA,
+            multi_level = level_name
+          )
+      )
+    }
+
+    X_use <- X[, keep_cols, drop = FALSE]
+
+    center_vec <- colMeans(X_use, na.rm = TRUE)
+    cov_mat <- tryCatch(
+      stats::cov(X_use, use = "complete.obs"),
+      error = function(e) NULL
+    )
+
+    if (is.null(cov_mat)) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            dist_multi = NA_real_,
+            thr_multi = NA_real_,
+            flag_outlier_multi = NA,
+            multi_level = level_name
+          )
+      )
+    }
+
+    det_ok <- tryCatch(det(cov_mat), error = function(e) NA_real_)
+
+    if (is.na(det_ok) || det_ok <= 0) {
+      return(
+        subdf %>%
+          transmute(
+            .row_id_qc,
+            dist_multi = NA_real_,
+            thr_multi = NA_real_,
+            flag_outlier_multi = NA,
+            multi_level = level_name
+          )
+      )
+    }
+
+    dist_vals <- tryCatch(
+      stats::mahalanobis(X_use, center = center_vec, cov = cov_mat),
+      error = function(e) rep(NA_real_, nrow(subdf))
+    )
+
+    p_dim <- ncol(X_use)
+    thr_val <- stats::qchisq(alpha, df = p_dim)
+
+    flag_vals <- ifelse(
+      !is.na(dist_vals),
+      dist_vals > thr_val,
+      NA
+    )
+
+    subdf %>%
+      transmute(
+        .row_id_qc,
+        dist_multi = dist_vals,
+        thr_multi = thr_val,
+        flag_outlier_multi = flag_vals,
+        multi_level = level_name
+      )
+  }
+
+  fitted_df <- model_df %>%
+    group_split(.fit_group, .keep = TRUE) %>%
+    purrr::map_dfr(fit_one_group)
+
+  df %>%
+    select(.row_id_qc) %>%
+    left_join(fitted_df, by = ".row_id_qc")
+}
+
+################################################
+# 8) APLICAR QC MULTIVARIADO
+################################################
+
+aplicar_multivariado_qc <- function(
+  tasas,
+  min_n_group_growth = 30,
+  min_n_group_shape = 30,
+  alpha_growth = 0.99,
+  alpha_shape = 0.99
+) {
+
+  multi_growth <- ajustar_multivariado_qc(
+    data = tasas,
+    vars = c("resid_env_largo", "resid_env_ancho", "resid_env_peso"),
+    group_vars = c("size_class", "treatment"),
+    min_n_group = min_n_group_growth,
+    alpha = alpha_growth,
+    level_name = "size_treatment"
+  ) %>%
+    rename(
+      dist_multi_growth = dist_multi,
+      thr_multi_growth = thr_multi,
+      flag_outlier_multi_growth = flag_outlier_multi,
+      multi_level_growth = multi_level
+    )
+
+  multi_shape <- ajustar_multivariado_qc(
+    data = tasas,
+    vars = c("resid_allo_la", "resid_allo_lp"),
+    group_vars = c("size_class", "treatment"),
+    min_n_group = min_n_group_shape,
+    alpha = alpha_shape,
+    level_name = "size_treatment"
+  ) %>%
+    rename(
+      dist_multi_shape = dist_multi,
+      thr_multi_shape = thr_multi,
+      flag_outlier_multi_shape = flag_outlier_multi,
+      multi_level_shape = multi_level
+    )
+
+  tasas %>%
+    mutate(.row_id_qc = row_number()) %>%
+    left_join(multi_growth, by = ".row_id_qc") %>%
+    left_join(multi_shape, by = ".row_id_qc") %>%
+    mutate(
+      flag_outlier_multi =
+        dplyr::coalesce(flag_outlier_multi_growth, FALSE) |
+        dplyr::coalesce(flag_outlier_multi_shape, FALSE)
+    ) %>%
+    select(-.row_id_qc)
+}
+
+```
+
 ## 6. Puntaje global y categoría final
 
 A partir de las banderas generadas por los distintos módulos se calculó un puntaje global:
@@ -289,6 +1185,41 @@ Estas categorías no sustituyen el juicio biológico, pero permiten ordenar la e
 ## Decisión metodológica
 El sistema de QC fue diseñado para **marcar** observaciones, no para eliminarlas automáticamente. Esto permite mantener trazabilidad completa, reducir sesgos por sobre-filtrado y evaluar análisis de sensibilidad de forma transparente.
 :::
+
+### R code
+
+```{R}
+#| eval: false
+#| code-fold: true
+################################################
+# 9) CONSTRUIR SCORE QC
+################################################
+
+construir_score_qc <- function(tasas) {
+
+  tasas %>%
+    mutate(
+      qc_score =
+        as.integer(coalesce(flag_dudoso_terreno, FALSE)) +
+        as.integer(coalesce(flag_dias_invalidos, FALSE)) +
+        as.integer(coalesce(flag_dup_medicion, FALSE)) +
+        as.integer(coalesce(flag_dup_individuo, FALSE)) +
+        as.integer(coalesce(flag_negativo_fuerte, FALSE)) +
+        as.integer(coalesce(flag_outlier_univar, FALSE)) +
+        as.integer(coalesce(flag_outlier_shape, FALSE)) +
+        as.integer(coalesce(flag_outlier_multi, FALSE)),
+
+      qc_categoria = case_when(
+        qc_score == 0 ~ "ok",
+        qc_score == 1 ~ "revisar",
+        qc_score == 2 ~ "sospechoso",
+        qc_score >= 3 ~ "muy_sospechoso",
+        TRUE ~ NA_character_
+      )
+    )
+}
+
+```
 
 # Visualización del control de calidad QC
 
