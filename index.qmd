@@ -33,14 +33,10 @@ Describe el diseño del experimento, los sitios de estudio, el procedimiento de 
 
 Describe el flujo de procesamiento implementado en R para consolidar mediciones, calcular tasas de crecimiento, aplicar banderas de control de calidad biológicamente informadas y generar distintos productos analíticos con trazabilidad completa.
 
-### [Dataset analítico](dataset.qmd#sec-dataset)
+### [Visualización Dataset analítico](dataset.qmd#sec-dataset)
 
 Presenta un resumen del dataset analítico principal derivado del sistema QC, incluyendo su estructura, número de observaciones por sitio y temporalidad, periodos de exposición y visualizaciones descriptivas de las tasas de crecimiento.
 
-## Nota sobre la estructura de datos
+# Nota sobre nomenclatura
 
-El flujo de trabajo genera varias salidas complementarias. En esta web, la sección [Dataset](dataset.qmd#sec-dataset) resume principalmente el archivo:
-
-`Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds`
-
-que corresponde a un dataset analítico recomendado para realizar los análisis principales. Las versiones `RAW`, `QC` y `ANALISIS_SENSIBILIDAD` se describen en detalle en la sección de [pre-procesamiento](preprocess.qmd#sec-preprocess).
+Las variables de los archivo se conservan con nombres en inglés para facilitar el trabajo analítico en R. En el texto de esta web y su interpretación general se presenta en español.

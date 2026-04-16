@@ -185,10 +185,9 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#sec-preprocess" id="toc-sec-preprocess" class="nav-link active" data-scroll-target="#sec-preprocess">Pre-procesamiento y control de calidad</a></li>
-  <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo">Objetivo</a></li>
-  <li><a href="#estructura-de-los-datos-de-entrada" id="toc-estructura-de-los-datos-de-entrada" class="nav-link" data-scroll-target="#estructura-de-los-datos-de-entrada">Estructura de los datos de entrada</a></li>
-  <li><a href="#flujo-general-del-procesamiento" id="toc-flujo-general-del-procesamiento" class="nav-link" data-scroll-target="#flujo-general-del-procesamiento">Flujo general del procesamiento</a></li>
+  <li><a href="#quality-control-and-data-preprocessing" id="toc-quality-control-and-data-preprocessing" class="nav-link active" data-scroll-target="#quality-control-and-data-preprocessing">Quality control and data preprocessing</a></li>
+  <li><a href="#sec-preprocess" id="toc-sec-preprocess" class="nav-link" data-scroll-target="#sec-preprocess">Estructura de los datos de entrada</a></li>
+  <li><a href="#flujo-general-del-procesamiento-y-qc" id="toc-flujo-general-del-procesamiento-y-qc" class="nav-link" data-scroll-target="#flujo-general-del-procesamiento-y-qc">Flujo general del procesamiento y QC</a></li>
   <li><a href="#creación-de-identificador-único" id="toc-creación-de-identificador-único" class="nav-link" data-scroll-target="#creación-de-identificador-único">Creación de identificador único</a>
   <ul class="collapse">
   <li><a href="#cálculo-de-tasas-de-crecimiento" id="toc-cálculo-de-tasas-de-crecimiento" class="nav-link" data-scroll-target="#cálculo-de-tasas-de-crecimiento">Cálculo de tasas de crecimiento</a></li>
@@ -227,34 +226,31 @@ window.Quarto = {
   </ul></li>
   <li><a href="#visualización-del-control-de-calidad-qc" id="toc-visualización-del-control-de-calidad-qc" class="nav-link" data-scroll-target="#visualización-del-control-de-calidad-qc">Visualización del control de calidad QC</a>
   <ul class="collapse">
-  <li><a href="#qc-univariado" id="toc-qc-univariado" class="nav-link" data-scroll-target="#qc-univariado">QC univariado</a>
+  <li><a href="#qc-univariado" id="toc-qc-univariado" class="nav-link" data-scroll-target="#qc-univariado">QC univariado</a></li>
+  <li><a href="#qc-alométrico" id="toc-qc-alométrico" class="nav-link" data-scroll-target="#qc-alométrico">QC alométrico</a>
   <ul class="collapse">
   <li><a href="#figuras" id="toc-figuras" class="nav-link" data-scroll-target="#figuras">Figuras</a></li>
   </ul></li>
-  <li><a href="#qc-alométrico" id="toc-qc-alométrico" class="nav-link" data-scroll-target="#qc-alométrico">QC alométrico</a>
-  <ul class="collapse">
-  <li><a href="#figuras-1" id="toc-figuras-1" class="nav-link" data-scroll-target="#figuras-1">Figuras</a></li>
-  </ul></li>
   <li><a href="#qc-multivariado" id="toc-qc-multivariado" class="nav-link" data-scroll-target="#qc-multivariado">QC multivariado</a>
   <ul class="collapse">
-  <li><a href="#figuras-2" id="toc-figuras-2" class="nav-link" data-scroll-target="#figuras-2">Figuras</a></li>
+  <li><a href="#figuras-1" id="toc-figuras-1" class="nav-link" data-scroll-target="#figuras-1">Figuras</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#archivos-generados-por-el-flujo-de-trabajo" id="toc-archivos-generados-por-el-flujo-de-trabajo" class="nav-link" data-scroll-target="#archivos-generados-por-el-flujo-de-trabajo">Archivos generados por el flujo de trabajo</a>
   <ul class="collapse">
   <li><a href="#archivos-.rds" id="toc-archivos-.rds" class="nav-link" data-scroll-target="#archivos-.rds">Archivos <code>.rds</code></a>
   <ul class="collapse">
+  <li><a href="#tasas_crecimiento_ppurpuratus_vis_limpio.rds" id="toc-tasas_crecimiento_ppurpuratus_vis_limpio.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_vis_limpio.rds"><code>Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds</code></a></li>
   <li><a href="#mediciones_crecimiento_ppurpuratus_raw.rds" id="toc-mediciones_crecimiento_ppurpuratus_raw.rds" class="nav-link" data-scroll-target="#mediciones_crecimiento_ppurpuratus_raw.rds"><code>Mediciones_Crecimiento_Ppurpuratus_RAW.rds</code></a></li>
   <li><a href="#tasas_crecimiento_ppurpuratus_raw.rds" id="toc-tasas_crecimiento_ppurpuratus_raw.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_raw.rds"><code>Tasas_Crecimiento_Ppurpuratus_RAW.rds</code></a></li>
   <li><a href="#tasas_crecimiento_ppurpuratus_qc.rds" id="toc-tasas_crecimiento_ppurpuratus_qc.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_qc.rds"><code>Tasas_Crecimiento_Ppurpuratus_QC.rds</code></a></li>
   <li><a href="#tasas_crecimiento_ppurpuratus_analisis_base.rds" id="toc-tasas_crecimiento_ppurpuratus_analisis_base.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_analisis_base.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds</code></a></li>
   <li><a href="#tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" id="toc-tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds</code></a></li>
-  <li><a href="#tasas_crecimiento_ppurpuratus_vis_limpio.rds" id="toc-tasas_crecimiento_ppurpuratus_vis_limpio.rds" class="nav-link" data-scroll-target="#tasas_crecimiento_ppurpuratus_vis_limpio.rds"><code>Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds</code></a></li>
   </ul></li>
   </ul></li>
   <li><a href="#estructura-del-excel-maestro" id="toc-estructura-del-excel-maestro" class="nav-link" data-scroll-target="#estructura-del-excel-maestro">Estructura del Excel maestro</a>
   <ul class="collapse">
-  <li><a href="#pestañas-de-datos-principales" id="toc-pestañas-de-datos-principales" class="nav-link" data-scroll-target="#pestañas-de-datos-principales">Pestañas de datos principales</a>
+  <li><a href="#pestañas-de-datos-principales-del-excel" id="toc-pestañas-de-datos-principales-del-excel" class="nav-link" data-scroll-target="#pestañas-de-datos-principales-del-excel">Pestañas de datos principales del excel</a>
   <ul class="collapse">
   <li><a href="#mediciones_raw" id="toc-mediciones_raw" class="nav-link" data-scroll-target="#mediciones_raw"><code>mediciones_raw</code></a></li>
   <li><a href="#tasas_raw" id="toc-tasas_raw" class="nav-link" data-scroll-target="#tasas_raw"><code>tasas_raw</code></a></li>
@@ -302,39 +298,44 @@ window.Quarto = {
 </header>
 
 
-<section id="sec-preprocess" class="level1">
-<h1>Pre-procesamiento y control de calidad</h1>
-</section>
-<section id="objetivo" class="level1">
-<h1>Objetivo</h1>
-<p>Esta sección describe el flujo completo de pre-procesamiento y control de calidad (<strong>Q</strong>uality <strong>C</strong>ontrol) aplicado a los datos de crecimiento de <em>P. purpuratus</em>. El objetivo fue:</p>
+<p>Esta sección describe el flujo completo de pre-procesamiento y control de calidad (<strong>Q</strong>uality <strong>C</strong>ontrol) aplicado a los datos de crecimiento obtenidos del experimento de traspantes de <em>P. purpuratus</em>. El objetivo fue:</p>
 <ul>
-<li>consolidar mediciones individuales provenientes de múltiples planillas excel,</li>
+<li>consolidar mediciones individuales provenientes de múltiples archivos excel,</li>
 <li>calcular tasas de crecimiento en largo (mm), ancho (mm) y peso (gr),</li>
 <li>identificar observaciones potencialmente inconsistentes (duplicados, error de digitación, etc.),</li>
 <li>mantener trazabilidad completa de todas las decisiones,</li>
 <li>y generar salidas reproducibles para análisis base, análisis de sensibilidad y una revisión detallada.</li>
 </ul>
 <p>A diferencia de un enfoque puramente estadístico basado en la eliminación automática de outliers, aquí implementamos un sistema de QC <strong>biológicamente informado</strong>, basado en <strong>banderas de calidad</strong> (flags) y no en filtrado ciego con motosierra.</p>
-</section>
-<section id="estructura-de-los-datos-de-entrada" class="level1">
+<details>
+<summary>
+<strong>Quality control and data preprocessing (English fragment for Materials and Methods)</strong>
+</summary>
+<section id="quality-control-and-data-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="quality-control-and-data-preprocessing">Quality control and data preprocessing</h3>
+<p>Raw measurements were not removed <em>a priori</em>. Instead, a reproducible quality control (QC) pipeline was implemented to identify and flag potentially anomalous observations while preserving the original data.</p>
+<p>First, basic QC checks were applied to detect inconsistencies in the temporal sequence (e.g., negative or zero time intervals), duplicated measurements, and duplicated individual identifiers. Observations failing these checks were flagged but retained in the dataset.</p>
+<p>Second, small negative growth values within predefined tolerance thresholds (0.05 mm for length and width, 0.02 g for weight) were interpreted as measurement noise and set to zero in corrected variables, while larger negative values were flagged as potentially problematic.</p>
+<p>Third, univariate growth envelopes were estimated using quantile regression (= 0.99) to characterize the upper boundary of expected growth as a function of initial size. Deviations from this envelope were quantified using robust residual dispersion (median absolute deviation, MAD), and observations exceeding a threshold ((k = 3 )) were flagged as potential outliers.</p>
+<p>Fourth, allometric consistency was evaluated by fitting log–log relationships between final length and width, and between final length and weight. Observations with large residuals relative to these relationships were flagged as shape-inconsistent.</p>
+<p>Finally, a multivariate QC step was applied by calculating distances in the joint space of growth or shape variables (e.g., Mahalanobis distance), allowing the detection of anomalous combinations of traits not identified by univariate criteria.</p>
+<p>All QC steps produced flags that were combined into an overall QC score and categorical classification (e.g., “ok”, “review”, “suspect”, “highly suspect”). Importantly, no observations were removed during preprocessing. Instead, flagged observations were retained and handled explicitly in downstream analyses, allowing sensitivity analyses comparing results with and without flagged data.</p>
+</section></details>
+
+<section id="sec-preprocess" class="level1">
 <h1>Estructura de los datos de entrada</h1>
-<p>El script trabaja con archivos <code>.xlsx</code> independientes, correspondientes a combinaciones de tratamiento temporal y estación de exposición. Cada archivo contiene mediciones individuales tomadas en dos momentos (exposure_type):</p>
+<p>Utilizamos planillas fuente <code>.xlsx</code> independientes, separadas por tratamiento/season (Anual, Verano, Otoño, Invierno y Primavera). Cada uno registra las mediciones individuales tomadas antes de la instalación y despues del periodo de exposición en terreno (exposure_type <strong>inicial</strong> y <strong>final</strong>)</p>
+<p>A partir de estas mediciones se reconstruyen los pares inicial–final por cada individuo para calcular:</p>
 <ul>
-<li><strong>inicial</strong></li>
-<li><strong>final</strong></li>
-</ul>
-<p>A partir de estas mediciones se reconstruyen pares inicial–final por individuo para calcular:</p>
-<ul>
-<li>crecimiento en largo</li>
-<li>crecimiento en ancho</li>
-<li>crecimiento en peso</li>
-<li>tasas diarias de crecimiento para cada variable</li>
+<li>El crecimiento en largo</li>
+<li>El crecimiento en ancho</li>
+<li>El crecimiento en peso</li>
+<li>Las tasas diarias de crecimiento para cada variable</li>
 </ul>
 </section>
-<section id="flujo-general-del-procesamiento" class="level1">
-<h1>Flujo general del procesamiento</h1>
-<p>El flujo puede resumirse así:</p>
+<section id="flujo-general-del-procesamiento-y-qc" class="level1">
+<h1>Flujo general del procesamiento y QC</h1>
+<p>Podemos resumirlo así:</p>
 <ol type="1">
 <li>Lectura y estandarización de planillas fuente<br>
 </li>
@@ -342,12 +343,11 @@ window.Quarto = {
 </li>
 <li>Construcción de un identificador único por individuo (ID)<br>
 </li>
-<li>Detección de duplicados<br>
+<li>Detección de datos duplicados<br>
 </li>
 <li>Cálculo de cambios absolutos y tasas de crecimiento<br>
 </li>
-<li>Aplicación de banderas básicas de integridad<br>
-</li>
+<li>Aplicación de banderas básicas de integridad QC</li>
 <li>Corrección de negativos leves y marcado de negativos fuertes<br>
 </li>
 <li>QC univariado basado en crecimiento máximo plausible<br>
@@ -368,7 +368,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Idea central del sistema
+<span class="screen-reader-only">Nota</span>Idea central del sistema de contro de calidad (QC)
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -389,10 +389,12 @@ window.Quarto = {
 <li>plot</li>
 <li>información de reemplazo por pérdida</li>
 </ul>
-<p>Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias.</p>
+<p>Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias. Por ejemplo: <span class="math display">\[
+Matanzas_amarillo_73_grande_anual_anual_3_R
+\]</span></p>
 <section id="cálculo-de-tasas-de-crecimiento" class="level2">
 <h2 class="anchored" data-anchor-id="cálculo-de-tasas-de-crecimiento">Cálculo de tasas de crecimiento</h2>
-<p>Una vez emparejadas las mediciones iniciales y finales, para cada individuo, se calcularon el crecimiento absoluto en largo, ancho y peso se estimó como la diferencia entre la medición final y la inicial. Si <span class="math inline">\(X_i\)</span> corresponde al valor inicial, <span class="math inline">\(X_f\)</span> al valor final y <span class="math inline">\(\Delta t\)</span> al número de días transcurridos entre ambas mediciones, entonces:</p>
+<p>Una vez emparejadas las mediciones iniciales y finales, para cada individuo, se calcularon el crecimiento absoluto en largo (mm), ancho (mm) y peso (gr) se estimó como la diferencia entre la medición final y la inicial. Si <span class="math inline">\(X_i\)</span> corresponde al valor inicial, <span class="math inline">\(X_f\)</span> al valor final y <span class="math inline">\(\Delta t\)</span> al número de días transcurridos entre ambas mediciones, entonces:</p>
 <p><span class="math display">\[
 G_X = X_f - X_i
 \]</span></p>
@@ -402,7 +404,7 @@ G_X = X_f - X_i
 R_X = \frac{X_f - X_i}{\Delta t}
 \]</span></p>
 <p>donde <span class="math inline">\(R_X\)</span> es la tasa diaria de crecimiento para la variable <span class="math inline">\(X\)</span>.</p>
-<p>En este estudio, las ecuaciones utilizadas fueron:</p>
+<p>De acuerdo con lo siguiente:</p>
 <p><span class="math display">\[
 \text{crecimiento\_largo\_mm} = \text{largo\_max\_mm\_final} - \text{largo\_max\_mm\_inicial}
 \]</span></p>
@@ -449,7 +451,7 @@ G_X^{corr} = 0 \quad \text{si} \quad -\tau_X &lt; G_X &lt; 0
 <p><span class="math display">\[
 \text{tasa\_diaria\_peso\_corr} = \frac{\text{crecimiento\_peso\_gr\_corr}}{\text{dias}}
 \]</span></p>
-<p>Estas variables corregidas se utilizaron en las etapas posteriores del pipeline de control de calidad, particularmente en la detección de <em>outliers</em> univariados, chequeos alométricos y evaluación multivariada.</p>
+<p>Estas variables corregidas se utilizaron en las etapas posteriores del control de calidad, particularmente en la detección de <em>outliers</em> univariados, chequeos alométricos y evaluación multivariada.</p>
 </section>
 </section>
 <section id="sistema-de-control-de-calidad-qc" class="level1">
@@ -1233,10 +1235,7 @@ Que no creció “demasiado”, pero su forma final no calza con la morfología 
 <h2 class="anchored" data-anchor-id="qc-multivariado-combinaciones-improbables">5. QC multivariado: combinaciones improbables</h2>
 <p>Finalmente, se aplicó un control multivariado basado en <strong>distancias de Mahalanobis</strong> para identificar individuos cuya combinación conjunta de residuos fuera improbable, aunque ninguna variable por separado pareciera extrema. <strong>Sirve para refinar combinaciones raras.</strong></p>
 <p><strong>Distancia de Mahalanobis</strong></p>
-<pre><code>-
-  Distancia M = qué tan lejos está un individuo del centro multivariado esperado,
-  considerando la covarianza entre variables
--</code></pre>
+<p><strong>M:</strong> qué tan lejos está un individuo del centro multivariado esperado, considerando la covarianza entre variables.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1250,7 +1249,7 @@ Nota
 <p>El QC multivariado puede aportar una señal nueva y sobre todo ayuda a <strong>refinar</strong> la señal alométrica y a identificar un subconjunto pequeño de observaciones altamente sospechosas.</p>
 </div>
 </div>
-<p>Se implementaron dos módulos:</p>
+<p>Para ello se implementaron dos módulos:</p>
 <section id="multivariado-de-crecimiento" class="level3">
 <h3 class="anchored" data-anchor-id="multivariado-de-crecimiento">Multivariado de crecimiento</h3>
 <p>Usa conjuntamente los residuos de:</p>
@@ -1280,205 +1279,205 @@ Nota
 <div class="cell">
 <details class="code-fold">
 <summary>Mostrar código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 7) AJUSTAR QC MULTIVARIADO</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ajustar_multivariado_qc <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  data,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  vars,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">group_vars =</span> <span class="fu">c</span>(<span class="st">"size_class"</span>, <span class="st">"treatment"</span>),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n_group =</span> <span class="dv">30</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fl">0.99</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">level_name =</span> <span class="st">"size_treatment"</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">.row_id_qc =</span> dplyr<span class="sc">::</span><span class="fu">row_number</span>())</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  model_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_all</span>(<span class="fu">all_of</span>(vars), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x)),</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(size_class),</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(treatment)</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fit_group =</span> <span class="fu">interaction</span>(<span class="sc">!!!</span>rlang<span class="sc">::</span><span class="fu">syms</span>(group_vars), <span class="at">drop =</span> <span class="cn">TRUE</span>, <span class="at">lex.order =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(model_df) <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      df <span class="sc">%&gt;%</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="fu">transmute</span>(</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>          .row_id_qc,</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>          <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>          <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>          <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>          <span class="at">multi_level =</span> <span class="cn">NA_character_</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  n_group_tbl <span class="ot">&lt;-</span> model_df <span class="sc">%&gt;%</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(.fit_group, <span class="at">name =</span> <span class="st">"n_group"</span>)</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  model_df <span class="ot">&lt;-</span> model_df <span class="sc">%&gt;%</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(n_group_tbl, <span class="at">by =</span> <span class="st">".fit_group"</span>)</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  fit_one_group <span class="ot">&lt;-</span> <span class="cf">function</span>(subdf) {</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">nrow</span>(subdf) <span class="sc">&lt;</span> min_n_group) {</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(subdf[, vars, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    keep_cols <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(z) stats<span class="sc">::</span><span class="fu">sd</span>(z, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">sum</span>(keep_cols) <span class="sc">&lt;</span> <span class="dv">2</span>) {</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    X_use <span class="ot">&lt;-</span> X[, keep_cols, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    center_vec <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(X_use, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    cov_mat <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>      stats<span class="sc">::</span><span class="fu">cov</span>(X_use, <span class="at">use =</span> <span class="st">"complete.obs"</span>),</span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>      <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NULL</span></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(cov_mat)) {</span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>    det_ok <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">det</span>(cov_mat), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NA_real_</span>)</span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(det_ok) <span class="sc">||</span> det_ok <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>    dist_vals <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>      stats<span class="sc">::</span><span class="fu">mahalanobis</span>(X_use, <span class="at">center =</span> center_vec, <span class="at">cov =</span> cov_mat),</span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>      <span class="at">error =</span> <span class="cf">function</span>(e) <span class="fu">rep</span>(<span class="cn">NA_real_</span>, <span class="fu">nrow</span>(subdf))</span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>    p_dim <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X_use)</span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>    thr_val <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">qchisq</span>(alpha, <span class="at">df =</span> p_dim)</span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>    flag_vals <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(dist_vals),</span>
-<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>      dist_vals <span class="sc">&gt;</span> thr_val,</span>
-<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA</span></span>
-<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>    subdf <span class="sc">%&gt;%</span></span>
-<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>      <span class="fu">transmute</span>(</span>
-<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>        .row_id_qc,</span>
-<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>        <span class="at">dist_multi =</span> dist_vals,</span>
-<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>        <span class="at">thr_multi =</span> thr_val,</span>
-<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>        <span class="at">flag_outlier_multi =</span> flag_vals,</span>
-<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>        <span class="at">multi_level =</span> level_name</span>
-<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>  fitted_df <span class="ot">&lt;-</span> model_df <span class="sc">%&gt;%</span></span>
-<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_split</span>(.fit_group, <span class="at">.keep =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">map_dfr</span>(fit_one_group)</span>
-<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span></span>
-<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(.row_id_qc) <span class="sc">%&gt;%</span></span>
-<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(fitted_df, <span class="at">by =</span> <span class="st">".row_id_qc"</span>)</span>
-<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
-<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="co"># 8) APLICAR QC MULTIVARIADO</span></span>
-<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
-<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>aplicar_multivariado_qc <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>  tasas,</span>
-<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n_group_growth =</span> <span class="dv">30</span>,</span>
-<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n_group_shape =</span> <span class="dv">30</span>,</span>
-<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_growth =</span> <span class="fl">0.99</span>,</span>
-<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_shape =</span> <span class="fl">0.99</span></span>
-<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>  multi_growth <span class="ot">&lt;-</span> <span class="fu">ajustar_multivariado_qc</span>(</span>
-<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> tasas,</span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">"resid_env_largo"</span>, <span class="st">"resid_env_ancho"</span>, <span class="st">"resid_env_peso"</span>),</span>
-<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_vars =</span> <span class="fu">c</span>(<span class="st">"size_class"</span>, <span class="st">"treatment"</span>),</span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n_group =</span> min_n_group_growth,</span>
-<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha_growth,</span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_name =</span> <span class="st">"size_treatment"</span></span>
-<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
-<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>      <span class="at">dist_multi_growth =</span> dist_multi,</span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>      <span class="at">thr_multi_growth =</span> thr_multi,</span>
-<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_outlier_multi_growth =</span> flag_outlier_multi,</span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>      <span class="at">multi_level_growth =</span> multi_level</span>
-<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>  multi_shape <span class="ot">&lt;-</span> <span class="fu">ajustar_multivariado_qc</span>(</span>
-<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> tasas,</span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>    <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">"resid_allo_la"</span>, <span class="st">"resid_allo_lp"</span>),</span>
-<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_vars =</span> <span class="fu">c</span>(<span class="st">"size_class"</span>, <span class="st">"treatment"</span>),</span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n_group =</span> min_n_group_shape,</span>
-<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha_shape,</span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_name =</span> <span class="st">"size_treatment"</span></span>
-<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>      <span class="at">dist_multi_shape =</span> dist_multi,</span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>      <span class="at">thr_multi_shape =</span> thr_multi,</span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_outlier_multi_shape =</span> flag_outlier_multi,</span>
-<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>      <span class="at">multi_level_shape =</span> multi_level</span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  tasas <span class="sc">%&gt;%</span></span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">.row_id_qc =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(multi_growth, <span class="at">by =</span> <span class="st">".row_id_qc"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(multi_shape, <span class="at">by =</span> <span class="st">".row_id_qc"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_outlier_multi =</span></span>
-<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">coalesce</span>(flag_outlier_multi_growth, <span class="cn">FALSE</span>) <span class="sc">|</span></span>
-<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">coalesce</span>(flag_outlier_multi_shape, <span class="cn">FALSE</span>)</span>
-<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>.row_id_qc)</span>
-<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 7) AJUSTAR QC MULTIVARIADO</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ajustar_multivariado_qc <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  data,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  vars,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">group_vars =</span> <span class="fu">c</span>(<span class="st">"size_class"</span>, <span class="st">"treatment"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n_group =</span> <span class="dv">30</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fl">0.99</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">level_name =</span> <span class="st">"size_treatment"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">.row_id_qc =</span> dplyr<span class="sc">::</span><span class="fu">row_number</span>())</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  model_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_all</span>(<span class="fu">all_of</span>(vars), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x)),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(size_class),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(treatment)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fit_group =</span> <span class="fu">interaction</span>(<span class="sc">!!!</span>rlang<span class="sc">::</span><span class="fu">syms</span>(group_vars), <span class="at">drop =</span> <span class="cn">TRUE</span>, <span class="at">lex.order =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(model_df) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>      df <span class="sc">%&gt;%</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="fu">transmute</span>(</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>          .row_id_qc,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>          <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>          <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>          <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>          <span class="at">multi_level =</span> <span class="cn">NA_character_</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  n_group_tbl <span class="ot">&lt;-</span> model_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(.fit_group, <span class="at">name =</span> <span class="st">"n_group"</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  model_df <span class="ot">&lt;-</span> model_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(n_group_tbl, <span class="at">by =</span> <span class="st">".fit_group"</span>)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  fit_one_group <span class="ot">&lt;-</span> <span class="cf">function</span>(subdf) {</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">nrow</span>(subdf) <span class="sc">&lt;</span> min_n_group) {</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(subdf[, vars, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    keep_cols <span class="ot">&lt;-</span> <span class="fu">apply</span>(X, <span class="dv">2</span>, <span class="cf">function</span>(z) stats<span class="sc">::</span><span class="fu">sd</span>(z, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">sum</span>(keep_cols) <span class="sc">&lt;</span> <span class="dv">2</span>) {</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    X_use <span class="ot">&lt;-</span> X[, keep_cols, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>    center_vec <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(X_use, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    cov_mat <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>      stats<span class="sc">::</span><span class="fu">cov</span>(X_use, <span class="at">use =</span> <span class="st">"complete.obs"</span>),</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>      <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NULL</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(cov_mat)) {</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>    det_ok <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">det</span>(cov_mat), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NA_real_</span>)</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(det_ok) <span class="sc">||</span> det_ok <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>        subdf <span class="sc">%&gt;%</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>          <span class="fu">transmute</span>(</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>            .row_id_qc,</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>            <span class="at">dist_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>            <span class="at">thr_multi =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>            <span class="at">flag_outlier_multi =</span> <span class="cn">NA</span>,</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>            <span class="at">multi_level =</span> level_name</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>    dist_vals <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>      stats<span class="sc">::</span><span class="fu">mahalanobis</span>(X_use, <span class="at">center =</span> center_vec, <span class="at">cov =</span> cov_mat),</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>      <span class="at">error =</span> <span class="cf">function</span>(e) <span class="fu">rep</span>(<span class="cn">NA_real_</span>, <span class="fu">nrow</span>(subdf))</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>    p_dim <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X_use)</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    thr_val <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">qchisq</span>(alpha, <span class="at">df =</span> p_dim)</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>    flag_vals <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(dist_vals),</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>      dist_vals <span class="sc">&gt;</span> thr_val,</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>    subdf <span class="sc">%&gt;%</span></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>      <span class="fu">transmute</span>(</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>        .row_id_qc,</span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>        <span class="at">dist_multi =</span> dist_vals,</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>        <span class="at">thr_multi =</span> thr_val,</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>        <span class="at">flag_outlier_multi =</span> flag_vals,</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>        <span class="at">multi_level =</span> level_name</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>  fitted_df <span class="ot">&lt;-</span> model_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_split</span>(.fit_group, <span class="at">.keep =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">map_dfr</span>(fit_one_group)</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(.row_id_qc) <span class="sc">%&gt;%</span></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(fitted_df, <span class="at">by =</span> <span class="st">".row_id_qc"</span>)</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="co"># 8) APLICAR QC MULTIVARIADO</span></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>aplicar_multivariado_qc <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>  tasas,</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n_group_growth =</span> <span class="dv">30</span>,</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n_group_shape =</span> <span class="dv">30</span>,</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_growth =</span> <span class="fl">0.99</span>,</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_shape =</span> <span class="fl">0.99</span></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>  multi_growth <span class="ot">&lt;-</span> <span class="fu">ajustar_multivariado_qc</span>(</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> tasas,</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">"resid_env_largo"</span>, <span class="st">"resid_env_ancho"</span>, <span class="st">"resid_env_peso"</span>),</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_vars =</span> <span class="fu">c</span>(<span class="st">"size_class"</span>, <span class="st">"treatment"</span>),</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n_group =</span> min_n_group_growth,</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha_growth,</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_name =</span> <span class="st">"size_treatment"</span></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>      <span class="at">dist_multi_growth =</span> dist_multi,</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>      <span class="at">thr_multi_growth =</span> thr_multi,</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_outlier_multi_growth =</span> flag_outlier_multi,</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>      <span class="at">multi_level_growth =</span> multi_level</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>  multi_shape <span class="ot">&lt;-</span> <span class="fu">ajustar_multivariado_qc</span>(</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> tasas,</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>    <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">"resid_allo_la"</span>, <span class="st">"resid_allo_lp"</span>),</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_vars =</span> <span class="fu">c</span>(<span class="st">"size_class"</span>, <span class="st">"treatment"</span>),</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_n_group =</span> min_n_group_shape,</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha_shape,</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_name =</span> <span class="st">"size_treatment"</span></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>      <span class="at">dist_multi_shape =</span> dist_multi,</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>      <span class="at">thr_multi_shape =</span> thr_multi,</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_outlier_multi_shape =</span> flag_outlier_multi,</span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>      <span class="at">multi_level_shape =</span> multi_level</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a>  tasas <span class="sc">%&gt;%</span></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">.row_id_qc =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(multi_growth, <span class="at">by =</span> <span class="st">".row_id_qc"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(multi_shape, <span class="at">by =</span> <span class="st">".row_id_qc"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>      <span class="at">flag_outlier_multi =</span></span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">coalesce</span>(flag_outlier_multi_growth, <span class="cn">FALSE</span>) <span class="sc">|</span></span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">coalesce</span>(flag_outlier_multi_shape, <span class="cn">FALSE</span>)</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>.row_id_qc)</span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -1515,33 +1514,33 @@ Nota
 <div class="cell">
 <details class="code-fold">
 <summary>Mostrar código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 9) CONSTRUIR SCORE QC</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>construir_score_qc <span class="ot">&lt;-</span> <span class="cf">function</span>(tasas) {</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  tasas <span class="sc">%&gt;%</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">qc_score =</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dudoso_terreno, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dias_invalidos, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dup_medicion, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dup_individuo, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_negativo_fuerte, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_outlier_univar, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_outlier_shape, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_outlier_multi, <span class="cn">FALSE</span>)),</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">qc_categoria =</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"ok"</span>,</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"revisar"</span>,</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"sospechoso"</span>,</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"muy_sospechoso"</span>,</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 9) CONSTRUIR SCORE QC</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>construir_score_qc <span class="ot">&lt;-</span> <span class="cf">function</span>(tasas) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  tasas <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">qc_score =</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dudoso_terreno, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dias_invalidos, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dup_medicion, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_dup_individuo, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_negativo_fuerte, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_outlier_univar, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_outlier_shape, <span class="cn">FALSE</span>)) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.integer</span>(<span class="fu">coalesce</span>(flag_outlier_multi, <span class="cn">FALSE</span>)),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">qc_categoria =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"ok"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"revisar"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"sospechoso"</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        qc_score <span class="sc">&gt;=</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"muy_sospechoso"</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -1553,18 +1552,20 @@ Nota
 <section id="qc-univariado" class="level2">
 <h2 class="anchored" data-anchor-id="qc-univariado">QC univariado</h2>
 <p>Estas figuras muestran los envelopes superiores de crecimiento plausible para largo, ancho y peso. Los puntos marcados corresponden a observaciones que exceden el umbral esperado para su tamaño inicial dentro de cada contexto experimental.</p>
-<section id="figuras" class="level3">
-<h3 class="anchored" data-anchor-id="figuras">Figuras</h3>
-<p><img src="figs/QC_envelope_largo.png" class="img-fluid" alt="QC univariado para largo"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/QC_envelope_largo.png" class="img-fluid figure-img" alt="QC univariado para largo"></p>
+<figcaption>QC univariado envelope de crecimiento para el largo entre estaciones del año y clases de tamaño.</figcaption>
+</figure>
+</div>
 <p><img src="figs/QC_envelope_ancho.png" class="img-fluid" alt="QC univariado para ancho"></p>
 <p><img src="figs/QC_envelope_peso.png" class="img-fluid" alt="QC univariado para peso"></p>
-</section>
 </section>
 <section id="qc-alométrico" class="level2">
 <h2 class="anchored" data-anchor-id="qc-alométrico">QC alométrico</h2>
 <p>Estas relaciones alométricas permiten evaluar si el ancho final y el peso final son consistentes con el largo final observado. Los puntos destacados corresponden a individuos cuya morfología final se desvía del patrón esperado.</p>
-<section id="figuras-1" class="level3">
-<h3 class="anchored" data-anchor-id="figuras-1">Figuras</h3>
+<section id="figuras" class="level3">
+<h3 class="anchored" data-anchor-id="figuras">Figuras</h3>
 <p><img src="figs/QC_allometry_largo_ancho.png" class="img-fluid" alt="QC alométrico largo-ancho"></p>
 <p><img src="figs/QC_allometry_largo_peso.png" class="img-fluid" alt="QC alométrico largo-peso"></p>
 </section>
@@ -1572,8 +1573,8 @@ Nota
 <section id="qc-multivariado" class="level2">
 <h2 class="anchored" data-anchor-id="qc-multivariado">QC multivariado</h2>
 <p>Estas figuras resumen la posición conjunta de cada observación en el espacio de residuos de crecimiento y de forma. El objetivo es detectar individuos cuya combinación de rasgos sea improbable, incluso cuando cada variable por separado no parezca extrema.</p>
-<section id="figuras-2" class="level3">
-<h3 class="anchored" data-anchor-id="figuras-2">Figuras</h3>
+<section id="figuras-1" class="level3">
+<h3 class="anchored" data-anchor-id="figuras-1">Figuras</h3>
 <p><img src="figs/QC_multivariate_growth.png" class="img-fluid" alt="QC multivariado de crecimiento"></p>
 <p><img src="figs/QC_multivariate_shape.png" class="img-fluid" alt="QC multivariado de forma"></p>
 <p><img src="figs/QC_multivariate_growth_distance.png" class="img-fluid" alt="Distribución de distancias multivariadas en crecimiento"></p>
@@ -1599,6 +1600,238 @@ Nota
 <p>El pipeline genera múltiples salidas complementarias.</p>
 <section id="archivos-.rds" class="level2">
 <h2 class="anchored" data-anchor-id="archivos-.rds">Archivos <code>.rds</code></h2>
+<section id="tasas_crecimiento_ppurpuratus_vis_limpio.rds" class="level3">
+<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_vis_limpio.rds"><code>Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds</code></h3>
+<p>Versión de trabajo derivada para visualización y análisis. Excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como <code>muy_sospechoso</code>. Esta versión fue diseñada para facilitar la inspección gráfica de patrones generales sin que observaciones altamente problemáticas dominen la visualización y análisis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Uso recomendado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>VIS_LIMPIO</code> fue pensado para figuras descriptivas, exploratorias y primeros análisis. Más detalle ver codigo abajo.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Script_05_datos_vis_limpio.R</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># LIBRERIAS</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rlang)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantreg)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># DIRECTORIOS</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">################################################</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>base.dir <span class="ot">&lt;-</span> <span class="st">"/home/andriu/Dropbox/ECIM_LASCRUCES/SAN_LAB/FONDECYT_2024_1240851/EXP_CRECIMIENTO_CHORITOS"</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>dir.output <span class="ot">&lt;-</span> <span class="fu">file.path</span>(base.dir, <span class="st">"02_output"</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>dir.figs   <span class="ot">&lt;-</span> <span class="fu">file.path</span>(base.dir, <span class="st">"03_figs"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>dir.data   <span class="ot">&lt;-</span> <span class="fu">file.path</span>(base.dir, <span class="st">"01_data"</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co"># =========================================================</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear dataset depurado para visualización</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># =========================================================</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset QC completo</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>datos_qc <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(dir.output,<span class="st">"Tasas_Crecimiento_Ppurpuratus_QC.rds"</span>))</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset analítico base (si quieres reconstruirlo desde QC)</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>datos_analisis_base <span class="ot">&lt;-</span> datos_qc <span class="sc">%&gt;%</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_medicion,</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_individuo,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dias_invalidos</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset depurado para visualización</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>datos_vis_limpio <span class="ot">&lt;-</span> datos_qc <span class="sc">%&gt;%</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_medicion,</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_individuo,</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dias_invalidos,</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_negativo_fuerte,</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    qc_categoria <span class="sc">!=</span> <span class="st">"muy_sospechoso"</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardar</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  datos_vis_limpio, <span class="fu">file.path</span>(dir.output, <span class="st">"Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds"</span>)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen rápido</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>resumen_vis <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset =</span> <span class="fu">c</span>(<span class="st">"QC completo"</span>, <span class="st">"Analisis base"</span>, <span class="st">"VIS_LIMPIO"</span>),</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(datos_qc), <span class="fu">nrow</span>(datos_analisis_base), <span class="fu">nrow</span>(datos_vis_limpio))</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(resumen_vis)</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Qué categorías QC quedaron en VIS_LIMPIO</span></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>datos_vis_limpio <span class="sc">%&gt;%</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(qc_categoria) <span class="sc">%&gt;%</span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar cuanto se esta perdiendo</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_qc_total =</span> <span class="fu">nrow</span>(datos_qc),</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_base =</span> <span class="fu">nrow</span>(datos_analisis_base),</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_vis_limpio =</span> <span class="fu">nrow</span>(datos_vis_limpio),</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">removidos_vs_base =</span> <span class="fu">nrow</span>(datos_analisis_base) <span class="sc">-</span> <span class="fu">nrow</span>(datos_vis_limpio),</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>  <span class="at">pct_removido_vs_base =</span> <span class="fu">round</span>(</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    <span class="dv">100</span> <span class="sc">*</span> (<span class="fu">nrow</span>(datos_analisis_base) <span class="sc">-</span> <span class="fu">nrow</span>(datos_vis_limpio)) <span class="sc">/</span> <span class="fu">nrow</span>(datos_analisis_base),</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver excatamente que se está excluyendo</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>datos_qc <span class="sc">%&gt;%</span></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_medicion,</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_individuo,</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dias_invalidos</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">excluido_vis_limpio =</span> flag_negativo_fuerte <span class="sc">|</span> qc_categoria <span class="sc">==</span> <span class="st">"muy_sospechoso"</span></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(excluido_vis_limpio, qc_categoria)</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Los negativos</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>datos_qc <span class="sc">%&gt;%</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_medicion,</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dup_individuo,</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>flag_dias_invalidos</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>    <span class="at">negativos_fuertes =</span> <span class="fu">sum</span>(flag_negativo_fuerte, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>    <span class="at">muy_sospechosos =</span> <span class="fu">sum</span>(qc_categoria <span class="sc">==</span> <span class="st">"muy_sospechoso"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot para comparar</span></span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>datos_base <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(dir.output, <span class="st">"Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds"</span>))</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>datos_vis  <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(dir.output, <span class="st">"Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds"</span>))</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>site_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Temblador"</span>,</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Guanaqueros"</span>,</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Punta de Talca"</span>,</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Los Molles"</span>,</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Montemar"</span>,</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Curaumilla"</span>,</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Quintay"</span>,</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>  <span class="st">"El Quisco"</span>,</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Las Cruces"</span>,</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Matanzas"</span>,</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pichilemu"</span></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>theme_qc <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">colour =</span> <span class="st">"black"</span>),</span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.25</span>, <span class="at">colour =</span> <span class="st">"grey85"</span>),</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">"right"</span></span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>col_size <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>  <span class="st">"chico"</span>  <span class="ot">=</span> <span class="st">"#0072B2"</span>,</span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>  <span class="st">"grande"</span> <span class="ot">=</span> <span class="st">"#E69F00"</span></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>plot_base <span class="ot">&lt;-</span> datos_base <span class="sc">%&gt;%</span></span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">site =</span> <span class="fu">factor</span>(site, <span class="at">levels =</span> <span class="fu">rev</span>(site_levels))) <span class="sc">%&gt;%</span></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">y =</span> tasa_diaria_largo, <span class="at">fill =</span> size_class)) <span class="sc">+</span></span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.85</span>,</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.colour =</span> <span class="st">"red3"</span>,</span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.7</span>,</span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.75</span>)</span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> col_size) <span class="sc">+</span></span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"ANALISIS_BASE"</span>,</span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sitio"</span>,</span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tasa diaria largo (mm/día)"</span></span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_qc</span>()</span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a>plot_vis <span class="ot">&lt;-</span> datos_vis <span class="sc">%&gt;%</span></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">site =</span> <span class="fu">factor</span>(site, <span class="at">levels =</span> <span class="fu">rev</span>(site_levels))) <span class="sc">%&gt;%</span></span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">y =</span> tasa_diaria_largo, <span class="at">fill =</span> size_class)) <span class="sc">+</span></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.85</span>,</span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.colour =</span> <span class="st">"red3"</span>,</span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.7</span>,</span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.75</span>)</span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> col_size) <span class="sc">+</span></span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"VIS_LIMPIO"</span>,</span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sitio"</span>,</span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tasa diaria largo (mm/día)"</span></span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_qc</span>()</span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> plot_base <span class="sc">/</span> plot_vis</span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-comparacion-base-vis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comparacion-base-vis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="preprocess_files/figure-html/fig-comparacion-base-vis-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparacion-base-vis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Comparación de la distribución de la tasa diaria de crecimiento en largo entre ANALISIS_BASE y VIS_LIMPIO.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section id="mediciones_crecimiento_ppurpuratus_raw.rds" class="level3">
 <h3 class="anchored" data-anchor-id="mediciones_crecimiento_ppurpuratus_raw.rds"><code>Mediciones_Crecimiento_Ppurpuratus_RAW.rds</code></h3>
 <p>Respaldo directo de las mediciones originales leídas desde las planillas fuente.</p>
@@ -1622,7 +1855,7 @@ Nota
 </section>
 <section id="tasas_crecimiento_ppurpuratus_analisis_base.rds" class="level3">
 <h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_analisis_base.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds</code></h3>
-<p>Dataset sugerido para análisis base. Excluye únicamente:</p>
+<p>Dataset que excluye únicamente:</p>
 <ul>
 <li>duplicados de medición</li>
 <li>duplicados de individuo</li>
@@ -1633,30 +1866,13 @@ Nota
 <h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_analisis_sensibilidad.rds"><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds</code></h3>
 <p>Dataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como <strong>muy sospechosas</strong>.</p>
 </section>
-<section id="tasas_crecimiento_ppurpuratus_vis_limpio.rds" class="level3">
-<h3 class="anchored" data-anchor-id="tasas_crecimiento_ppurpuratus_vis_limpio.rds"><code>Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds</code></h3>
-<p>Versión derivada para visualización descriptiva. Excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como <code>muy_sospechoso</code>. Esta versión fue diseñada para facilitar la inspección gráfica de patrones generales sin que observaciones altamente problemáticas dominen la visualización.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Uso recomendado
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>VIS_LIMPIO</code> fue pensado para figuras descriptivas y exploratorias. Los análisis principales siguen referenciando <code>ANALISIS_BASE</code>, mientras que la trazabilidad completa se conserva en <code>QC</code>.</p>
-</div>
-</div>
-</section>
 </section>
 </section>
 <section id="estructura-del-excel-maestro" class="level1">
 <h1>Estructura del Excel maestro</h1>
 <p>El archivo <code>Crecimiento_Ppurpuratus_MASTER_QC.xlsx</code> consolida tanto los datos originales como las distintas salidas del sistema de QC. Su estructura está pensada para trazabilidad, inspección y discusión metodológica.</p>
-<section id="pestañas-de-datos-principales" class="level2">
-<h2 class="anchored" data-anchor-id="pestañas-de-datos-principales">Pestañas de datos principales</h2>
+<section id="pestañas-de-datos-principales-del-excel" class="level2">
+<h2 class="anchored" data-anchor-id="pestañas-de-datos-principales-del-excel">Pestañas de datos principales del excel</h2>
 <section id="mediciones_raw" class="level3">
 <h3 class="anchored" data-anchor-id="mediciones_raw"><code>mediciones_raw</code></h3>
 <p>Contiene las mediciones originales importadas desde las planillas fuente, antes del cálculo de tasas.</p>

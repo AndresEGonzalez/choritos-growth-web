@@ -128,10 +128,10 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#protocolo-experimental" id="toc-protocolo-experimental" class="nav-link" data-scroll-target="#protocolo-experimental">Protocolo experimental</a></li>
   <li><a href="#pre-procesamiento-y-control-de-calidad" id="toc-pre-procesamiento-y-control-de-calidad" class="nav-link" data-scroll-target="#pre-procesamiento-y-control-de-calidad">Pre-procesamiento y control de calidad</a></li>
-  <li><a href="#dataset-analítico" id="toc-dataset-analítico" class="nav-link" data-scroll-target="#dataset-analítico">Dataset analítico</a></li>
+  <li><a href="#visualización-dataset-analítico" id="toc-visualización-dataset-analítico" class="nav-link" data-scroll-target="#visualización-dataset-analítico">Visualización Dataset analítico</a></li>
   </ul></li>
-  <li><a href="#nota-sobre-la-estructura-de-datos" id="toc-nota-sobre-la-estructura-de-datos" class="nav-link" data-scroll-target="#nota-sobre-la-estructura-de-datos">Nota sobre la estructura de datos</a></li>
   </ul></li>
+  <li><a href="#nota-sobre-nomenclatura" id="toc-nota-sobre-nomenclatura" class="nav-link" data-scroll-target="#nota-sobre-nomenclatura">Nota sobre nomenclatura</a></li>
   </ul>
 </nav>
     </div>
@@ -226,19 +226,17 @@ Tabla&nbsp;1: Resumen de experimentos previos de crecimiento de <em>Perumytilus 
 <h3 class="anchored" data-anchor-id="pre-procesamiento-y-control-de-calidad"><a href="./preprocess.html#sec-preprocess">Pre-procesamiento y control de calidad</a></h3>
 <p>Describe el flujo de procesamiento implementado en R para consolidar mediciones, calcular tasas de crecimiento, aplicar banderas de control de calidad biológicamente informadas y generar distintos productos analíticos con trazabilidad completa.</p>
 </section>
-<section id="dataset-analítico" class="level3">
-<h3 class="anchored" data-anchor-id="dataset-analítico"><a href="./dataset.html#sec-dataset">Dataset analítico</a></h3>
+<section id="visualización-dataset-analítico" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-dataset-analítico"><a href="./dataset.html#sec-dataset">Visualización Dataset analítico</a></h3>
 <p>Presenta un resumen del dataset analítico principal derivado del sistema QC, incluyendo su estructura, número de observaciones por sitio y temporalidad, periodos de exposición y visualizaciones descriptivas de las tasas de crecimiento.</p>
 </section>
 </section>
-<section id="nota-sobre-la-estructura-de-datos" class="level2">
-<h2 class="anchored" data-anchor-id="nota-sobre-la-estructura-de-datos">Nota sobre la estructura de datos</h2>
-<p>El flujo de trabajo genera varias salidas complementarias. En esta web, la sección <a href="./dataset.html#sec-dataset">Dataset</a> resume principalmente el archivo:</p>
-<p><code>Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds</code></p>
-<p>que corresponde a un dataset analítico recomendado para realizar los análisis principales. Las versiones <code>RAW</code>, <code>QC</code> y <code>ANALISIS_SENSIBILIDAD</code> se describen en detalle en la sección de <a href="./preprocess.html#sec-preprocess">pre-procesamiento</a>.</p>
-
-
 </section>
+<section id="nota-sobre-nomenclatura" class="level1">
+<h1>Nota sobre nomenclatura</h1>
+<p>Las variables de los archivo se conservan con nombres en inglés para facilitar el trabajo analítico en R. En el texto de esta web y su interpretación general se presenta en español.</p>
+
+
 </section>
 
 </main> <!-- /main -->

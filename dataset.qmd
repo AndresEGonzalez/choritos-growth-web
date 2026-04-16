@@ -6,18 +6,11 @@ format:
     toc-depth: 3
     number-sections: false
 ---
+# {#sec-dataset}
 
-# Dataset analítico {#sec-dataset}
+A partir del control de calidad (QC) se generaron tres datasets principales (ver Tabla). En esta sección se utiliza `VIS_LIMPIO` para describir los patrones generales de crecimiento en *P. purpuratus*.
 
-# Objetivo
-
-Esta sección resume la estructura y el contenido del dataset analítico principal generado a partir del flujo de [Pre-procesamiento y control de calidad](preprocess.qmd#sec-preprocess) descrito en la sección anterior.
-
-El archivo resumido aquí corresponde a:
-
-`Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds`
-
-Esta versión representa el **dataset analítico base** recomendado para los análisis principales. Conserva la estructura central del experimento y excluye únicamente problemas estructurales evidentes, manteniendo coherencia con la filosofía general del sistema QC.
+El dataset `Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds`, derivado del flujo de [Pre-procesamiento y control de calidad](preprocess.qmd#sec-preprocess), corresponde a la versión analítica limpia recomendada para visualización y análisis principales. Esta versión conserva la estructura experimental y excluye observaciones con **problemas estructurales**, **negativos fuertes** y casos clasificados como **`muy_sospechosos`**.
 
 ```{r}
 #| label: setup
@@ -53,7 +46,7 @@ site_levels_ns <- c(
 )
 
 site_levels_sn <- rev(site_levels_ns)
-season_levels <- c("anual", "verano", "otoño", "invierno")
+season_levels <- c("anual", "verano", "otoño", "invierno", "primavera")
 
 col_size <- c(
   "chico"  = "#0072B2",
@@ -64,7 +57,8 @@ col_season <- c(
   "anual"    = "#0072B2",
   "verano"   = "#E69F00",
   "otoño"    = "#009E73",
-  "invierno" = "#CC79A7"
+  "invierno" = "#CC79A7",
+  "primavera" = "#56B4E9"
 )
 
 theme_qc <- function() {
@@ -85,15 +79,34 @@ theme_qc <- function() {
 }
 ```
 
-# Nota sobre nomenclatura
+```{r}
+#| echo: false
 
-Las variables del archivo se conservan con nombres en inglés para facilitar el trabajo analítico en R. En el texto de esta web, su interpretación general se presenta en español.
+resumen_vis_web <- tibble(
+  Dataset = c("QC completo", "ANALISIS_BASE", "VIS_LIMPIO"),
+  n = c(nrow(datos_qc), nrow(datos_base), nrow(datos_vis)),
+  Descripcion = c(
+    "Dataset completo con flags y categorías QC (incluye casos no emparejados y observaciones que requieren trazabilidad completa).",
+    "Excluye solo problemas estructurales evidentes.",
+    "Excluye además negativos fuertes y casos muy sospechosos para facilitar la visualización."
+  )
+)
 
-# Estructura del dataset
+resumen_vis_web %>%
+  knitr::kable(
+    caption = "Resumen de datasets derivados del flujo QC",
+    col.names = c("Dataset", "N observaciones", "Descripción")
+  ) %>%
+  kableExtra::kable_styling(full_width = FALSE)
+```
 
+
+## Diccionario de variables
+
+Las siguientes tablas resumen las variables más importantes del dataset para exploración, visualización y análisis. Despliega estos bloques para revisar la estructura interna del archivo.
+
+::: {.callout-note collapse="true"}
 ## Diccionario resumido de variables
-
-La tabla siguiente resume las variables más importantes del dataset analítico base para exploración, visualización y análisis.
 
 ```{r}
 #| echo: false
@@ -105,6 +118,7 @@ diccionario_vars <- tibble::tribble(
   "season", "character", "Estación o periodo de exposición.",
   "size_class", "character", "Clase de tamaño inicial (chico o grande).",
   "treatment", "character", "Tratamiento temporal del experimento (anual o estacional).",
+  "plot", "numeric", "Número del plot (1 al 5 por sitio) donde el 1 es el plot más al Norte de la plataforma.",
   "date_inicial", "Date", "Fecha de medición inicial.",
   "date_final", "Date", "Fecha de medición final.",
   "dias", "numeric", "Número de días entre la medición inicial y final.",
@@ -126,7 +140,7 @@ diccionario_vars <- tibble::tribble(
 
 diccionario_vars %>%
   knitr::kable(
-    caption = "Diccionario resumido de variables del dataset base",
+    caption = "Diccionario resumido de variables del dataset",
     col.names = c("Variable", "Tipo", "Descripción")
   ) %>%
   kableExtra::kable_styling(
@@ -134,7 +148,10 @@ diccionario_vars %>%
     bootstrap_options = c("striped", "hover", "condensed")
   )
 ```
+:::
 
+
+::: {.callout-note collapse="true"}
 ## Variables auxiliares de control de calidad
 
 ```{r}
@@ -167,43 +184,37 @@ diccionario_qc %>%
     bootstrap_options = c("striped", "hover", "condensed")
   )
 ```
+:::
 
-## Vista previa del dataset base
+# Tasas diarias tablas resumen
 
-```{r}
-DT::datatable(
-  datos_base,
-  options = list(pageLength = 10, scrollX = TRUE)
-)
-```
-
-# Resumen global
+## Resumen global
 
 ```{r}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Mostrar codigo"
 tibble(
-  Sitios = n_distinct(datos_base$site),
-  Temporalidades = n_distinct(datos_base$treatment),
-  Estaciones_o_periodos = n_distinct(datos_base$season),
-  Clases_tamano = n_distinct(datos_base$size_class),
-  Tasas_totales = nrow(datos_base)
+  Sitios = n_distinct(datos_vis$site),
+  Temporalidades = n_distinct(datos_vis$treatment),
+  Estaciones_o_periodos = n_distinct(datos_vis$season),
+  Clases_tamano = n_distinct(datos_vis$size_class),
+  Tasas_totales = nrow(datos_vis)
 ) %>%
   kable(
-    caption = "Resumen global del dataset analítico base",
+    caption = "Resumen global del dataset analítico",
     col.names = c("Sitios", "Temporalidades", "Estaciones o periodos", "Clases de tamaño", "N tasas")
   ) %>%
   kable_styling(full_width = FALSE)
 ```
 
-## Tasas por estación o periodo
+## Tasas diarias por estación
 
 ```{r}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Mostrar codigo"
-datos_base %>%
+datos_vis %>%
   mutate(season = factor(season, levels = season_levels)) %>%
   count(season, sort = FALSE) %>%
   kable(
@@ -213,13 +224,13 @@ datos_base %>%
   kable_styling(full_width = FALSE)
 ```
 
-## Tasas por sitio
+## Tasas diarias por sitio
 
 ```{r}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Mostrar codigo"
-datos_base %>%
+datos_vis %>%
   mutate(site = factor(site, levels = site_levels_ns)) %>%
   count(site, sort = FALSE) %>%
   kable(
@@ -229,13 +240,13 @@ datos_base %>%
   kable_styling(full_width = FALSE)
 ```
 
-## Tasas por sitio y estación o periodo
+## Tasas diarias por sitio y periodo
 
 ```{r}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Mostrar codigo"
-datos_base %>%
+datos_vis %>%
   mutate(
     site = factor(site, levels = site_levels_ns),
     season = factor(season, levels = season_levels)
@@ -247,33 +258,218 @@ datos_base %>%
   kable_styling(full_width = FALSE)
 ```
 
-# Rango de tallas iniciales
+# Rango de tallas
 
 ```{r}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Mostrar codigo"
-datos_base %>%
+datos_vis %>%
   group_by(size_class, treatment) %>%
   summarise(
-    min_largo = min(largo_max_mm_inicial, na.rm = TRUE),
-    max_largo = max(largo_max_mm_inicial, na.rm = TRUE),
+    min_largo_inicial = min(largo_max_mm_inicial, na.rm = TRUE),
+    max_largo_inicial = max(largo_max_mm_inicial, na.rm = TRUE),
+    min_largo_final   = min(largo_max_mm_final, na.rm = TRUE),
+    max_largo_final   = max(largo_max_mm_final, na.rm = TRUE),
     .groups = "drop"
   ) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2))) %>%
   kable(
-    caption = "Rango de largo inicial por clase de tamaño y tratamiento",
-    col.names = c("Clase de tamaño", "Tratamiento", "Mínimo largo inicial (mm)", "Máximo largo inicial (mm)")
+    caption = "Rango observado de largo mínimo/máximo inicial y final",
+    col.names = c(
+      "Clase de tamaño",
+      "Tratamiento",
+      "Mínimo largo inicial (mm)",
+      "Máximo largo inicial (mm)",
+      "Mínimo largo final (mm)",
+      "Máximo largo final (mm)"
+    )
   ) %>%
   kable_styling(full_width = FALSE)
 ```
 
-# Periodos de exposición
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+#| fig-cap: "Distribución (KDE) del largo máximo inicial y final por clase de tamaño y tratamiento usando VIS_LIMPIO."
+#| warning: false
+#| message: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Mostrar codigo"
 
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+datos_largo_kde <- datos_vis %>%
+  select(size_class, treatment, largo_max_mm_inicial, largo_max_mm_final) %>%
+  pivot_longer(
+    cols = c(largo_max_mm_inicial, largo_max_mm_final),
+    names_to = "momento",
+    values_to = "largo_mm"
+  ) %>%
+  mutate(
+    momento = recode(
+      momento,
+      largo_max_mm_inicial = "Inicial",
+      largo_max_mm_final   = "Final"
+    ),
+    size_class = factor(size_class, levels = c("chico", "grande")),
+    treatment = factor(treatment, levels = c("estacional", "anual"))
+  )
+
+medianas <- datos_largo_kde %>%
+  group_by(size_class, treatment, momento) %>%
+  summarise(
+    med = median(largo_mm, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(datos_largo_kde, aes(x = largo_mm, color = momento, fill = momento)) +
+  geom_density(
+    alpha = 0.25,
+    linewidth = 1.2,
+    adjust = 1.1
+  ) +
+  geom_vline(
+    data = medianas,
+    aes(xintercept = med, color = momento),
+    linetype = "dashed",
+    linewidth = 0.8,
+    alpha = 0.8,
+    show.legend = FALSE
+  ) +
+  facet_grid(size_class ~ treatment) +
+  scale_color_manual(
+    values = c("Inicial" = "#0072B2", "Final" = "#D55E00")
+  ) +
+  scale_fill_manual(
+    values = c("Inicial" = "#0072B2", "Final" = "#D55E00")
+  ) +
+  labs(
+    title = "Distribución de largo máximo inicial y final",
+    x = "Largo máximo (mm)",
+    y = "Densidad",
+    color = "Momento",
+    fill = "Momento"
+  ) +
+  theme_bw(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 15, hjust = 0.5),
+    axis.title = element_text(face = "bold"),
+    strip.text = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    legend.position = "top"
+  )
+```
+Las curvas KDE muestran la distribución completa del largo máximo al inicio y al final del experimento. En todos los grupos se observa un desplazamiento hacia tamaños mayores, mientras que las líneas punteadas indican la mediana de cada distribución.
+
+# Exposición temporal de los trasplantes
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+#| fig-cap: "Esquema temporal de los periodos de exposición por sitio, tratamiento y estación."
+#| warning: false
+#| message: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Mostrar codigo"
+
+library(dplyr)
+library(ggplot2)
+library(forcats)
+
+periodos_exp2 <- datos_vis %>%
+  mutate(
+    site = factor(site, levels = site_levels_ns),
+    season = factor(season, levels = season_levels),
+    treatment = factor(treatment, levels = c("anual", "estacional"))
+  ) %>%
+  group_by(site, treatment, season) %>%
+  summarise(
+    date_inicial = min(date_inicial, na.rm = TRUE),
+    date_final   = max(date_final, na.rm = TRUE),
+    dias         = first(dias),
+    n            = n(),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    y = case_when(
+      treatment == "anual" ~ as.numeric(site) + 0.18,
+      treatment == "estacional" ~ as.numeric(site) - 0.18
+    )
+  )
+
+fechas_ref <- tibble(
+  fecha = as.Date(c(
+    "2024-12-21",
+    "2025-03-20",
+    "2025-06-21",
+    "2025-09-23",
+    "2025-12-21"
+  ))
+)
+
+col_estaciones <- c(
+  "anual"      = "grey30",
+  "verano"     = "#E69F00",
+  "otoño"      = "#D55E00",
+  "invierno"   = "#0072B2",
+  "primavera"  = "#009E73"
+)
+
+ggplot(periodos_exp2) +
+  geom_vline(
+    data = fechas_ref,
+    aes(xintercept = fecha),
+    linetype = "dashed",
+    colour = "grey55",
+    linewidth = 0.4
+  ) +
+  geom_segment(
+    aes(
+      x = date_inicial,
+      xend = date_final,
+      y = y,
+      yend = y,
+      colour = season
+    ),
+    linewidth = 4.5,
+    lineend = "butt"
+  ) +
+  scale_y_continuous(
+    breaks = seq_along(levels(periodos_exp2$site)),
+    labels = levels(periodos_exp2$site)
+  ) +
+  scale_colour_manual(values = col_estaciones, name = "Period") +
+  scale_x_date(
+    date_breaks = "2 months",
+    date_labels = "%b\n%Y",
+    expand = expansion(mult = c(0.02, 0.02))
+  ) +
+  labs(
+    # title = "Exposición temporal de trasplantes",
+    x = "Season",
+    y = "Site"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5),
+    axis.title = element_text(face = "bold"),
+    axis.text = element_text(colour = "black"),
+    panel.grid.minor = element_blank(),
+    legend.position = "top"
+  )
+
+```
+La figura resume la ventana temporal de exposición de los trasplantes para cada sitio y periodo. Cada segmento horizontal representa el intervalo comprendido entre la medición inicial y final, permitiendo visualizar de forma compacta la duración y superposición temporal entre estaciones y tratamientos. La líneas punteadas representan las estaciones del año del hemisferio sur.
 ```{r}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Mostrar codigo"
-datos_base %>%
+datos_vis %>%
   mutate(
     site = factor(site, levels = site_levels_ns),
     season = factor(season, levels = season_levels)
@@ -288,7 +484,7 @@ datos_base %>%
   ) %>%
   arrange(site, season) %>%
   kable(
-    caption = "Resumen de periodos de exposición por sitio y estación o periodo",
+    caption = "Resumen detallado de los periodos de exposición",
     col.names = c(
       "Sitio",
       "Estación o periodo",
@@ -301,40 +497,10 @@ datos_base %>%
   kable_styling(full_width = FALSE)
 ```
 
-## Datasets derivados del flujo de control de calidad QC
 
-Además del dataset analítico principal, el pipeline genera versiones derivadas para trazabilidad, análisis y visualización. La tabla siguiente resume las tres versiones más relevantes para interpretar esta web.
+# Tasas de crecimiento diario *P. purpuratus*
 
-```{r}
-#| echo: false
-
-resumen_vis_web <- tibble(
-  Dataset = c("QC completo", "ANALISIS_BASE", "VIS_LIMPIO"),
-  n = c(nrow(datos_qc), nrow(datos_base), nrow(datos_vis)),
-  Descripcion = c(
-    "Dataset completo con flags y categorías QC (incluye casos no emparejados y observaciones que requieren trazabilidad completa).",
-    "Excluye solo problemas estructurales evidentes.",
-    "Excluye además negativos fuertes y casos muy sospechosos para facilitar la visualización."
-  )
-)
-
-resumen_vis_web %>%
-  knitr::kable(
-    caption = "Resumen de datasets derivados del flujo QC",
-    col.names = c("Dataset", "N observaciones", "Descripción")
-  ) %>%
-  kableExtra::kable_styling(full_width = FALSE)
-```
-
-::: {.callout-note}
-## Nota sobre visualización
-
-Además del dataset analítico base, se generó una versión depurada para visualización (`VIS_LIMPIO`). Esta versión excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como `muy_sospechoso`, con el objetivo de facilitar la interpretación de patrones generales en figuras descriptivas. No reemplaza al dataset analítico principal, sino que lo complementa para fines de exploración gráfica.
-:::
-
-# Distribución descriptiva de tasas
-
-## Tamaño inicial v/s tasa de crecimiento
+## Tamaño inicial v/s tasa de crecimiento diaria
 
 ```{r}
 #| fig-width: 14
@@ -379,138 +545,13 @@ plot_peso <- ggplot(datos_vis, aes(peso_gr_inicial, tasa_diaria_peso)) +
     theme = theme(plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
   )
 ```
-## Largo por sitio
 
-```{r}
-#| label: fig-largo-sitio
-#| fig-cap: "Relación entre largo inicial y tasa diaria de crecimiento en largo, separada por sitio, usando `VIS_LIMPIO`."
-#| fig-width: 12
-#| fig-height: 10
-#| warning: false
-#| message: false
-#| echo: true
-#| code-fold: true
-#| code-summary: "Mostrar codigo"
 
-theme_qc_facet <- function() {
-  theme_bw(base_size = 15) +
-    theme(
-      plot.title = element_text(size = 18, face = "bold", hjust = 0.5),
-      plot.subtitle = element_text(size = 13, hjust = 0.5),
-      axis.title = element_text(size = 15, face = "bold"),
-      axis.text = element_text(size = 10, colour = "black"),
-      strip.text = element_text(size = 11, face = "bold"),
-      panel.grid.minor = element_blank(),
-      panel.grid.major = element_line(linewidth = 0.25, colour = "grey85")
-    )
-}
-
-site_levels_sn <- c(
-  "Pichilemu",
-  "Matanzas",
-  "Las Cruces",
-  "El Quisco",
-  "Quintay",
-  "Curaumilla",
-  "Montemar",
-  "Los Molles",
-  "Punta de Talca",
-  "Guanaqueros",
-  "Temblador"
-)
-
-datos_plot <- datos_vis %>%
-  filter(
-    !is.na(site),
-    !is.na(largo_max_mm_inicial),
-    !is.na(tasa_diaria_largo)
-  ) %>%
-  mutate(
-    site = factor(site, levels = site_levels_sn)
-  )
-
-ggplot(datos_plot, aes(x = largo_max_mm_inicial, y = tasa_diaria_largo)) +
-  geom_point(alpha = 0.22, size = 1.8) +
-  geom_smooth(method = "loess", se = TRUE, linewidth = 1.1, color = "#0072B2") +
-  facet_wrap(~site, ncol = 3, scales = "fixed") +
-  labs(
-    title = "Largo",
-    x = "Largo inicial (mm)",
-    y = "Tasa diaria largo (mm/día)"
-  ) +
-  theme_qc_facet()
-```
-## Ancho por sitio
-
-```{r}
-#| label: fig-ancho-sitio
-#| fig-cap: "Relación entre ancho inicial y tasa diaria de crecimiento en ancho, separada por sitio, usando `VIS_LIMPIO`."
-#| fig-width: 12
-#| fig-height: 10
-#| warning: false
-#| message: false
-#| echo: true
-#| code-fold: true
-#| code-summary: "Mostrar codigo"
-
-datos_plot <- datos_vis %>%
-  filter(
-    !is.na(site),
-    !is.na(ancho_max_mm_inicial),
-    !is.na(tasa_diaria_ancho)
-  ) %>%
-  mutate(
-    site = factor(site, levels = site_levels_sn)
-  )
-
-ggplot(datos_plot, aes(x = ancho_max_mm_inicial, y = tasa_diaria_ancho)) +
-  geom_point(alpha = 0.22, size = 1.8) +
-  geom_smooth(method = "loess", se = TRUE, linewidth = 1.1, color = "#E69F00") +
-  facet_wrap(~site, ncol = 3, scales = "fixed") +
-  labs(
-    title = "Ancho",
-    x = "Ancho inicial (mm)",
-    y = "Tasa diaria ancho (mm/día)"
-  ) +
-  theme_qc_facet()
-```
-## Peso por sitio
-
-```{r}
-#| label: fig-peso-sitio
-#| fig-cap: "Relación entre peso inicial y tasa diaria de crecimiento en peso, separada por sitio, usando `VIS_LIMPIO`."
-#| fig-width: 12
-#| fig-height: 10
-#| warning: false
-#| message: false
-#| echo: false
-
-datos_plot <- datos_vis %>%
-  filter(
-    !is.na(site),
-    !is.na(peso_gr_inicial),
-    !is.na(tasa_diaria_peso)
-  ) %>%
-  mutate(
-    site = factor(site, levels = site_levels_sn)
-  )
-
-ggplot(datos_plot, aes(x = peso_gr_inicial, y = tasa_diaria_peso)) +
-  geom_point(alpha = 0.22, size = 1.8) +
-  geom_smooth(method = "loess", se = TRUE, linewidth = 1.1, color = "#009E73") +
-  facet_wrap(~site, ncol = 3, scales = "fixed") +
-  labs(
-    title = "Peso",
-    x = "Peso inicial (g)",
-    y = "Tasa diaria peso (g/día)"
-  ) +
-  theme_qc_facet()
-```
-## Tasas de crecimiento por sitio y clase de tamaño
+## Distribución de tasas de crecimiento diario por sitio y clase de tamaño
 
 ```{r}
 #| label: fig-tasas-sitio
-#| fig-cap: "Distribución descriptiva de tasas de crecimiento por sitio y clase de tamaño, usando la versión depurada para visualización (`VIS_LIMPIO`)."
+#| fig-cap: "Distribución descriptiva de tasas de crecimiento por sitio y clase de tamaño, usando la versión depurada para visualización (`VIS_LIMPIO`). Los puntos extremos corresponden a observaciones fuera del rango intercuartílico de cada boxplot."
 #| fig-width: 11
 #| fig-height: 14
 #| warning: false
@@ -571,8 +612,8 @@ outliers_total_peso <- ggplot(datos_plot, aes(x = site, y = tasa_diaria_peso, fi
 (outliers_total_largo / outliers_total_ancho / outliers_total_peso) +
   plot_layout(guides = "collect") +
   plot_annotation(
-    title = "Distribución de tasas de crecimiento por sitio y clase de tamaño",
-    subtitle = "Los puntos extremos corresponden a observaciones fuera del rango intercuartílico de cada boxplot",
+    # title = "Distribución de tasas de crecimiento por sitio y clase de tamaño",
+    # subtitle = "Los puntos extremos corresponden a observaciones fuera del rango intercuartílico de cada boxplot",
     theme = theme(
       plot.title = element_text(size = 19, face = "bold", hjust = 0.5),
       plot.subtitle = element_text(size = 13, hjust = 0.5)
@@ -581,7 +622,7 @@ outliers_total_peso <- ggplot(datos_plot, aes(x = site, y = tasa_diaria_peso, fi
   theme(legend.position = "right")
 ```
 
-## Comparación tasas entre estaciones
+## Comparación tasas medias de crecimiento diario por sitio y estación de exposición
 
 ::: {.callout-important}
 ## Comparación con tasa anual
@@ -617,6 +658,8 @@ datos_resumen <- datos_vis %>%
     .groups = "drop"
   )
 
+x_div <- 4.5
+
 theme_qc_season <- function() {
   theme_bw(base_size = 15) +
     theme(
@@ -636,24 +679,54 @@ theme_qc_season <- function() {
 
 p_largo <- ggplot(datos_resumen, aes(x = site, y = mean_largo, fill = season)) +
   geom_col(position = position_dodge(width = 0.82), width = 0.72) +
-  geom_errorbar(aes(ymin = mean_largo - se_largo, ymax = mean_largo + se_largo),
-                position = position_dodge(width = 0.82), width = 0.2) +
+  geom_errorbar(
+    aes(ymin = mean_largo - se_largo, ymax = mean_largo + se_largo),
+    position = position_dodge(width = 0.82), width = 0.2
+  ) +
+  geom_vline(
+    xintercept = x_div,
+    linewidth = 0.9,
+    colour = "grey35",
+    linetype = "longdash"
+  ) +
+  annotate("text", x = 2.5, y = Inf, label = "North", vjust = 1.5, size = 5) +
+  annotate("text", x = 8.5, y = Inf, label = "South", vjust = 1.5, size = 5) +
   scale_fill_manual(values = col_season, name = "Season") +
   labs(title = "Largo", x = "Sitio", y = "Tasa diaria media largo (mm/día)") +
   theme_qc_season()
 
 p_ancho <- ggplot(datos_resumen, aes(x = site, y = mean_ancho, fill = season)) +
   geom_col(position = position_dodge(width = 0.82), width = 0.72) +
-  geom_errorbar(aes(ymin = mean_ancho - se_ancho, ymax = mean_ancho + se_ancho),
-                position = position_dodge(width = 0.82), width = 0.2) +
+  geom_errorbar(
+    aes(ymin = mean_ancho - se_ancho, ymax = mean_ancho + se_ancho),
+    position = position_dodge(width = 0.82), width = 0.2
+  ) +
+  geom_vline(
+    xintercept = x_div,
+    linewidth = 0.9,
+    colour = "grey35",
+    linetype = "longdash"
+  ) +
+  annotate("text", x = 2.5, y = Inf, label = "North", vjust = 1.5, size = 5) +
+  annotate("text", x = 8.5, y = Inf, label = "South", vjust = 1.5, size = 5) +
   scale_fill_manual(values = col_season, name = "Season") +
   labs(title = "Ancho", x = "Sitio", y = "Tasa diaria media ancho (mm/día)") +
   theme_qc_season()
 
 p_peso <- ggplot(datos_resumen, aes(x = site, y = mean_peso, fill = season)) +
   geom_col(position = position_dodge(width = 0.82), width = 0.72) +
-  geom_errorbar(aes(ymin = mean_peso - se_peso, ymax = mean_peso + se_peso),
-                position = position_dodge(width = 0.82), width = 0.2) +
+  geom_errorbar(
+    aes(ymin = mean_peso - se_peso, ymax = mean_peso + se_peso),
+    position = position_dodge(width = 0.82), width = 0.2
+  ) +
+  geom_vline(
+    xintercept = x_div,
+    linewidth = 0.9,
+    colour = "grey35",
+    linetype = "longdash"
+  ) +
+  annotate("text", x = 2.5, y = Inf, label = "North", vjust = 1.5, size = 5) +
+  annotate("text", x = 8.5, y = Inf, label = "South", vjust = 1.5, size = 5) +
   scale_fill_manual(values = col_season, name = "Season") +
   labs(title = "Peso", x = "Sitio", y = "Tasa diaria media peso (g/día)") +
   theme_qc_season()
@@ -661,8 +734,8 @@ p_peso <- ggplot(datos_resumen, aes(x = site, y = mean_peso, fill = season)) +
 (p_largo / p_ancho / p_peso) +
   plot_layout(guides = "collect") +
   plot_annotation(
-    title = "Comparación de tasas medias de crecimiento por sitio y estación de exposición",
-    subtitle = "Sitios ordenados de norte a sur; las barras muestran la media y las líneas verticales el error estándar",
+    # title = "Comparación de tasas medias de crecimiento por sitio y estación de exposición",
+    # subtitle = "Sitios ordenados de norte a sur; las barras muestran la media y las líneas verticales el error estándar",
     theme = theme(
       plot.title = element_text(size = 19, face = "bold", hjust = 0.5),
       plot.subtitle = element_text(size = 13, hjust = 0.5)
@@ -670,36 +743,258 @@ p_peso <- ggplot(datos_resumen, aes(x = site, y = mean_peso, fill = season)) +
   ) &
   theme(legend.position = "right")
 ```
+La figura sugiere una estructura espacial amplia, con tasas de crecimiento en largo y ancho generalmente más altas en varios sitios del norte que en varios sitios del sur, pero con solapamiento importante entre sitios. La señal estacional parece más consistente que una separación norte–sur estricta, especialmente en peso.
 
-::: {.callout-note}
-## Nota sobre la ausencia de estación de primavera
-Las figuras descriptivas incluidas en esta sección corresponden a una versión preliminar del resumen gráfico generada **sin la estación primavera**, de acuerdo con el estado actual de procesamiento de esa temporalidad al momento de construir esta web. Esta decisión afecta solo estas visualizaciones resumidas y debe interpretarse como una nota de contexto sobre las figuras, no como una redefinición del flujo de trabajo general.
-:::
+## Tasa diaria de crecimiento en largo 
 
-# Relación con el sistema de control de calidad QC
+```{r}
+#| label: fig-largo-sitio
+#| fig-cap: "Relación entre largo inicial y tasa diaria de crecimiento en largo, separada por sitio, usando `VIS_LIMPIO`."
+#| fig-width: 12
+#| fig-height: 10
+#| warning: false
+#| message: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Mostrar codigo"
 
-Las tablas descriptivas resumidas anteriormente corresponden a la versión **ANALISIS_BASE**, es decir, la recomendada para los análisis principales. Las figuras exploratorias de esta sección utilizan en varios casos la versión **VIS_LIMPIO**, pensada para facilitar la interpretación visual de patrones generales. La tabla completa con banderas, puntajes y categorías de control de calidad se conserva en:
+theme_qc_facet <- function() {
+  theme_bw(base_size = 15) +
+    theme(
+      plot.title = element_text(size = 18, face = "bold", hjust = 0.5),
+      plot.subtitle = element_text(size = 13, hjust = 0.5),
+      axis.title = element_text(size = 15, face = "bold"),
+      axis.text = element_text(size = 10, colour = "black"),
+      strip.text = element_text(size = 11, face = "bold"),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(linewidth = 0.25, colour = "grey85")
+    )
+}
 
-`Tasas_Crecimiento_Ppurpuratus_QC.rds`
+site_levels_sn <- c(
+  "Pichilemu",
+  "Matanzas",
+  "Las Cruces",
+  "El Quisco",
+  "Quintay",
+  "Curaumilla",
+  "Montemar",
+  "Los Molles",
+  "Punta de Talca",
+  "Guanaqueros",
+  "Temblador"
+)
 
-De este modo, la web distingue entre:
+datos_plot <- datos_vis %>%
+  filter(
+    !is.na(site),
+    !is.na(largo_max_mm_inicial),
+    !is.na(tasa_diaria_largo)
+  ) %>%
+  mutate(
+    site = factor(site, levels = site_levels_sn)
+  )
 
-- una versión **analítica base** para análisis principales,
-- una versión **QC completa** para trazabilidad y revisión,
-- una versión **depurada para visualización** (`VIS_LIMPIO`),
-- y una versión **de sensibilidad** para análisis más conservadores.
+ggplot(datos_plot, aes(x = largo_max_mm_inicial, y = tasa_diaria_largo)) +
+  geom_point(alpha = 0.22, size = 1.8) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1.1, color = "#0072B2") +
+  facet_wrap(~site, ncol = 3, scales = "fixed") +
+  labs(
+    title = "Largo",
+    x = "Largo inicial (mm)",
+    y = "Tasa diaria largo (mm/día)"
+  ) +
+  theme_qc_facet()
+```
+## Tasa diaria de crecimiento en ancho
 
-# Archivos principales generados
+```{r}
+#| label: fig-ancho-sitio
+#| fig-cap: "Relación entre ancho inicial y tasa diaria de crecimiento en ancho, separada por sitio, usando `VIS_LIMPIO`."
+#| fig-width: 12
+#| fig-height: 10
+#| warning: false
+#| message: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Mostrar codigo"
 
-| Archivo | Descripción |
-|-------|------|
-| `Mediciones_Crecimiento_Ppurpuratus_RAW.rds` | Mediciones originales importadas desde planillas fuente |
-| `Tasas_Crecimiento_Ppurpuratus_RAW.rds` | Tasas calculadas antes de aplicar banderas de QC |
-| `Tasas_Crecimiento_Ppurpuratus_QC.rds` | Tabla completa con flags, score y categoría QC |
-| `Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds` | Dataset analítico principal |
-| `Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds` | Dataset depurado para visualización descriptiva |
-| `Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds` | Dataset para análisis de sensibilidad |
+datos_plot <- datos_vis %>%
+  filter(
+    !is.na(site),
+    !is.na(ancho_max_mm_inicial),
+    !is.na(tasa_diaria_ancho)
+  ) %>%
+  mutate(
+    site = factor(site, levels = site_levels_sn)
+  )
 
-# Resumen
+ggplot(datos_plot, aes(x = ancho_max_mm_inicial, y = tasa_diaria_ancho)) +
+  geom_point(alpha = 0.22, size = 1.8) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1.1, color = "#E69F00") +
+  facet_wrap(~site, ncol = 3, scales = "fixed") +
+  labs(
+    title = "Ancho",
+    x = "Ancho inicial (mm)",
+    y = "Tasa diaria ancho (mm/día)"
+  ) +
+  theme_qc_facet()
+```
+## Tasa diaria de crecimiento en peso
 
-La sección Dataset presenta una vista estructurada del archivo analítico principal derivado del pipeline de procesamiento. Las tablas descriptivas se construyen a partir de `ANALISIS_BASE`, mientras que varias figuras exploratorias utilizan `VIS_LIMPIO` para facilitar la lectura de patrones generales. Esta organización mantiene la filosofía del sistema de comtrol de calidad QC: conservar trazabilidad, evitar exclusiones automáticas innecesarias y separar claramente entre datos base, datos revisables, visualización descriptiva y análisis de sensibilidad.
+```{r}
+#| label: fig-peso-sitio
+#| fig-cap: "Relación entre peso inicial y tasa diaria de crecimiento en peso, separada por sitio, usando `VIS_LIMPIO`."
+#| fig-width: 12
+#| fig-height: 10
+#| warning: false
+#| message: false
+#| echo: false
+
+datos_plot <- datos_vis %>%
+  filter(
+    !is.na(site),
+    !is.na(peso_gr_inicial),
+    !is.na(tasa_diaria_peso)
+  ) %>%
+  mutate(
+    site = factor(site, levels = site_levels_sn)
+  )
+
+ggplot(datos_plot, aes(x = peso_gr_inicial, y = tasa_diaria_peso)) +
+  geom_point(alpha = 0.22, size = 1.8) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1.1, color = "#009E73") +
+  facet_wrap(~site, ncol = 3, scales = "fixed") +
+  labs(
+    title = "Peso",
+    x = "Peso inicial (g)",
+    y = "Tasa diaria peso (g/día)"
+  ) +
+  theme_qc_facet()
+```
+
+# Crecimiento relativo
+
+El crecimiento relativo se calculó para cada individuo y para cada variable morfológica como el cambio proporcional entre la medición final y la inicial:
+
+$$
+RG_X = \frac{X_f - X_i}{X_i}
+$$
+
+donde \(X_i\) es el valor inicial y \(X_f\) el valor final de la variable \(X\). Este cálculo se aplicó al largo máximo, ancho máximo y peso húmedo, obteniéndose respectivamente el crecimiento relativo en largo, ancho y peso.
+
+Para las visualizaciones, cada valor de crecimiento relativo se relacionó con su valor inicial correspondiente (\(x_0\)), de modo que el predictor fue el largo inicial para largo, el ancho inicial para ancho y el peso inicial para peso.
+
+Se excluyeron observaciones con valores no finitos, estaciones ausentes o valores iniciales menores o iguales a cero.
+
+## Tamaño inicial v/s crecimiento relativo por estación
+
+```{r}
+#| label: relative-growth
+#| fig-width: 11
+#| fig-height: 14
+#| fig-cap: "El crecimiento relativo disminuye con el tamaño inicial en los tratamientos estacionales. Las líneas corresponden a ajustes LOESS por estación y las bandas sombreadas a sus intervalos de confianza aproximados."
+#| warning: false
+#| message: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Mostrar codigo"
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+okabe_ito_seasons <- c(
+  "verano"    = "#E69F00",
+  "otoño"     = "#D55E00",
+  "invierno"  = "#0072B2",
+  "primavera" = "#009E73"
+)
+
+datos_rel_est <- datos_vis %>%
+  filter(
+    treatment == "estacional",
+    season %in% c("verano", "otoño", "invierno", "primavera")
+  ) %>%
+  mutate(
+    rel_growth_largo = (largo_max_mm_final - largo_max_mm_inicial) / largo_max_mm_inicial,
+    rel_growth_ancho = (ancho_max_mm_final - ancho_max_mm_inicial) / ancho_max_mm_inicial,
+    rel_growth_peso  = (peso_gr_final - peso_gr_inicial) / peso_gr_inicial
+  ) %>%
+  transmute(
+    season,
+    largo_max_mm_inicial,
+    ancho_max_mm_inicial,
+    peso_gr_inicial,
+    rel_growth_largo,
+    rel_growth_ancho,
+    rel_growth_peso
+  ) %>%
+  pivot_longer(
+    cols = c(rel_growth_largo, rel_growth_ancho, rel_growth_peso),
+    names_to = "variable",
+    values_to = "rel_growth"
+  ) %>%
+  mutate(
+    x0 = case_when(
+      variable == "rel_growth_largo" ~ largo_max_mm_inicial,
+      variable == "rel_growth_ancho" ~ ancho_max_mm_inicial,
+      variable == "rel_growth_peso"  ~ peso_gr_inicial
+    ),
+    variable = recode(
+      variable,
+      rel_growth_largo = "Shell length",
+      rel_growth_ancho = "Shell width",
+      rel_growth_peso  = "Wet mass"
+    ),
+    variable = factor(variable, levels = c("Shell length", "Shell width", "Wet mass")),
+    season = factor(season, levels = c("verano", "otoño", "invierno", "primavera"))
+  ) %>%
+  filter(
+    is.finite(rel_growth),
+    is.finite(x0),
+    !is.na(season),
+    x0 > 0
+  )
+
+ggplot(datos_rel_est, aes(x = x0, y = rel_growth, color = season)) +
+  geom_hline(yintercept = 0, linetype = 2, linewidth = 0.35, color = "grey45") +
+  geom_point(alpha = 0.45, size = 2) +
+  geom_smooth(
+    aes(fill = season),
+    method = "loess",
+    se = TRUE,
+    linewidth = 1.2
+  ) +
+  facet_wrap(~variable, scales = "free", ncol = 1) +
+  scale_color_manual(
+    values = okabe_ito_seasons,
+    breaks = c("verano", "otoño", "invierno", "primavera"),
+    labels = c("Summer", "Autumn", "Winter", "Spring")
+  ) +
+  scale_fill_manual(
+    values = okabe_ito_seasons,
+    breaks = c("verano", "otoño", "invierno", "primavera"),
+    labels = c("Summer", "Autumn", "Winter", "Spring")
+  ) +
+  labs(
+    # title = "Relative growth declines with initial size across seasonal treatments",
+    x = "Initial size",
+    y = "Relative growth ((final - initial) / initial)",
+    color = "Season",
+    fill = "Season"
+  ) +
+  theme_bw(base_size = 13) +
+  theme(
+    legend.position = "top",
+    strip.background = element_rect(fill = "grey95", color = "grey70"),
+    strip.text = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 15, hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
+``` 
+En los tratamientos estacionales, **el crecimiento relativo disminuye con el tamaño inicial** en las tres variables. Aunque la intensidad del patrón cambia entre estaciones, los individuos más pequeños muestran, en general, mayores incrementos relativos que los individuos grandes.
+
+

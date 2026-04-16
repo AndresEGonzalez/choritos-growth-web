@@ -6,13 +6,10 @@ format:
     toc-depth: 3
     number-sections: false
 ---
-# Pre-procesamiento y control de calidad {#sec-preprocess}
 
-# Objetivo
+Esta sección describe el flujo completo de pre-procesamiento y control de calidad (**Q**uality **C**ontrol) aplicado a los datos de crecimiento obtenidos del experimento de traspantes de *P. purpuratus*. El objetivo fue:
 
-Esta sección describe el flujo completo de pre-procesamiento y control de calidad (**Q**uality **C**ontrol) aplicado a los datos de crecimiento de *P. purpuratus*. El objetivo fue:
-
-- consolidar mediciones individuales provenientes de múltiples planillas excel,
+- consolidar mediciones individuales provenientes de múltiples archivos excel,
 - calcular tasas de crecimiento en largo (mm), ancho (mm) y peso (gr),
 - identificar observaciones potencialmente inconsistentes (duplicados, error de digitación, etc.),
 - mantener trazabilidad completa de todas las decisiones,
@@ -20,30 +17,48 @@ Esta sección describe el flujo completo de pre-procesamiento y control de calid
 
 A diferencia de un enfoque puramente estadístico basado en la eliminación automática de outliers, aquí implementamos un sistema de QC **biológicamente informado**, basado en **banderas de calidad** (flags) y no en filtrado ciego con motosierra.
 
-# Estructura de los datos de entrada
+<details>
+<summary><strong>Quality control and data preprocessing (English fragment for Materials and Methods)</strong></summary>
 
-El script trabaja con archivos `.xlsx` independientes, correspondientes a combinaciones de tratamiento temporal y estación de exposición. Cada archivo contiene mediciones individuales tomadas en dos momentos (exposure_type):
+### Quality control and data preprocessing
 
-- **inicial**
-- **final**
+Raw measurements were not removed *a priori*. Instead, a reproducible quality control (QC) pipeline was implemented to identify and flag potentially anomalous observations while preserving the original data.
 
-A partir de estas mediciones se reconstruyen pares inicial–final por individuo para calcular:
+First, basic QC checks were applied to detect inconsistencies in the temporal sequence (e.g., negative or zero time intervals), duplicated measurements, and duplicated individual identifiers. Observations failing these checks were flagged but retained in the dataset.
 
-- crecimiento en largo
-- crecimiento en ancho
-- crecimiento en peso
-- tasas diarias de crecimiento para cada variable
+Second, small negative growth values within predefined tolerance thresholds (0.05 mm for length and width, 0.02 g for weight) were interpreted as measurement noise and set to zero in corrected variables, while larger negative values were flagged as potentially problematic.
 
-# Flujo general del procesamiento
+Third, univariate growth envelopes were estimated using quantile regression (\tau = 0.99\) to characterize the upper boundary of expected growth as a function of initial size. Deviations from this envelope were quantified using robust residual dispersion (median absolute deviation, MAD), and observations exceeding a threshold (\(k = 3 \times \mathrm{MAD}\)) were flagged as potential outliers.
 
-El flujo puede resumirse así:
+Fourth, allometric consistency was evaluated by fitting log–log relationships between final length and width, and between final length and weight. Observations with large residuals relative to these relationships were flagged as shape-inconsistent.
+
+Finally, a multivariate QC step was applied by calculating distances in the joint space of growth or shape variables (e.g., Mahalanobis distance), allowing the detection of anomalous combinations of traits not identified by univariate criteria.
+
+All QC steps produced flags that were combined into an overall QC score and categorical classification (e.g., “ok”, “review”, “suspect”, “highly suspect”). Importantly, no observations were removed during preprocessing. Instead, flagged observations were retained and handled explicitly in downstream analyses, allowing sensitivity analyses comparing results with and without flagged data.
+
+</details>
+
+# Estructura de los datos de entrada {#sec-preprocess}
+
+Utilizamos planillas fuente `.xlsx` independientes, separadas por tratamiento/season (Anual, Verano, Otoño, Invierno y Primavera). Cada uno registra las mediciones individuales tomadas antes de la instalación y despues del periodo de exposición en terreno (exposure_type **inicial** y **final**)
+
+A partir de estas mediciones se reconstruyen los pares inicial–final por cada individuo para calcular:
+
+- El crecimiento en largo
+- El crecimiento en ancho
+- El crecimiento en peso
+- Las tasas diarias de crecimiento para cada variable
+
+# Flujo general del procesamiento y QC
+
+Podemos resumirlo así:
 
 1. Lectura y estandarización de planillas fuente  
 2. Validación de columnas mínimas y creación de fecha  
 3. Construcción de un identificador único por individuo (ID)  
-4. Detección de duplicados  
+4. Detección de datos duplicados  
 5. Cálculo de cambios absolutos y tasas de crecimiento  
-6. Aplicación de banderas básicas de integridad  
+6. Aplicación de banderas básicas de integridad QC
 7. Corrección de negativos leves y marcado de negativos fuertes  
 8. QC univariado basado en crecimiento máximo plausible  
 9. QC alométrico basado en relaciones largo–ancho y largo–peso  
@@ -53,7 +68,7 @@ El flujo puede resumirse así:
 13. Exportación de datasets, logs y resumen maestro en formato `.rds` y `.xlsx`
 
 ::: {.callout-note}
-## Idea central del sistema
+## Idea central del sistema de contro de calidad (QC)
 El QC no elimina observaciones automáticamente. En su lugar, cada individuo recibe una o más **banderas de calidad**, que luego pueden utilizarse para revisión, trazabilidad y análisis de sensibilidad.
 :::
 
@@ -70,11 +85,14 @@ Cada individuo se identificó mediante un campo compuesto (`chorito_id`) constru
 - plot
 - información de reemplazo por pérdida
 
-Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias.
+Este identificador permite emparejar de manera explícita las mediciones iniciales y finales y facilita la detección de duplicados o inconsistencias. Por ejemplo:
+$$
+Matanzas_amarillo_73_grande_anual_anual_3_R
+$$
 
 ## Cálculo de tasas de crecimiento
 
-Una vez emparejadas las mediciones iniciales y finales, para cada individuo, se calcularon el crecimiento absoluto en largo, ancho y peso se estimó como la diferencia entre la medición final y la inicial. Si $X_i$ corresponde al valor inicial, $X_f$ al valor final y $\Delta t$ al número de días transcurridos entre ambas mediciones, entonces:
+Una vez emparejadas las mediciones iniciales y finales, para cada individuo, se calcularon el crecimiento absoluto en largo (mm), ancho (mm) y peso (gr) se estimó como la diferencia entre la medición final y la inicial. Si $X_i$ corresponde al valor inicial, $X_f$ al valor final y $\Delta t$ al número de días transcurridos entre ambas mediciones, entonces:
 
 $$
 G_X = X_f - X_i
@@ -90,7 +108,7 @@ $$
 
 donde $R_X$ es la tasa diaria de crecimiento para la variable $X$.
 
-En este estudio, las ecuaciones utilizadas fueron:
+De acuerdo con lo siguiente:
 
 $$
 \text{crecimiento\_largo\_mm} = \text{largo\_max\_mm\_final} - \text{largo\_max\_mm\_inicial}
@@ -154,7 +172,7 @@ $$
 \text{tasa\_diaria\_peso\_corr} = \frac{\text{crecimiento\_peso\_gr\_corr}}{\text{dias}}
 $$
 
-Estas variables corregidas se utilizaron en las etapas posteriores del pipeline de control de calidad, particularmente en la detección de *outliers* univariados, chequeos alométricos y evaluación multivariada.
+Estas variables corregidas se utilizaron en las etapas posteriores del control de calidad, particularmente en la detección de *outliers* univariados, chequeos alométricos y evaluación multivariada.
 
 # Sistema de control de calidad (QC)
 
@@ -930,16 +948,13 @@ Finalmente, se aplicó un control multivariado basado en **distancias de Mahalan
 
 **Distancia de Mahalanobis**
 
-	-
-	  Distancia M = qué tan lejos está un individuo del centro multivariado esperado,
-	  considerando la covarianza entre variables
-	-
+**M:** qué tan lejos está un individuo del centro multivariado esperado, considerando la covarianza entre variables.
 
 ::: {.callout-note}
 El QC multivariado puede aportar una señal nueva y sobre todo ayuda a **refinar** la señal alométrica y a identificar un subconjunto pequeño de observaciones altamente sospechosas.
 :::
 
-Se implementaron dos módulos:
+Para ello se implementaron dos módulos:
 
 ### Multivariado de crecimiento
 Usa conjuntamente los residuos de:
@@ -1229,9 +1244,8 @@ Las figuras diagnósticas se organizaron en tres bloques principales.
 
 Estas figuras muestran los envelopes superiores de crecimiento plausible para largo, ancho y peso. Los puntos marcados corresponden a observaciones que exceden el umbral esperado para su tamaño inicial dentro de cada contexto experimental.
 
-### Figuras 
+![QC univariado envelope de crecimiento para el largo entre estaciones del año y clases de tamaño.](figs/QC_envelope_largo.png){fig-alt="QC univariado para largo"}
 
-![](figs/QC_envelope_largo.png){fig-alt="QC univariado para largo"}
 
 ![](figs/QC_envelope_ancho.png){fig-alt="QC univariado para ancho"}
 
@@ -1272,6 +1286,305 @@ El pipeline genera múltiples salidas complementarias.
 
 ## Archivos `.rds`
 
+### `Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds`
+
+Versión de trabajo derivada para visualización y análisis. Excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como `muy_sospechoso`. Esta versión fue diseñada para facilitar la inspección gráfica de patrones generales sin que observaciones altamente problemáticas dominen la visualización y análisis.
+
+::: {.callout-note}
+## Uso recomendado
+`VIS_LIMPIO` fue pensado para figuras descriptivas, exploratorias y primeros análisis. Más detalle ver codigo abajo.
+:::
+
+```{R}
+#| eval: false
+#| code-fold: true
+# Script_05_datos_vis_limpio.R
+
+
+
+################################################
+# LIBRERIAS
+################################################
+
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(stringr)
+library(purrr)
+library(rlang)
+library(quantreg)
+library(openxlsx)
+
+################################################
+# DIRECTORIOS
+################################################
+
+base.dir <- "/home/andriu/Dropbox/ECIM_LASCRUCES/SAN_LAB/FONDECYT_2024_1240851/EXP_CRECIMIENTO_CHORITOS"
+
+dir.output <- file.path(base.dir, "02_output")
+dir.figs   <- file.path(base.dir, "03_figs")
+dir.data   <- file.path(base.dir, "01_data")
+
+
+# =========================================================
+# Crear dataset depurado para visualización
+# =========================================================
+
+library(tidyverse)
+
+# Cargar dataset QC completo
+datos_qc <- readRDS(file.path(dir.output,"Tasas_Crecimiento_Ppurpuratus_QC.rds"))
+
+# Dataset analítico base (si quieres reconstruirlo desde QC)
+datos_analisis_base <- datos_qc %>%
+  filter(
+    !flag_dup_medicion,
+    !flag_dup_individuo,
+    !flag_dias_invalidos
+  )
+
+# Dataset depurado para visualización
+datos_vis_limpio <- datos_qc %>%
+  filter(
+    !flag_dup_medicion,
+    !flag_dup_individuo,
+    !flag_dias_invalidos,
+    !flag_negativo_fuerte,
+    qc_categoria != "muy_sospechoso"
+  )
+
+# Guardar
+saveRDS(
+  datos_vis_limpio, file.path(dir.output, "Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds")
+)
+
+# Resumen rápido
+resumen_vis <- tibble(
+  dataset = c("QC completo", "Analisis base", "VIS_LIMPIO"),
+  n = c(nrow(datos_qc), nrow(datos_analisis_base), nrow(datos_vis_limpio))
+)
+
+print(resumen_vis)
+
+# Qué categorías QC quedaron en VIS_LIMPIO
+datos_vis_limpio %>%
+  count(qc_categoria) %>%
+  arrange(desc(n)) %>%
+  print()
+
+# Comparar cuanto se esta perdiendo
+tibble(
+  n_qc_total = nrow(datos_qc),
+  n_base = nrow(datos_analisis_base),
+  n_vis_limpio = nrow(datos_vis_limpio),
+  removidos_vs_base = nrow(datos_analisis_base) - nrow(datos_vis_limpio),
+  pct_removido_vs_base = round(
+    100 * (nrow(datos_analisis_base) - nrow(datos_vis_limpio)) / nrow(datos_analisis_base),
+    1
+  )
+)
+
+# Ver excatamente que se está excluyendo
+
+datos_qc %>%
+  filter(
+    !flag_dup_medicion,
+    !flag_dup_individuo,
+    !flag_dias_invalidos
+  ) %>%
+  mutate(
+    excluido_vis_limpio = flag_negativo_fuerte | qc_categoria == "muy_sospechoso"
+  ) %>%
+  count(excluido_vis_limpio, qc_categoria)
+
+
+# Los negativos
+datos_qc %>%
+  filter(
+    !flag_dup_medicion,
+    !flag_dup_individuo,
+    !flag_dias_invalidos
+  ) %>%
+  summarise(
+    negativos_fuertes = sum(flag_negativo_fuerte, na.rm = TRUE),
+    muy_sospechosos = sum(qc_categoria == "muy_sospechoso", na.rm = TRUE)
+  )
+
+
+
+# Plot para comparar
+
+datos_base <- readRDS(file.path(dir.output, "Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds"))
+datos_vis  <- readRDS(file.path(dir.output, "Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds"))
+
+
+library(tidyverse)
+library(patchwork)
+
+site_levels <- c(
+  "Temblador",
+  "Guanaqueros",
+  "Punta de Talca",
+  "Los Molles",
+  "Montemar",
+  "Curaumilla",
+  "Quintay",
+  "El Quisco",
+  "Las Cruces",
+  "Matanzas",
+  "Pichilemu"
+)
+
+theme_qc <- function() {
+  theme_bw(base_size = 14) +
+    theme(
+      plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+      axis.title = element_text(size = 14, face = "bold"),
+      axis.text = element_text(size = 10, colour = "black"),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(linewidth = 0.25, colour = "grey85"),
+      legend.position = "right"
+    )
+}
+
+col_size <- c(
+  "chico"  = "#0072B2",
+  "grande" = "#E69F00"
+)
+
+plot_base <- datos_base %>%
+  mutate(site = factor(site, levels = rev(site_levels))) %>%
+  ggplot(aes(x = site, y = tasa_diaria_largo, fill = size_class)) +
+  geom_boxplot(
+    alpha = 0.85,
+    outlier.colour = "red3",
+    outlier.alpha = 0.5,
+    width = 0.7,
+    position = position_dodge(width = 0.75)
+  ) +
+  coord_flip() +
+  scale_fill_manual(values = col_size) +
+  labs(
+    title = "ANALISIS_BASE",
+    x = "Sitio",
+    y = "Tasa diaria largo (mm/día)"
+  ) +
+  theme_qc()
+
+plot_vis <- datos_vis %>%
+  mutate(site = factor(site, levels = rev(site_levels))) %>%
+  ggplot(aes(x = site, y = tasa_diaria_largo, fill = size_class)) +
+  geom_boxplot(
+    alpha = 0.85,
+    outlier.colour = "red3",
+    outlier.alpha = 0.5,
+    width = 0.7,
+    position = position_dodge(width = 0.75)
+  ) +
+  coord_flip() +
+  scale_fill_manual(values = col_size) +
+  labs(
+    title = "VIS_LIMPIO",
+    x = "Sitio",
+    y = "Tasa diaria largo (mm/día)"
+  ) +
+  theme_qc()
+
+p1 <- plot_base / plot_vis
+
+print(p1)
+```
+
+```{R}
+#| label: fig-comparacion-base-vis
+#| fig-cap: "Comparación de la distribución de la tasa diaria de crecimiento en largo entre ANALISIS_BASE y VIS_LIMPIO."
+#| warning: false
+#| message: false
+#| echo: false
+
+library(tidyverse)
+library(patchwork)
+
+base.dir <- "/home/andriu/Dropbox/ECIM_LASCRUCES/SAN_LAB/FONDECYT_2024_1240851/EXP_CRECIMIENTO_CHORITOS"
+dir.output <- file.path(base.dir, "02_output")
+
+datos_base <- readRDS(file.path(dir.output, "Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds"))
+datos_vis  <- readRDS(file.path(dir.output, "Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds"))
+
+site_levels <- c(
+  "Temblador",
+  "Guanaqueros",
+  "Punta de Talca",
+  "Los Molles",
+  "Montemar",
+  "Curaumilla",
+  "Quintay",
+  "El Quisco",
+  "Las Cruces",
+  "Matanzas",
+  "Pichilemu"
+)
+
+theme_qc <- function() {
+  theme_bw(base_size = 14) +
+    theme(
+      plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+      axis.title = element_text(size = 14, face = "bold"),
+      axis.text = element_text(size = 10, colour = "black"),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(linewidth = 0.25, colour = "grey85"),
+      legend.position = "right"
+    )
+}
+
+col_size <- c(
+  "chico"  = "#0072B2",
+  "grande" = "#E69F00"
+)
+
+plot_base <- datos_base %>%
+  mutate(site = factor(site, levels = rev(site_levels))) %>%
+  ggplot(aes(x = site, y = tasa_diaria_largo, fill = size_class)) +
+  geom_boxplot(
+    alpha = 0.85,
+    outlier.colour = "red3",
+    outlier.alpha = 0.5,
+    width = 0.7,
+    position = position_dodge(width = 0.75)
+  ) +
+  coord_flip() +
+  scale_fill_manual(values = col_size) +
+  labs(
+    title = "ANALISIS_BASE",
+    x = "Sitio",
+    y = "Tasa diaria largo (mm/día)"
+  ) +
+  theme_qc()
+
+plot_vis <- datos_vis %>%
+  mutate(site = factor(site, levels = rev(site_levels))) %>%
+  ggplot(aes(x = site, y = tasa_diaria_largo, fill = size_class)) +
+  geom_boxplot(
+    alpha = 0.85,
+    outlier.colour = "red3",
+    outlier.alpha = 0.5,
+    width = 0.7,
+    position = position_dodge(width = 0.75)
+  ) +
+  coord_flip() +
+  scale_fill_manual(values = col_size) +
+  labs(
+    title = "VIS_LIMPIO",
+    x = "Sitio",
+    y = "Tasa diaria largo (mm/día)"
+  ) +
+  theme_qc()
+
+p1 <- plot_base / plot_vis
+p1
+```
+
 ### `Mediciones_Crecimiento_Ppurpuratus_RAW.rds`
 Respaldo directo de las mediciones originales leídas desde las planillas fuente.
 
@@ -1290,7 +1603,7 @@ Tabla analítica principal con:
 - `qc_categoria`
 
 ### `Tasas_Crecimiento_Ppurpuratus_ANALISIS_BASE.rds`
-Dataset sugerido para análisis base. Excluye únicamente:
+Dataset que excluye únicamente:
 
 - duplicados de medición
 - duplicados de individuo
@@ -1299,20 +1612,12 @@ Dataset sugerido para análisis base. Excluye únicamente:
 ### `Tasas_Crecimiento_Ppurpuratus_ANALISIS_SENSIBILIDAD.rds`
 Dataset sugerido para análisis de sensibilidad. Además de las exclusiones estructurales anteriores, remueve las observaciones clasificadas como **muy sospechosas**.
 
-### `Tasas_Crecimiento_Ppurpuratus_VIS_LIMPIO.rds`
-
-Versión derivada para visualización descriptiva. Excluye observaciones con problemas estructurales, negativos fuertes y casos clasificados como `muy_sospechoso`. Esta versión fue diseñada para facilitar la inspección gráfica de patrones generales sin que observaciones altamente problemáticas dominen la visualización.
-
-::: {.callout-note}
-## Uso recomendado
-`VIS_LIMPIO` fue pensado para figuras descriptivas y exploratorias. Los análisis principales siguen referenciando `ANALISIS_BASE`, mientras que la trazabilidad completa se conserva en `QC`.
-:::
 
 # Estructura del Excel maestro
 
 El archivo `Crecimiento_Ppurpuratus_MASTER_QC.xlsx` consolida tanto los datos originales como las distintas salidas del sistema de QC. Su estructura está pensada para trazabilidad, inspección y discusión metodológica.
 
-## Pestañas de datos principales
+## Pestañas de datos principales del excel
 
 ### `mediciones_raw`
 Contiene las mediciones originales importadas desde las planillas fuente, antes del cálculo de tasas.

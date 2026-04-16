@@ -7,11 +7,9 @@ format:
     number-sections: false
 ---
 
-# Objetivo {#sec-protocolo}
-
 Esta sección describe el diseño experimental utilizado para cuantificar las tasas de crecimiento de *Perumytilus purpuratus* en distintos sitios de la costa de Chile, considerando variación espacial, temporal y entre clases de tamaño inicial.
 
-# Diseño general
+# Diseño general {#sec-protocolo}
 
 Para cuantificar las tasas de crecimiento del mitílido *P. purpuratus*, se realizaron trasplantes de individuos pertenecientes a dos clases de tamaño inicial y dos temporalidades de exposición.
 
@@ -79,9 +77,26 @@ Para las mediciones se utilizó:
 - **Caliper** con precisión de 0.05 mm
 - **Balanza** con precisión de 0.01 g
 
+```{r}
+#| echo: false
+#| label: fig-grupo-lab-working
+#| fig-cap: "Equipo de laboratorio trabajando en conjunto para poder cumplir con los primeros 4.000 <i>P. purpuratus</i> marcados."
+#| fig-align: center
+#| out-width: "80%"
+
+knitr::include_graphics("photos/Marcaje_Choritos_2.jpeg")
+```
+
 Las etiquetas fueron adheridas con adhesivo instantáneo en gel sobre una superficie previamente lijada, y luego impermeabilizadas con esmalte para uñas para minimizar el desprendimiento y la colonización por algas.
 
+![Adhesión de etiquetas (Bee-Tags)](photos/Marcaje_Choritos_3.jpeg){#fig-adhesion width=80%}
+
+![Modelo de <i>P. purpuratus</i> con Bee-Tag adherido](photos/Choritos_marcados_2.jpeg){#fig-marcaje width=80%}
+
 Posteriormente, antes de la instalación de los trasplantes, los individuos fueron mantenidos en contenedores plásticos con agua de mar, alga húmeda y aireación, hasta el momento de su instalación en terreno.
+
+![Tratamiento "anuales" y clase de talla "grandes" de <i>P. purpuratus</i> marcados con Bee-Tags blancos](photos/Choritos_marcados_1.jpeg){#fig-marcaje width=80%}
+
 
 # Instalación de los trasplantes
 
@@ -151,6 +166,30 @@ knitr::include_graphics("photos/trasplante_plot.JPG")
 knitr::include_graphics("photos/trasplante_detalle_aros.JPG")
 ```
 
+```{r}
+#| echo: false
+#| label: fig-trasplant-domo-detail
+#| fig-cap: "Sistema de trasplante solo con el domo de protecciónen El Temblador."
+#| fig-align: center
+#| out-width: "80%"
+
+knitr::include_graphics("photos/Trasplante_1_malla.jpeg")
+```
+
+```{r}
+#| echo: false
+#| label: fig-trasplant-domo-detail-in-action
+#| fig-cap: "Sistema domo de protecciónen en acción. Sol de mar (<i>Heliaster helianthus</i>) tratando de alcanzar los choritos marcados."
+#| fig-align: center
+#| out-width: "80%"
+
+knitr::include_graphics("photos/Trasplantes_terreno_viejo_2.jpeg")
+```
+
 ## Resumen
 
 El experimento fue diseñado para evaluar la variación en el crecimiento individual de *P. purpuratus* en función de la clase de tamaño inicial, la temporalidad de exposición y el sitio. La combinación de un diseño replicado en múltiples localidades y un sistema de marcaje individual permite reconstruir el crecimiento de cada individuo y analizarlo posteriormente con trazabilidad completa.
+
+**Instalación experimental en múltiples sitios.** Ejemplos de plots del intermareal utilizados en el experimento de trasplante de *P. purpuratus* a lo largo del gradiente de estudio. Las fotografías el esfuerzo de instalación en distintos sitios del intermareal rocoso de Chile.
+
+![](photos/mosaico_trasplantes_terreno.jpeg)
